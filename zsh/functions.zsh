@@ -291,7 +291,7 @@ function rclone_modular_function() {
 
     case "$operation" in
         cp)
-            rcc "$source_dir" "$target_dir" 
+            rcc "$source_dir" "$target_dir"
             ;;
         mv)
             rcm "$source_dir" "$target_dir"
@@ -329,14 +329,14 @@ function rclone_move() {
 # usage: rcdn <source_dir>
 function rclone_dedupe_new() {
     local source_dir="$1"
-    rclone dedupe --by-hash "$source_dir" $new_dedupe $base_opts
+    rclone dedupe --by-hash "$source_dir" "$new_dedupe" "$base_opts"
 }
 
 ## Dedupe with rclone keeping oldest files
 # usage: rcdo <source_dir>
 function rclone_dedupe_old() {
     local source_dir="$1"
-    rclone dedupe --by-hash "$source_dir" $old_dedupe $base_opts
+    rclone dedupe --by-hash "$source_dir" "$old_dedupe" "$base_opts"
 }
 
 
@@ -527,7 +527,7 @@ open_nvim_init() {
 }
 
 open_wezterm() {
-  nvim "$CFG/wezterm.lua"
+  nvim "$XDG_CONFIG_HOME/wezterm.lua"
 }
 
 open_zshrc() {
