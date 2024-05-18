@@ -52,7 +52,6 @@ for repo in "${REPOS[@]}"; do
   cd "$HOME/$repo"
   git pull origin main
 done
-
+```
 > [!NOTE]
 > I'll probably figure something out later to streamline this… with some AI help.
-```
