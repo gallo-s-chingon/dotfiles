@@ -1,0 +1,15 @@
+ARCH=$(sysctl -n hw.cputype)
+
+if [ "$ARCH" = "16777228" ]; then
+  # Apple Silicon
+  BREW_PATH="/opt/homebrew/bin/brew"
+else
+  # Intel
+  BREW_PATH="/usr/local/Homebrew/bin/brew"
+fi
+
+eval "$($BREW_PATH shellenv)"
+
+export PATH="$PATH:$HOME/.local/bin"
+
+source ~/.config/zsh/zshrc

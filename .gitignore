@@ -1,0 +1,11 @@
+*.zsh_history
+*.zcompdump
+*.DS_Store
+*.zwc
+nvim/
+raycast/
+modal/
+Sonarr/
+deluge/
+logs/
+*.bak
