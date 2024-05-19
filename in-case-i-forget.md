@@ -12,13 +12,13 @@ So, in case i forget how i linked everything to dot config
 ln -s ~/.dotfiles/* .
 ln -s ~/.private/* .
 ```
-<!-- NOTE: the asterisks is to symlink all files/dirs in parent dir, and the period tells the command to "link here (pwd)" in case you hit your head again without a helmet or riding gear, survive and don't remember bash basics -->
+> [!NOTE] the asterisks is to symlink all files/dirs in parent dir, and the period tells the command to "link here (pwd)" in case you hit your head again without a helmet or riding gear, survive and don't remember bash basics 
 3. make nvim directory in dot config and symlink lua-is-the-devil in pwd
 ```bash
 mkdir -p nvim
 ln -s ~/.lua-is-the-devil/* .
 ```
-<!-- NOTE: you have to use mkdir -p because you probaly are on a new Mac and still fuck up the script to automate everything and don't have `alias mk=mkdir -pv` setup -->
+> [!NOTE] you have to use mkdir -p because you probaly are on a new Mac and still fuck up the script to automate everything and don't have `alias mk=mkdir -pv` setup 
 4. go into each local repo and git pull to be current…
 ```bash
 cd ~/.dotfiles
@@ -30,8 +30,7 @@ git pull origin main
 cd ~/.lua-is-the-devil
 git pull origin main
 ```
-> [!NOTE]
-> this could work to but i think it outputs as a quote and not a comment. we'll see what le Git Hoob chose
+> [!NOTE] this could work to but i think it outputs as a quote and not a comment. we'll see what le Git Hoob chose
 
 5. R U N the relevant local repo dir?
 ```bash
@@ -53,5 +52,4 @@ for repo in "${REPOS[@]}"; do
   git pull origin main
 done
 ```
-> [!NOTE]
-> I'll probably figure something out later to streamline this… with some AI help.
+> [!NOTE] I'll probably figure something out later to streamline this… with some AI help.
