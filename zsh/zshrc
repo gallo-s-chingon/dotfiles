@@ -14,9 +14,10 @@ fi
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 export XDG_CONFIG_HOME="${HOME}/.config"
+export CF="${HOME}/.dotfiles"
 export RX="$XDG_CONFIG_HOME/rx"
-export NV="$XDG_CONFIG_HOME/nvim"
-export DOTZ="$XDG_CONFIG_HOME/zsh"
+export NV="${HOME}/.lua-is-the-devil"
+export DOTZ="${CF}/zsh"
 export DX="${HOME}/Documents"
 export DN="${HOME}/Downloads"
 export SCS="$DX/webpage"
@@ -66,19 +67,61 @@ setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
+# Debugging: Ensure files exist and are readable
+if [[ -r "$DOTZ/aliases.zsh" ]]; then
+  source "$DOTZ/aliases.zsh" > /dev/null 2>&1
+else
+  echo "Warning: $DOTZ/aliases.zsh not found or not readable"
+fi
 
-# Load additional configurations
-source "$DOTZ/aliases.zsh" > /dev/null 2>&1
-source "$DOTZ/functions.zsh" > /dev/null 2>&1
-source "$DOTZ" > /dev/null 2>&1
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $(brew --prefix)/share/zsh-autopair/autopair.zsh
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $(brew --prefix)/share/zsh-completions
+if [[ -r "$DOTZ/functions.zsh" ]]; then
+  source "$DOTZ/functions.zsh" > /dev/null 2>&1
+else
+  echo "Warning: $DOTZ/functions.zsh not found or not readable"
+fi
+
+if [[ -r "$DOTZ" ]]; then
+  source "$DOTZ" > /dev/null 2>&1
+else
+  echo "Warning: $DOTZ not found or not readable"
+fi
+
+if [[ -r $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  echo "Warning: zsh-syntax-highlighting not found or not readable"
+fi
+
+if [[ -r $(brew --prefix)/share/zsh-autopair/autopair.zsh ]]; then
+  source $(brew --prefix)/share/zsh-autopair/autopair.zsh
+else
+  echo "Warning: zsh-autopair not found or not readable"
+fi
+
+if [[ -r $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+else
+  echo "Warning: zsh-autosuggestions not found or not readable"
+fi
+
+if [[ -r $(brew --prefix)/share/zsh-completions ]]; then
+  source $(brew --prefix)/share/zsh-completions
+else
+  echo "Warning: zsh-completions not found or not readable"
+fi
 
 # Initialize fzf and zoxide
-source <(fzf --zsh)
-eval "$(zoxide init zsh)"
+if command -v fzf &> /dev/null; then
+  source <(fzf --zsh)
+else
+  echo "Warning: fzf not found"
+fi
+
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+else
+  echo "Warning: zoxide not found"
+fi
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'

@@ -53,11 +53,12 @@ alias mkrx='create_script_and_open'
 ## Torrent Management Aliases
 alias mat='move_all_torrents'
 alias mnx='move_nix'
-alias mvb='move_broadcasthenet_torrents'
-alias mvp='move_passthepopcorn_torrents'
+alias mvb='move_btn_torrents'
+alias mvp='move_ptp_torrents'
 alias mve='move_emp_torrents'
 alias mlf='move_repo_files_larger_than_99M'
-alias obt='open_btn_torrent'
+alias obt='open_btn_torrents_in_transmission'
+alias opt='open_ptp_torrents_in_deluge'
 alias odt='open_downloaded_torrents'
 
 ## Blog Aliases

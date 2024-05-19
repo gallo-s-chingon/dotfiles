@@ -34,6 +34,18 @@ move_broadcasthenet_torrents() {
   done
 }
 
+open_btn_torrents_in_transmission() {
+  local destination="$TORRENT_DIR/BT"
+  local torrents=(~/Downloads/*.torrent(N))
+
+  for torrent_file in "${torrents[@]}"; do
+    local tracker_info=$(transmission-show "$torrent_file" | grep -o "landof")
+    if [ -n "$tracker_info" ]; then
+      open -a "Transmission" "$torrent_file"
+    fi
+  done
+}
+
 move_passthepopcorn_torrents () {
     local destination="$TORRENT_DIR/PTP"
     local torrents=(~/Downloads/*.torrent(N))
@@ -42,6 +54,18 @@ move_passthepopcorn_torrents () {
         local tracker_info=$(transmission-show "$torrent_file" | grep -o "passthepopcorn")
         if [ -n "$tracker_info" ]; then
             mv -v "$torrent_file" "$destination"
+        fi
+    done
+}
+
+open_ptp_torrents_in_deluge () {
+    local destination="$TORRENT_DIR/PTP"
+    local torrents=(~/Downloads/*.torrent(N))
+
+    for torrent_file in "${torrents[@]}"; do
+        local tracker_info=$(transmission-show "$torrent_file" | grep -o "passthepopcorn")
+        if [ -n "$tracker_info" ]; then
+            open -a "Deluge" "$torrent_file"
         fi
     done
 }
