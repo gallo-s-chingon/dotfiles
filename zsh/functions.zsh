@@ -22,7 +22,7 @@ move_mam_torrents() {
   fd -e torrent "[^[0-9]{6,6}]" --search-path "$source_dir" -X mv -v {} "$target_dir"
 }
 
-move_broadcasthenet_torrents() {
+move_btn_torrents() {
   local destination="$TORRENT_DIR/BT"
   local torrents=(~/Downloads/*.torrent(N))
 
@@ -35,9 +35,6 @@ move_broadcasthenet_torrents() {
 }
 
 open_btn_torrents_in_transmission() {
-  local destination="$TORRENT_DIR/BT"
-  local torrents=(~/Downloads/*.torrent(N))
-
   for torrent_file in "${torrents[@]}"; do
     local tracker_info=$(transmission-show "$torrent_file" | grep -o "landof")
     if [ -n "$tracker_info" ]; then
@@ -46,10 +43,9 @@ open_btn_torrents_in_transmission() {
   done
 }
 
-move_passthepopcorn_torrents () {
+move_ptp_torrents () {
     local destination="$TORRENT_DIR/PTP"
     local torrents=(~/Downloads/*.torrent(N))
-
     for torrent_file in "${torrents[@]}"; do
         local tracker_info=$(transmission-show "$torrent_file" | grep -o "passthepopcorn")
         if [ -n "$tracker_info" ]; then
@@ -59,9 +55,7 @@ move_passthepopcorn_torrents () {
 }
 
 open_ptp_torrents_in_deluge () {
-    local destination="$TORRENT_DIR/PTP"
     local torrents=(~/Downloads/*.torrent(N))
-
     for torrent_file in "${torrents[@]}"; do
         local tracker_info=$(transmission-show "$torrent_file" | grep -o "passthepopcorn")
         if [ -n "$tracker_info" ]; then
@@ -72,9 +66,9 @@ open_ptp_torrents_in_deluge () {
 
 move_all_torrents() {
   move_emp_torrents
-  move_passthepopcorn_torrents
+  move_ptp_torrents
   move_mam_torrents
-  move_broadcasthenet_torrents
+  move_btn_torrents
   open -a wezterm
 }
 
@@ -102,12 +96,9 @@ move_repo_files_larger_than_99M() {
     local files_to_move=($(fd -tf -S +99M))
 
     for file in "${files_to_move[@]}"; do
-        # Get the filename without the path
-        filename="${file##*/}"
-        # Create the target directory structure if it doesn't exist
-        mkdir -p "$target_dir/${file%/*}"
-        # Move the file to the target directory
-        mv "$file" "$target_dir/${file%/*}/$filename"
+        filename="${file##*/}" # Get the filename without the path
+        mkdir -p "$target_dir/${file%/*}" # Create the target directory structure if it doesn't exist
+        mv "$file" "$target_dir/${file%/*}/$filename" # Move the file to the target directory
     done
 }
 
