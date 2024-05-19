@@ -8,7 +8,7 @@
 BLOG_DIR="_blog"
 EPISODE_DIR="_posts"
 FEATURED_DIR="_feat"
-DEFAULT_DESCRIPTION_FILE="tanim.txt"
+DEFAULT_DESCRIPTION_FILE="$XDG_CONFIG_HOME/tanim.txt"
 WORK_DIR="$SCS/_posts/"
 # Functions
 
@@ -18,7 +18,7 @@ prompt_input() {
 	local regex="$2"
 	local input
 	while true; do
-		read -e -p "$prompt: " input
+		read -ep "$prompt: " input
 		if [[ $input =~ $regex ]]; then
 			echo "$input"
 			break
@@ -30,8 +30,6 @@ prompt_input() {
 
 # Create a post
 create_post() {
-	local type="$1"
-	local dir="$2"
 	local title
 	local description
 	local link_type
@@ -46,7 +44,7 @@ create_post() {
 
 	cd "$WORK_DIR" || exit
 
-	read -e -p "Did you copy the show description? (y/n): " answer
+	read -ep "Did you copy the show description? (y/n): " answer
 	[[ $answer == "y" ]] || {
 		echo "Copy the show description with 'hyper + h' dumbass"
 		return 1
@@ -54,7 +52,7 @@ create_post() {
 
 	# Get the year for the blog post
 	while true; do
-		read -e -p "When will this be posted? (YY or YYYY): " answer
+		read -ep "When will this be posted? (YY or YYYY): " answer
 		if [[ $answer =~ ^[0-9]{2}$ ]]; then
 			year="20$answer"
 			break
@@ -75,7 +73,7 @@ create_post() {
 
 	# Get the month for the blog post
 	while true; do
-		read -e -p "What month will this blog be posted? (1-12): " month
+		read -ep "What month will this blog be posted? (1-12): " month
 		if [[ $month =~ ^[1-9]|1[0-2]$ ]]; then
 			month=$(printf "%02d" $month)
 			break
@@ -92,7 +90,7 @@ create_post() {
 	# Get the day for the blog post if $post_date is empty
 	if [[ -z $post_date ]]; then
 		while true; do
-			read -e -p "What day will this blog be posted? (1-31): " day
+			read -ep "What day will this blog be posted? (1-31): " day
 			if [[ $day =~ ^[1-9]|[12][0-9]|3[01]$ ]]; then
 				day=$(printf "%02d" $day)
 				break
@@ -108,17 +106,18 @@ create_post() {
 	fi
 
 	description=$(cat "$CONF/$DEFAULT_DESCRIPTION_FILE") # Paste description from show notes
-	read -e -p "Title: " title                           # Episode title
+	read -ep "Title: " title                             # Episode title
+	read -ep "episode cover image: " episode_image
 
 	# Ask for the link type (Spotify or YouTube)
 	link_type=$(prompt_input "What type of link is this? (Spotify/YouTube)" "^(Spotify|YouTube|spot|spotify|youtube|yt)$")
 
 	if [[ $link_type =~ (Spotify|spotify|spot) ]]; then
-		read -e -p "Paste Spotify link: " link
+		read -ep "Paste Spotify link: " link
 		shortLink=$(echo "${link%%\?*}" | cut -d "/" -f5)
 		embed_code="<iframe src='https://open.spotify.com/embed/episode/$shortLink' width='80%' height='232' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>"
 	elif [[ $link_type =~ (YouTube|youtube|yt) ]]; then
-		read -e -p "Paste YouTube link: " link
+		read -ep "Paste YouTube link: " link
 		shortLink=$(echo "$link" | rev | cut -d "/" -f 1 | rev)
 		embed_code="{% include video id='$shortLink' provider='youtube' %}"
 	fi
@@ -126,8 +125,7 @@ create_post() {
 	# Extract the first line of the description for the excerpt
 	excerpt=$(echo "$description" | head -1)
 	# Replace colons with hyphens in the excerpt to avoid YAML conflicts
-	excerpt_clean=$(echo "$excerpt" | sed 's/[:,.!?&'"'"'"]//g')
-	# Convert the title to lowercase with hyphens instead of spaces
+	excerpt_clean=$(slugify -actdu "$excerpt") # Convert the title to lowercase with hyphens instead of spaces
 	post_title_lowercase=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g' | tr -cd '[:alnum:]-')
 	# Construct the post file name
 	post_name="$year-$month-$day-$post_title_lowercase.md"

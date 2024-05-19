@@ -56,6 +56,8 @@ defaults write com.apple.dashboard mcx-disabled -bool true
 
 echo "  › Don't automatically rearrange Spaces based on most recent use"
 defaults write com.apple.dock mru-spaces -bool false
+echo "	› This SHOULD remove all apps in Dock by inserting a spacer tile"
+defaults write com.apple.dock persistent-apps -array-add '{"tile-data"={};"tile-type"="spacer-tile";}'
 
 echo "  › Increase the window resize speed for Cocoa applications"
 defaults write NSGlobalDomain NSWindowResizeTime -float "0.001"
@@ -296,4 +298,3 @@ for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
 	killall "$app" >/dev/null 2>&1
 done
 set -e
-

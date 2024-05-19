@@ -496,7 +496,7 @@ slug() {
     fi
 
     filename=$1
-    slugified=$(slugify -acdu "$filename")
+    slugified=$(slugify -atcdu "$filename")
     echo "$slugified"
 }
 
