@@ -400,6 +400,7 @@ git_commit_message() {
 
 git_pull_all() {
   local dirs=("$HOME/.dotfiles" "$HOME/.lua-is-the-devil" "$HOME/.noktados" "$HOME/notes" "$DX/widclub")
+  setup_ssh
   for dir in "${dirs[@]}"; do
     if [ -d "$dir" ]; then
       echo "Processing directory: $dir"

@@ -56,8 +56,6 @@ defaults write com.apple.dashboard mcx-disabled -bool true
 
 echo "  › Don't automatically rearrange Spaces based on most recent use"
 defaults write com.apple.dock mru-spaces -bool false
-echo "	› This SHOULD remove all apps in Dock by inserting a spacer tile"
-defaults write com.apple.dock persistent-apps -array-add '{"tile-data"={};"tile-type"="spacer-tile";}'
 
 echo "  › Increase the window resize speed for Cocoa applications"
 defaults write NSGlobalDomain NSWindowResizeTime -float "0.001"
@@ -70,8 +68,11 @@ echo "  › Disable auto-correct"
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
 echo "  › Set up trackpad & mouse speed to a reasonable number"
-defaults write -g com.apple.trackpad.scaling 2
+defaults write -g com.apple.trackpad.scaling 1
 defaults write -g com.apple.mouse.scaling 2.5
+
+echo "	› Set trackpad scrolling to UNnatural"
+defaults write -g com.apple.swipescrolldirection -bool false
 
 echo "  › Avoid the creation of .DS_Store files on network volumes"
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
@@ -89,7 +90,7 @@ defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 # defaults write NSGlobalDomain AppleHighlightColor -string "0.847059 0.847059 0.862745"
 
 echo "  › Show battery percent"
-defaults write com.apple.menuextra.battery ShowPercent -bool true
+defaults write com.apple.menuextra.battery ShowPercent -bool "true"
 
 if [ -n "$TRAVIS_JOB_ID" ]; then
 	echo "  › Speed up wake from sleep to 24 hours from an hour"
@@ -166,6 +167,11 @@ echo ""
 echo "› Dock"
 echo "  › Setting the icon size of Dock items to 36 pixels for optimal size/screen-realestate"
 defaults write com.apple.dock "tilesize" -int "36"
+
+echo "	› This SHOULD remove all apps in Dock by inserting a spacer tile"
+defaults write com.apple.dock persistent-apps -array
+
+echo "	› Set Dock to right"
 
 echo "  › Speeding up Mission Control animations and grouping windows by application"
 defaults write com.apple.dock "expose-animation-duration" -float "0.1"
