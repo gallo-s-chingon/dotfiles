@@ -78,7 +78,7 @@ move_all_torrents() {
 
 freespace(){
   if [[ -z "$1" ]]; then
-    echo "Usage: $0 <disk>"
+    echo "┐(￣ヘ￣)┌  $0 <disk>"
     echo "Example: $0 /dev/disk1s1"
     echo
     echo "Possible disks:"
@@ -86,7 +86,7 @@ freespace(){
     return 1
   fi
 
-  echo "Cleaning purgeable files from disk: $1 ...."
+  echo "٩(•̀ᴗ•́)و  Cleaning purgeable files from disk: $1 ...."
   diskutil secureErase freespace 0 $1
 }
 
@@ -108,7 +108,7 @@ create_script_file() {
   local script_file="${HOME}/.config/rx/${script_name}"
 
   if [ -f "$script_file" ]; then
-    echo "( ºロº)ノ Script file '$script_file' already exists."
+    echo "(눈︿눈)  Script file '$script_file' already exists."
     return 1
   fi
 
@@ -124,7 +124,7 @@ open_script_file_in_editor() {
   local script_file="${HOME}/.config/rx/${script_name}"
 
   if [ ! -f "$script_file" ]; then
-    echo "( ºロº)ノ Script file '$script_file' does not exist."
+    echo "(눈︿눈)  Script file '$script_file' does not exist."
     return 1
   fi
 
@@ -151,7 +151,7 @@ move_iso() {
     for file in "$source_dir"/*.$extension(N); do
       if [ -e "$file" ]; then
         mv "$file" "$target_dir"
-        echo "HUZZAH $(basename "$file") made its way to $target_dir"
+        echo "( ⋂‿⋂) $(basename "$file") made its way to $target_dir"
       fi
     done
   done
@@ -171,7 +171,7 @@ move_nix() {
     for file in "$source_dir"/*.$extension(N); do
       if [ -e "$file" ]; then
         mv "$file" "$target_dir"
-        echo "HUZZAH $(basename "$file") made its way to $target_dir"
+        echo "( ⋂‿⋂) $(basename "$file") made its way to $target_dir"
       fi
     done
   done
@@ -186,7 +186,7 @@ move_download_pix_to_pictures_dir() {
     for file in "$source_dir"/*.$extension(N); do
       if [ -e "$file" ]; then
         mv "$file" "$target_dir"
-        echo "HUZZAH $(basename "$file") made its way to $target_dir"
+        echo "( ⋂‿⋂) $(basename "$file") made its way to $target_dir"
       fi
     done
   done
@@ -204,7 +204,7 @@ move_ipa_to_target_directory() {
   for file in "$source_directory"/*.ipa; do
     if [ -e "$file" ]; then
       mv "$file" "$target_directory"
-      echo "HUZZAH! $(basename "$file") was moved to $target_directory"
+      echo "( ⋂‿⋂) $(basename "$file") was moved to $target_directory"
     fi
   done
 }
@@ -233,10 +233,10 @@ expand() {
         *.zip) unzip "$filename" ;;
         *.Z) uncompress "$filename" ;;
         *.7z) 7z x "$filename" ;;
-        *) echo "'$filename' cannot be extracted via ex()" ;;
+        *) echo "(눈︿눈) '$filename' cannot be extracted via ex()" ;;
       esac
     else
-      echo "'$filename' is not found"
+      echo "(눈︿눈) '$filename' is not found"
     fi
   done
 }
@@ -259,7 +259,7 @@ bak() {
   else
     local new_filename="${file}.bak"
     if [[ -e "$new_filename" ]]; then
-      echo "( ºロº)ノ $new_filename already exists."
+      echo "(눈︿눈)  $new_filename already exists."
     else
       mv "$file" "$new_filename"
       echo "Appended .bak extension to $file. New filename: $new_filename"
@@ -274,7 +274,7 @@ debak() {
   if [[ "$target" == *".bak"* ]]; then
     new_name=$(echo "$target" | sed 's/\.bak//g')
     if [ -e "$new_name" ]; then
-      echo "( ºロº)ノ File or directory '$new_name' already exists."
+      echo "(눈︿눈)  File or directory '$new_name' already exists."
       return 1
     fi
     mv "$target" "$new_name"
@@ -300,7 +300,7 @@ function rclone_modular_function() {
     local target_dir="$3"
 
     if [ ! -e "$source_dir" ]; then
-        echo "( ºロº)ノ  Source file or directory '$source_dir' does not exist."
+        echo "(눈︿눈)   Source file or directory '$source_dir' does not exist."
         return 1
     fi
 
@@ -393,9 +393,28 @@ git_commit_message() {
 
   git commit -m "$message"
   if [ $? -ne 0 ]; then
-    echo "Error: Failed to commit changes."
+    echo "(눈︿눈)  Failed to commit changes."
     return 1
   fi
+}
+
+git_pull_all() {
+  local dirs=("$HOME/.dotfiles" "$HOME/.lua-is-the-devil" "$HOME/.noktados" "$HOME/notes" "$DX/widclub")
+  for dir in "${dirs[@]}"; do
+    if [ -d "$dir" ]; then
+      echo "Processing directory: $dir"
+      (
+        cd "$dir" || { echo "(눈︿눈) Failed to change directory to: $dir"; exit 1; }
+        if [ -d .git ]; then
+          git_pull || { echo "(눈︿눈) 32202 occurred while pulling in directory: $dir"; exit 1; }
+        else
+          echo "(눈︿눈) Not a git repository: $dir"
+        fi
+      )
+    else
+      echo "(눈︿눈) Skipping non-existent directory: $dir"
+    fi
+  done
 }
 
 git_add_commit_push() {
@@ -452,7 +471,7 @@ imagemagick_shave() {
 read_file_content() {
   local file_path="$1"
   if [ ! -f "$file_path" ]; then
-    echo "( ºロº)ノ File '$file_path' does not exist."
+    echo "(눈︿눈)  File '$file_path' does not exist."
     return 1
   fi
   cat "$file_path"
@@ -464,7 +483,7 @@ copy_file_contents_to_clipboard() {
 
 paste_to_file() {
   if [ -z "$1" ]; then
-    echo "Usage: paste_to_file <filename>"
+    echo "┐(￣ヘ￣)┌  paste_to_file <filename>"
     return 1
   fi
   echo "$(pbpaste)" >> "$1"
@@ -472,7 +491,7 @@ paste_to_file() {
 
 paste_output_to_clipboard() {
   if [ -z "$1" ]; then
-    echo "Copying command output to clipboard"
+    echo "٩(•̀ᴗ•́)و  Copying command output to clipboard"
     return 1
   fi
   eval "$1" | pbcopy
@@ -491,7 +510,7 @@ update_zwc () {
 
 slug() {
     if [ $# -ne 1 ]; then
-        echo "Usage: run_slugify <filename>"
+        echo "┐(￣ヘ￣)┌  run_slugify <filename>"
         return 1
     fi
 

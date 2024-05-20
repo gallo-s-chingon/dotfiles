@@ -30,6 +30,7 @@ alias gac='git_add_commit_push'
 alias gc='git_commit_message'
 alias gf='git fetch'
 alias gpl='git_pull'
+alias gla='git_pull_all'
 alias gph='git_push'
 alias gst='git status'
 
