@@ -23,7 +23,7 @@ move_mam_torrents() {
 }
 
 move_btn_torrents() {
-  local destination="$TORRENT_DIR/BT"
+  local destination="$TORRENT_DIR/BTN"
   local torrents=(~/Downloads/*.torrent(N))
 
   for torrent_file in "${torrents[@]}"; do
