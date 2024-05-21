@@ -6,15 +6,15 @@ local config = {
 	cursor_blink_ease_in = "Linear",
 	cursor_blink_ease_out = "Linear",
 	font_size = 15.5,
-	font = wezterm.font("Hack", { weight = "Regular" }),
+	font = wezterm.font("Hack", { weight = "Regular", style = "Normal" }),
 	font_rules = {
 		{
 			italic = true,
-			font = wezterm.font("Victor Mono"),
+			font = wezterm.font("Victor Mono", { weight = "Medium", style = "Italic" }),
 		},
 		{
 			intensity = "Bold",
-			font = wezterm.font("Hack"),
+			font = wezterm.font("Hack", { weight = "Bold" }),
 		},
 	},
 

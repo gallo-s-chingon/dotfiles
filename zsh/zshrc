@@ -13,13 +13,15 @@ fi
 # Set various environment variables
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
-export XDG_CONFIG_HOME="${HOME}/.config"
-export CF="${HOME}/.dotfiles"
-export RX="$XDG_CONFIG_HOME/rx"
-export NV="${HOME}/.lua-is-the-devil"
-export DOTZ="${CF}/zsh"
-export DX="${HOME}/Documents"
-export DN="${HOME}/Downloads"
+export XDG_CONFIG_HOME="$HOME/.config"
+export CF="$HOME/.dotfiles"
+export SCF="$HOME/.config"
+export RX="$CF/rx"
+export NV="$HOME/.lua-is-the-devil"
+export NOT="$HOME/notes"
+export DOTZ="$CF/zsh"
+export DX="$HOME/Documents"
+export DN="$HOME/Downloads"
 export SCS="$DX/webpage"
 export FUNCNEST=25000
 

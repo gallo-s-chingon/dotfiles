@@ -359,9 +359,22 @@ function rclone_dedupe_old() {
 # Git Functions
 # ===========================
 
+is_apple_silicon() {
+  if [ "$(uname -m)" = "arm64" ]; then
+    return 0 # Apple Silicon
+  else
+    return 1 # Intel
+  fi
+}
+
+# Function to set up SSH
 setup_ssh() {
   eval "$(ssh-agent -s)"
-  ssh-add --apple-use-keychain $HOME/.ssh/id_ed25519
+  if is_apple_silicon; then
+    ssh-add --apple-use-keychain $HOME/.ssh/id_ed25519
+  else
+    ssh-add $HOME/.ssh/id_ed25519
+  fi
 }
 
 git_pull() {
