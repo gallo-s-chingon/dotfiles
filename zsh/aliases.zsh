@@ -25,10 +25,11 @@ alias wrap='setterm --linewrap on'
 
 ## Git Aliases
 alias g='git'
-alias ga='git_add'
+alias gad='git_add'
 alias gac='git_add_commit_push'
-alias gc='git_commit_message'
-alias gf='git fetch'
+alias gcm='git_commit_message'
+alias gcs='git_check_status' # check the status of local repos, dirs listed at top of functions.zsh
+alias gfh='git fetch'
 alias gpl='git_pull'
 alias gla='git_pull_all'
 alias gph='git_push'

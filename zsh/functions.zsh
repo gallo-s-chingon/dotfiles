@@ -3,6 +3,14 @@
 # ===========================
 TORRENT_DIR='/Volumes/kalisma/torrent'
 BACKUP_DIR='/Volumes/armor'
+REPOS=(
+  "$HOME/.dotfiles"
+  "$HOME/.lua-is-the-devil"
+  "$HOME/.noktados"
+  "$HOME/Documents/widclub"
+  "$HOME/notes"
+  )
+
 ## Open Torrent Files
 function open_downloaded_torrents() {
   open $DN/*.torrent
@@ -429,6 +437,19 @@ git_fetch_all() {
       echo "(눈︿눈) Skipping non-existent directory: $dir"
     fi
   done
+}
+
+check_git_status(){
+for repo in "${REPOS[@]}"; do # Loop through each repository and check its status
+  if [ -d "$repo" ]; then
+    cd "$repo" || continue
+    echo "Checking git status for $repo"
+    git status "$repo"
+    cd - > /dev/null || continue # return to the previous directory
+  else
+    echo "Directory $repo does not exist"
+  fi
+done
 }
 
 git_pull_all() {
