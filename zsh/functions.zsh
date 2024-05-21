@@ -369,11 +369,11 @@ is_apple_silicon() {
 
 # Function to set up SSH
 setup_ssh() {
-  eval "$(ssh-agent -s)"
-  if is_apple_silicon; then
+  if [ -z "SSH_AGENT_PID" ] || ! ps -p $SSH_AGENT_PID > /dev/null 2>&1; then
+    eval "$(ssh-agent -s)"
     ssh-add --apple-use-keychain $HOME/.ssh/id_ed25519
   else
-    ssh-add $HOME/.ssh/id_ed25519
+    echo "Using existing SSH agent PID $SSH_AGENT_PID"
   fi
 }
 
@@ -544,7 +544,7 @@ update_zwc () {
 
 slug() {
     if [ $# -ne 1 ]; then
-        echo "┐(￣ヘ￣)┌  run_slugify <filename>"
+        echo "(￣ヘ￣)  slugifying <filename>"
         return 1
     fi
 
@@ -559,10 +559,6 @@ slug() {
 
 source_zshrc() {
   source $HOME/.config/zsh/zshrc >/dev/null 2>&1
-}
-
-tmux_new_sesh() {
-  tmux new-session -A -s "$1"
 }
 
 timer() {
