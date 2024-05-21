@@ -406,9 +406,29 @@ git_commit_message() {
 
   git commit -m "$message"
   if [ $? -ne 0 ]; then
-    echo "(눈︿눈)  Failed to commit changes."
+    echo "(X︿x )  Failed to commit changes."
     return 1
   fi
+}
+
+git_fetch_all() {
+  local dirs=("$HOME/.dotfiles" "$HOME/.lua-is-the-devil" "$HOME/.noktados" "$HOME/notes" "$DX/widclub")
+  setup_ssh
+  for dir in "${dirs[@]}"; do
+    if [ -d "$dir" ]; then
+      echo "Processing directory: $dir"
+      (
+        cd "$dir" || { echo "(x︿x) Failed to change directory to: $dir"; exit 1; }
+        if [ -d .git ]; then
+          git fetch || { echo "(눈︿눈) 32202 occurred while pulling in directory: $dir"; exit 1; }
+        else
+          echo "( 0 ︿0) Not a git repository: $dir"
+        fi
+      )
+    else
+      echo "(눈︿눈) Skipping non-existent directory: $dir"
+    fi
+  done
 }
 
 git_pull_all() {
@@ -418,7 +438,7 @@ git_pull_all() {
     if [ -d "$dir" ]; then
       echo "Processing directory: $dir"
       (
-        cd "$dir" || { echo "(눈︿눈) Failed to change directory to: $dir"; exit 1; }
+        cd "$dir" || { echo "(X︿x ) Failed to change directory to: $dir"; exit 1; }
         if [ -d .git ]; then
           git_pull || { echo "(눈︿눈) 32202 occurred while pulling in directory: $dir"; exit 1; }
         else
