@@ -5,7 +5,7 @@ local config = {
 	cursor_blink_rate = 650,
 	cursor_blink_ease_in = "Linear",
 	cursor_blink_ease_out = "Linear",
-	font_size = 15.5,
+	font_size = 12,
 	font = wezterm.font("Hack", { weight = "Regular", style = "Normal" }),
 	font_rules = {
 		{

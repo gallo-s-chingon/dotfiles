@@ -12,4 +12,4 @@ eval "$($BREW_PATH shellenv)"
 
 export PATH="$PATH:$HOME/.local/bin"
 
-source ~/.config/zsh/zshrc
+source $HOME/.config/zsh/zshrc

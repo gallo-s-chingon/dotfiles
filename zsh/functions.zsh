@@ -519,6 +519,29 @@ imagemagick_shave() {
   magick "$1" -shave "$3" "$2"
 }
 
+youtube_thumbnail() {
+  local label="$1"
+  local filename="$2"
+  local font="/System/Library/Fonts/Supplemental/Arial Black.ttf"
+  local template_img="$SCS/images/YT-thumbnail-template.png"
+  local output_dir="/Volumes/cold/sucias-pod-files/YT-thumbs"
+  local output_file="$output_dir/$filename"
+  local final_output_filename="${output_file%.*}-thumb.${output_file##*.}"
+  local temp_label_image="$output_dir/label.png"
+
+  ## Create temporary label image
+  magick -background transparent -density 92 -pointsize 60 -font "$font" -interline-spacing -35 -fill gold -stroke magenta -strokewidth 2 -gravity center label:"$label" "$temp_label_image"
+
+  ## Rotate and save temporary label image
+  magick -background transparent "$temp_label_image" -rotate -10 "$output_file"
+
+  ## Composite label image with template and save final output
+  magick composite -geometry +600+20 "$output_file" "$template_img" "$final_output_filename"
+
+  ## Clean up temporary files
+  rm -rf "$temp_label_image" "$output_file" > /dev/null
+}
+
 # ===========================
 # Clipboard Functions
 # ===========================
@@ -608,7 +631,7 @@ fd_type() {
 }
 
 open_nvim_init() {
-  nvim "$XDG_CONFIG_HOME/nvim/init.lua"
+  nvim "$HOME/.lua-is-the-devil/nvim/init.lua"
 }
 
 open_wezterm() {

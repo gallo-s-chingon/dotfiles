@@ -76,6 +76,7 @@ alias 720='imagemagick_resize_720'
 alias mpx='move_download_pix_to_pictures_dir'
 alias rpx='remove_pix'
 alias shave='imagemagick_shave'
+alias ytt='youtube_thumbnail'
 
 ## Miscellaneous Aliases
 alias clock='tty-clock -B -C 5 -c'

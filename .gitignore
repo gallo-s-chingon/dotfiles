@@ -4,8 +4,6 @@
 *.zwc
 nvim/
 raycast/
-modal/
 Sonarr/
 deluge/
-logs/
 *.bak
