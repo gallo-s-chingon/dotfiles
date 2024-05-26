@@ -69,60 +69,17 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 # Debugging: Ensure files exist and are readable
-if [[ -r "$DOTZ/aliases.zsh" ]]; then
-  source "$DOTZ/aliases.zsh" > /dev/null
-else
-  echo "Warning: $DOTZ/aliases.zsh not found or not readable"
-fi
-
-if [[ -r "$DOTZ/functions.zsh" ]]; then
-  source "$DOTZ/functions.zsh" > /dev/null
-else
-  echo "Warning: $DOTZ/functions.zsh not found or not readable"
-fi
-
-if [[ -r "$DOTZ" ]]; then
-  source "$DOTZ" > /dev/null
-else
-  echo "Warning: $DOTZ not found or not readable"
-fi
-
-if [[ -r $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+for script in $DOTZ/scripts/*.zsh; do
+  source "$script" > /dev/null
+done
   source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-else
-  echo "Warning: zsh-syntax-highlighting not found or not readable"
-fi
-
-if [[ -r $(brew --prefix)/share/zsh-autopair/autopair.zsh ]]; then
   source $(brew --prefix)/share/zsh-autopair/autopair.zsh
-else
-  echo "Warning: zsh-autopair not found or not readable"
-fi
-
-if [[ -r $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
   source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-else
-  echo "Warning: zsh-autosuggestions not found or not readable"
-fi
-
-if [[ -r $(brew --prefix)/share/zsh-completions ]]; then
   source $(brew --prefix)/share/zsh-completions
-else
-  echo "Warning: zsh-completions not found or not readable"
-fi
 
 # Initialize fzf and zoxide
-if command -v fzf &> /dev/null; then
   source <(fzf --zsh)
-else
-  echo "Warning: fzf not found"
-fi
-
-if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
-else
-  echo "Warning: zoxide not found"
-fi
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
