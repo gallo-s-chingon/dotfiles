@@ -21,7 +21,7 @@ function open_downloaded_torrents() {
 move_emp_torrents() {
   local source_dir="$DN"
   local target_dir="$TORRENT_DIR/EMP"
-  fd -e torrent Empornium --search-path "$source_dir" -X mv -v {} "$target_dir"
+  fd -e torrent -i empornium --search-path "$source_dir" -X mv -v {} "$target_dir"
 }
 
 move_mam_torrents() {
@@ -301,67 +301,50 @@ move_opts="--delete-empty-src-dirs"
 new_dedupe="--dedupe-mode newest"
 old_dedupe="--dedupe-mode oldest"
 
-# rename rclone_operation function to rco for simplicity
-function rclone_modular_function() {
-    local operation="$1"
+# Define a function to execute rclone commands
+function execute_rclone_command() {
+    local command="$1"
     local source_dir="$2"
     local target_dir="$3"
+    local extra_opts="$4"
 
     if [ ! -e "$source_dir" ]; then
         echo "(눈︿눈)   Source file or directory '$source_dir' does not exist."
         return 1
     fi
 
-    case "$operation" in
-        cp)
-            rcc "$source_dir" "$target_dir"
-            ;;
-        mv)
-            rcm "$source_dir" "$target_dir"
-            ;;
-        deold) # may be counter intuitive but deold in my mind is remove old
-            rcdn "$source_dir"
-            ;;
-        denew) # may be counter intuitive but denew in my mind is remove old
-            rcdo "$source_dir"
-            ;;
-        *)
-            echo "Invalid operation: $operation"
-            return 1
-            ;;
-    esac
+    rclone "$command" "$base_opts" "$source_dir" "$target_dir" "$extra_opts"
 }
 
 ## Copy with rclone
-# usage: rcc <source_dir> <target_dir>
+# usage: rclone_copy <source_dir> <target_dir>
 function rclone_copy() {
     local source_dir="$1"
     local target_dir="$2"
-    rclone copy "$source_dir" "$target_dir" "$base_opts"
+    execute_rclone_command "copy" "$source_dir" "$target_dir"
 }
 
 ## Move with rclone
-# usage: rcm <source_dir> <target_dir>
+# usage: rclone_move <source_dir> <target_dir>
 function rclone_move() {
     local source_dir="$1"
     local target_dir="$2"
-    rclone move "$source_dir" "$target_dir" "$base_opts" "$move_opts"
+    execute_rclone_command "move" "$source_dir" "$target_dir" "$move_opts"
 }
 
 ## Dedupe with rclone keeping newest files
-# usage: rcdn <source_dir>
+# usage: rclone_dedupe_new <source_dir>
 function rclone_dedupe_new() {
     local source_dir="$1"
-    rclone dedupe --by-hash "$source_dir" "$new_dedupe" "$base_opts"
+    execute_rclone_command "dedupe" "$source_dir" "--by-hash" "$new_dedupe"
 }
 
 ## Dedupe with rclone keeping oldest files
-# usage: rcdo <source_dir>
+# usage: rclone_dedupe_old <source_dir>
 function rclone_dedupe_old() {
     local source_dir="$1"
-    rclone dedupe --by-hash "$source_dir" "$old_dedupe" "$base_opts"
+    execute_rclone_command "dedupe" "$source_dir" "--by-hash" "$old_dedupe"
 }
-
 
 # ===========================
 # Git Functions
@@ -377,7 +360,7 @@ is_apple_silicon() {
 
 # Function to set up SSH
 setup_ssh() {
-  if [ -z "SSH_AGENT_PID" ] || ! ps -p $SSH_AGENT_PID > /dev/null 2>&1; then
+  if [ -z "SSH_AGENT_PID" ] || ! ps -p $SSH_AGENT_PID > /dev/null; then
     eval "$(ssh-agent -s)"
     ssh-add --apple-use-keychain $HOME/.ssh/id_ed25519
   else
@@ -519,27 +502,34 @@ imagemagick_shave() {
   magick "$1" -shave "$3" "$2"
 }
 
+pick_color_fill_text() {
+    local label="$1"
+    local font="$2"
+    local font_size="$3"
+    local fill="$4"
+    local filename="$5"
+    local stroke="$6"
+
+    if [ -n "$stroke" ]; then
+        magick -background transparent -density 250 -pointsize "$font_size" -font "$font" -interline-spacing -15 -fill "$fill" -stroke "$stroke" -strokewidth 2 -gravity center label:"$label" "$filename.png"
+    else
+        magick -background transparent -density 250 -pointsize "$font_size" -font "$font" -interline-spacing -15 -fill "$fill" -gravity center label:"$label" "$filename.png"
+    fi
+}
+
 youtube_thumbnail() {
   local label="$1"
   local filename="$2"
-  local font="/System/Library/Fonts/Supplemental/Arial Black.ttf"
+  local font="Arial-Black"
   local template_img="$SCS/images/YT-thumbnail-template.png"
   local output_dir="/Volumes/cold/sucias-pod-files/YT-thumbs"
-  local output_file="$output_dir/$filename"
-  local final_output_filename="${output_file%.*}-thumb.${output_file##*.}"
-  local temp_label_image="$output_dir/label.png"
+  local output_file="$output_dir/${filename}-thumb.png"
 
   ## Create temporary label image
-  magick -background transparent -density 92 -pointsize 60 -font "$font" -interline-spacing -35 -fill gold -stroke magenta -strokewidth 2 -gravity center label:"$label" "$temp_label_image"
-
-  ## Rotate and save temporary label image
-  magick -background transparent "$temp_label_image" -rotate -10 "$output_file"
+  magick -background transparent -density 250 -pointsize 27 -font "$font" -interline-spacing -35 -fill gold -stroke magenta -strokewidth 2 -gravity center label:"$label" -rotate -12 "$output_file"
 
   ## Composite label image with template and save final output
-  magick composite -geometry +600+20 "$output_file" "$template_img" "$final_output_filename"
-
-  ## Clean up temporary files
-  rm -rf "$temp_label_image" "$output_file" > /dev/null
+  magick composite -geometry +600+20 "$output_file" "$template_img" "$output_file"
 }
 
 # ===========================
@@ -602,12 +592,12 @@ slug() {
 # ===========================
 
 source_zshrc() {
-  source $HOME/.config/zsh/zshrc >/dev/null 2>&1
+  source $HOME/.config/zsh/zshrc >/dev/null
 }
 
 timer() {
   termdown "$1"
-  cvlc "$HOME/Music/ddd.mp3" --play-and-exit >/dev/null 2>/dev/null
+  cvlc "$HOME/Music/ddd.mp3" --play-and-exit >/dev/null
 }
 
 tree_with_exclusions() {
@@ -648,12 +638,4 @@ open_aliases() {
 
 open_functions() {
   nvim "$DOTZ/functions.zsh"
-}
-
-open_secrets() {
-  nvim "$HOME/.mySecrets.env"
-}
-
-open_zsh_history() {
-  vim "$XDG_CACHE_HOME/zsh/.zsh_history"
 }

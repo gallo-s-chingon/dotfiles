@@ -70,19 +70,19 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 # Debugging: Ensure files exist and are readable
 if [[ -r "$DOTZ/aliases.zsh" ]]; then
-  source "$DOTZ/aliases.zsh" > /dev/null 2>&1
+  source "$DOTZ/aliases.zsh" > /dev/null
 else
   echo "Warning: $DOTZ/aliases.zsh not found or not readable"
 fi
 
 if [[ -r "$DOTZ/functions.zsh" ]]; then
-  source "$DOTZ/functions.zsh" > /dev/null 2>&1
+  source "$DOTZ/functions.zsh" > /dev/null
 else
   echo "Warning: $DOTZ/functions.zsh not found or not readable"
 fi
 
 if [[ -r "$DOTZ" ]]; then
-  source "$DOTZ" > /dev/null 2>&1
+  source "$DOTZ" > /dev/null
 else
   echo "Warning: $DOTZ not found or not readable"
 fi
