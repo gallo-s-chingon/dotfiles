@@ -47,8 +47,14 @@ zinit cdreplay -q
 # Load Powerlevel10k configuration if it exists
 [[ ! -f ${HOME}/.config/p10k.zsh ]] || source ${HOME}/.config/p10k.zsh
 
+zle_keymap-select(){
+case $KEYMAP$ZLE_STATE in
+  # block
+  vicmd*) print -n "\e[2 q";;
+esac
+}
 # Keybindings
-bindkey -e
+bindkey -v
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 bindkey '^[w' kill-region

@@ -185,6 +185,23 @@
     typeset -g POWERLEVEL9K_EMPTY_LINE_LEFT_PROMPT_FIRST_SEGMENT_END_SYMBOL='%{%}'
     # End filler on the edge of the screen if there are no right segments on the first line.
     typeset -g POWERLEVEL9K_EMPTY_LINE_RIGHT_PROMPT_FIRST_SEGMENT_START_SYMBOL='%{%}'
+      typeset -g POWERLEVEL9K_VI_INSERT_MODE_STRING='' #' %BINSERT%b '
+      typeset -g POWERLEVEL9K_VI_MODE_INSERT_BACKGROUND=green
+      typeset -g POWERLEVEL9K_VI_MODE_INSERT_FOREGROUND=15
+    
+      typeset -g POWERLEVEL9K_VI_COMMAND_MODE_STRING=' %BNORMAL%b '
+      typeset -g POWERLEVEL9K_VI_MODE_NORMAL_BACKGROUND=blue
+      typeset -g POWERLEVEL9K_VI_MODE_NORMAL_FOREGROUND=15
+    
+      typeset -g POWERLEVEL9K_VI_VISUAL_MODE_STRING=' %BVISUAL%b '
+      typeset -g POWERLEVEL9K_VI_MODE_VISUAL_BACKGROUND=9
+      typeset -g POWERLEVEL9K_VI_MODE_VISUAL_FOREGROUND=15
+    
+      typeset -g POWERLEVEL9K_VI_OVERWRITE_MODE_STRING=' %BREPLACE%b '
+      typeset -g POWERLEVEL9K_VI_MODE_OVERWRITE_BACKGROUND=red
+      typeset -g POWERLEVEL9K_VI_MODE_OVERWRITE_FOREGROUND=15
+    
+      typeset -g POWERLEVEL9K_VI_MODE_PREFIX='%k %K'
   fi
 
   #################################[ os_icon: os identifier ]##################################
