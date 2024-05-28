@@ -1,6 +1,7 @@
 # ===========================
 # File Management Functions
 # ===========================
+BACKUP_DIR="/Volumes/armor/"
 
 freespace(){
   if [[ -z "$1" ]]; then
@@ -85,7 +86,7 @@ move_iso() {
 
 move_nix() {
   local source_dir="$DN/"
-  local target_dir="BACKUP_DIR/iso/nix/"
+  local target_dir="$BACKUP_DIR/iso/nix/"
 
   if [ ! -d "$target_dir" ]; then
     echo "0_0 you tard, $target_dir does NOT exist"
@@ -118,14 +119,9 @@ move_download_pix_to_pictures_dir() {
   done
 }
 
-move_ipa() {
-  check_source_directory_existence || return 1
-  move_ipa_to_target_directory
-}
-
 move_ipa_to_target_directory() {
   local source_directory="$DN"
-  local target_directory="BACKUP_DIR/iso/ipa/"
+  local target_directory="$BACKUP_DIR/iso/ipa/"
 
   for file in "$source_directory"/*.ipa; do
     if [ -e "$file" ]; then
