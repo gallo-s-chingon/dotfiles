@@ -64,6 +64,7 @@ HISTSIZE=5000
 HISTFILE=${HOME}/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
+HISTORY_IGNORE="mv*|ls*|lt*|ld*|c*|\$*|or|cp*|..*|mtt|source*|bu|brm*|la*|"
 
 # History options
 setopt auto_cd
