@@ -7,7 +7,7 @@ yt_dlp_download() {
 }
 
 yt_dlp_extract_audio() {
-  yt-dlp --x --audio-format mp3 --write-thumbnail -o "%(title)s.%(ext)s" "$@"
+  yt-dlp -x --audio-format mp3 --write-thumbnail -o "%(title)s.%(ext)s" "$@"
 }
 
 yt_dlp_extract() {
