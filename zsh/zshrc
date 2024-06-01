@@ -59,6 +59,7 @@ bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 bindkey '^[w' kill-region
 
+HYPHEN_INSENSITIVE="true"
 # History settings
 HISTSIZE=5000
 HISTFILE=${HOME}/.zsh_history
