@@ -36,6 +36,7 @@ alias gph='git_push'
 alias gst='git status'
 
 ## File Management Aliases
+alias bydate='$RX/sort-file-by-date.sh'
 alias d='fd -H -t f .DS_Store -X rm -frv'
 alias fdm='fd_files_move_to_dir'
 alias fdd='fd_exclude_dir_find_name_move_to_exclude_dir'
