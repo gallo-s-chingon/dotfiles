@@ -1,5 +1,4 @@
 tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
 tap "homebrew/services"
 tap "koekeishiya/formulae"
 tap "osx-cross/arm"
@@ -35,6 +34,8 @@ brew "ncurses"
 brew "perl"
 # Aquarium animation in ASCII art
 brew "asciiquarium"
+# ChatGPT in the terminal
+brew "ata"
 # Improved shell history for zsh, bash, fish and nushell
 brew "atuin"
 # Automatic configure script builder
@@ -53,8 +54,8 @@ brew "bison"
 brew "gcc"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
-# Make choices on the command-line
-brew "choose"
+# Console version of 2048
+brew "c2048"
 # Ruby environment tool
 brew "chruby"
 # Cross-platform make
@@ -111,6 +112,10 @@ brew "libtool"
 brew "imagemagick"
 # Download media from Instagram
 brew "instaloader"
+# Interactive computing in Python
+brew "ipython"
+# Add indentation to LaTeX files
+brew "latexindent"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Terminal file manager
@@ -123,20 +128,28 @@ brew "libtorrent-rasterbar"
 brew "ltex-ls"
 # Powerful, lightweight programming language
 brew "lua"
-# Package manager for the Lua programming language
-brew "luarocks"
+# Platform built on V8 to build network applications
+brew "node"
+# Quickly generate a temporary email address
+brew "mailsy"
 # Utility for directing compilation
 brew "make"
 # Unified display of technical and tag data for audio/video
 brew "media-info"
+# Feature-rich command-line audio/video downloader
+brew "yt-dlp"
+# Media player based on MPlayer and mplayer2
+brew "mpv"
+# Open source relational database management system
+brew "mysql", restart_service: true
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
 # Small build system for use with gyp or CMake
 brew "ninja"
-# Platform built on V8 to build network applications
-brew "node"
 # Create, run, and share large language models (LLMs)
 brew "ollama", restart_service: true
+# Swiss-army knife of markup format conversion
+brew "pandoc"
 # Command-line tool to generate, analyze, convert and manipulate colors
 brew "pastel"
 # PDF converter to SVG
@@ -159,6 +172,8 @@ brew "python-build"
 brew "pyvim"
 # Tools for and transforming and inspecting PDF files
 brew "qpdf"
+# Software environment for statistical computing
+brew "r"
 # Rsync for cloud storage
 brew "rclone"
 # Search tool like grep and The Silver Searcher
@@ -175,14 +190,16 @@ brew "rust"
 brew "rustup-init"
 # Intuitive find & replace CLI
 brew "sd"
+# Static analysis and lint tool, for (ba)sh scripts
+brew "shellcheck"
 # Fuzzy Finder in rust!
 brew "sk"
 # Convert filenames and directories to a web friendly format
 brew "slugify"
+# Language Server for SQL
+brew "sql-language-server"
 # Very fast implementation of tldr in Rust
 brew "tealdeer"
-# Tool to build, change, and version infrastructure
-brew "terraform"
 # Color-based alternative to figlet (uses libcaca)
 brew "toilet"
 # Lightweight BitTorrent client
@@ -191,6 +208,8 @@ brew "transmission-cli"
 brew "tree"
 # Digital clock in ncurses
 brew "tty-clock"
+# Maintained ctags implementation
+brew "universal-ctags"
 # Syntax-aware linter for prose
 brew "vale"
 # Your CLI home video recorder
@@ -199,8 +218,6 @@ brew "vhs"
 brew "watch"
 # Internet file retriever
 brew "wget"
-# Feature-rich command-line audio/video downloader
-brew "yt-dlp"
 # Pluggable terminal workspace, with terminal multiplexer as the base feature
 brew "zellij"
 # Shell extension to navigate your filesystem faster
@@ -219,6 +236,10 @@ brew "zsh-syntax-highlighting"
 brew "koekeishiya/formulae/skhd"
 # Quantum Mechanical Keyboard (QMK) Firmware
 brew "qmk/qmk/qmk"
+# Timer app
+cask "alinof-timer"
+# Universal chat app powered by Matrix
+cask "beeper"
 # Web browser focusing on privacy
 cask "brave-browser"
 # Voice and text chat software
@@ -233,14 +254,22 @@ cask "hiddenbar"
 cask "iina"
 # App providing offline access to Wikipedia and many other web sites
 cask "kiwix"
+# Full TeX Live distribution with GUI applications
+cask "mactex"
 # Tag editor for digital music
 cask "meta"
+# Interactive JavaScript, Python or SQL interface
+cask "mysql-shell"
+# Visual tool to design, develop and administer MySQL servers
+cask "mysqlworkbench"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
+# Home media player
+cask "plex-media-player"
+# Quick Look generator for Markdown files
+cask "qlmarkdown"
 # Toolbox companion for QMK Firmware
 cask "qmk-toolbox"
-# Plain-text file notepad and todo-list manager
-cask "qownnotes"
 # Archive manager for data compression and backups
 cask "rar"
 # Control your tools with a few keystrokes
