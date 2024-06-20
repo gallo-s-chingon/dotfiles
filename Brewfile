@@ -10,16 +10,12 @@ brew "gettext"
 brew "openssl@3"
 # Library for command-line editing
 brew "readline"
-# General-purpose data compression with high compression ratio
-brew "xz"
 # Core application library for C
 brew "glib"
 # Framework for layout and rendering of i18n text
 brew "pango"
 # Library to render SVG files using Cairo
 brew "librsvg"
-# Icons for the GNOME project
-brew "adwaita-icon-theme"
 # YAML Parser
 brew "libyaml"
 # Automate deployment, configuration, and upgrading
@@ -48,8 +44,6 @@ brew "awk"
 brew "bash"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
-# Parser generator
-brew "bison"
 # GNU compiler collection
 brew "gcc"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
@@ -162,8 +156,6 @@ brew "pipx"
 brew "pngpaste"
 # Modern replacement for ps written by Rust
 brew "procs"
-# Pretty, minimal and fast ZSH prompt
-brew "pure"
 # GNOME Python bindings (based on GObject Introspection)
 brew "pygobject3"
 # Simple, correct PEP 517 build frontend
@@ -232,8 +224,6 @@ brew "zsh-autosuggestions"
 brew "zsh-completions"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
-# Simple hotkey-daemon for macOS.
-brew "koekeishiya/formulae/skhd"
 # Quantum Mechanical Keyboard (QMK) Firmware
 brew "qmk/qmk/qmk"
 # Timer app
