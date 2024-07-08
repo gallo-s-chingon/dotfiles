@@ -84,6 +84,7 @@ alias ytt='youtube_thumbnail'
 alias clock='tty-clock -B -C 5 -c'
 alias instadl='$RX/igdn.sh'
 alias or='open /Volumes/noir/rawn'
+alias oss='open -a ScreenSaverEngine'
 alias res="source $HOME/.zshenv && szr"
 alias szr='source_zshrc'
 alias wst='wezterm cli set-tab-title '
