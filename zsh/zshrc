@@ -22,6 +22,7 @@ export NOT="$HOME/notes"
 export DX="$HOME/Documents"
 export DN="$HOME/Downloads"
 export SCS="$DX/webpage"
+export SUSO="$DX/sucias-social"
 export FUNCNEST=25000
 
 # Set directory to store zinit and plugs
@@ -94,3 +95,4 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"

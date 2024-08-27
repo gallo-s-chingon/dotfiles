@@ -7,6 +7,7 @@ igdown () {
     instaloader --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps /Users/gchingon/.config/instaloader/latest-stamps.ini receiptdropper
     instaloader --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps /Users/gchingon/.config/instaloader/latest-stamps.ini yusef_el_19
     instaloader --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps /Users/gchingon/.config/instaloader/latest-stamps.ini amyr_law
+    instaloader --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps /Users/gchingon/.config/instaloader/latest-stamps.ini mansamahatha888
 }
 
 igdown

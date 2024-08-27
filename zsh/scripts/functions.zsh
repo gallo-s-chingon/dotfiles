@@ -50,6 +50,18 @@ slug() {
     echo "$slugified"
 }
 
+trim_video () {
+  if [ $# -eq 3 ]; then
+    ffmpeg -i "$1" -ss "$3" -c:v copy -c:a copy "$2"
+  elif [ $# -eq 2 ]; then
+    ffmpeg -i "$1" -c:v copy -c:a copy "$2"
+  else
+    echo "Usage: trim_video input_file output_file (start_time)"
+    return 1
+  fi
+
+}
+
 open_nvim_init() {
   nvim "$HOME/.lua-is-the-devil/nvim/init.lua"
 }
