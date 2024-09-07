@@ -22,7 +22,7 @@ export NOT="$HOME/notes"
 export DX="$HOME/Documents"
 export DN="$HOME/Downloads"
 export SCS="$DX/webpage"
-export SUSO="$DX/sucias-social"
+export SUSO="$HOME/sucias-social"
 export FUNCNEST=25000
 
 # Set directory to store zinit and plugs
