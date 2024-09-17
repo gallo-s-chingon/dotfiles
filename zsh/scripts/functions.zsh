@@ -29,7 +29,7 @@ fd_exclude_dir_find_name_move_to_exclude_dir()
 }
 
 fd_files_move_to_dir() {
-  fd -tf -d 1 "$1" -x mv {} "$2"
+  fd -tf -d 1 "$1" -x mv -v {} "$2"
 }
 
 fd_type() {
