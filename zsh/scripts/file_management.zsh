@@ -134,7 +134,7 @@ move_ipa_to_target_directory() {
 ## Remove Files
 remove_pix() {
   local old_dir="$PWD"
-  cd /Volumes/noir/rawn/ || return
+  cd /Volumes/cold/ulto/ || return
   fd -e jpg -e jpeg -e png -e webp -e nfo -e txt -x rm -v {} \;
   cd "$old_dir" || return
 }

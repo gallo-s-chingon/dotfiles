@@ -51,8 +51,8 @@ alias mia='move_ipa_to_target_directory'
 alias mio='move_iso'
 alias mtt='sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv $HOME/.Trash'
 alias rm='rm -rfv'
-alias orgf='$RX/sort-file-by-date.sh'
-alias sdd='spotify_download'
+alias orgf='$RX/sort-file-by-date'
+alias sdd='spotdl_error_logger'
 alias srm='sudo rm -rfv'
 alias mkrx='create_script_and_open'
 
@@ -121,6 +121,7 @@ alias bs='brew search '
 ## YouTube-DL
 alias ytd='yt_dlp_download'
 alias ytx='yt_dlp_extract_audio'
+alias ytf="yt_dlp_extract_audio_from_file"
 alias yta='yt_dlp_download_with_aria2c'
 
 ## Luarocks Aliases
