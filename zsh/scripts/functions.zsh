@@ -88,7 +88,13 @@ open_functions() {
   nvim -c "args *.zsh"
 }
 
+<<<<<<< HEAD
 ffmpeg_remux_audio_video ()
 {
   ffmpeg -i "$1" -i "$2" -c copy "$3"
+=======
+spotify_dl ()
+{
+  spotdl download "$1"
+>>>>>>> 8301065 (updates to aliases & functions)
 }
