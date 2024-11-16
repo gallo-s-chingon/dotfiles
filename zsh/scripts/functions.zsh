@@ -88,19 +88,13 @@ open_functions() {
   nvim -c "args *.zsh"
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-ffmpeg_remux_audio_video ()
-{
-=======
 ffmpeg_remux_audio_video (){
->>>>>>> 1f6de9a (update functions and aliases and instaloader stamps)
   ffmpeg -i "$1" -i "$2" -c copy "$3"
-=======
+}
+
 spotify_dl ()
 {
   spotdl download "$1"
->>>>>>> 8301065 (updates to aliases & functions)
 }
 
 mkv_to_mp4 () {

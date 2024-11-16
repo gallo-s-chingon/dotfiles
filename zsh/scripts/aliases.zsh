@@ -17,11 +17,8 @@ alias dt='date "+%F"'
 alias eng="env | grep -i "
 alias e='exit 0'
 alias ex='expand'
-<<<<<<< HEAD
 alias ffav='ffmpeg_remux_audio_video'
-=======
 alias sdd='spotify_dl'
->>>>>>> 8301065 (updates to aliases & functions)
 alias grep='grep --color=auto'
 alias ln='ln -i'
 alias mnf='mediainfo'
