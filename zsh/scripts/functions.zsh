@@ -89,12 +89,23 @@ open_functions() {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ffmpeg_remux_audio_video ()
 {
+=======
+ffmpeg_remux_audio_video (){
+>>>>>>> 1f6de9a (update functions and aliases and instaloader stamps)
   ffmpeg -i "$1" -i "$2" -c copy "$3"
 =======
 spotify_dl ()
 {
   spotdl download "$1"
 >>>>>>> 8301065 (updates to aliases & functions)
+}
+
+mkv_to_mp4 () {
+for f in *.mkv; do
+    ffmpeg -i "$f" -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k "${f%.mkv}.mp4"
+done
+echo "Conversion complete!"
 }
