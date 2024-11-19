@@ -4,6 +4,30 @@
 #~/.config/nushell/config.nu
 source ~/.cache/carapace/init.nu
 
+# Source all script files in the scripts directory
+let script_files = [
+    "aliases.nu"
+    "clipboard.nu"
+    "file_management.nu"
+    "functions.nu"
+    "git.nu"
+    "magick.nu"
+    "rclone.nu"
+    "torrent.nu"
+    "youtube.nu"
+]
+
+for file in $script_files {
+    source $"($env.HOME)/.config/nushell/scripts/($file)"
+}
+
+# Environment Variables
+let-env PATH = ($env.PATH | split row (char esep) | prepend $"($env.HOME)/myCommands" | prepend $"($env.HOME)/myCommands/bin" | str join (char esep))
+let-env FZF_DEFAULT_OPTS = '--height=40% --cycle --info=hidden --tabstop=4 --black'
+let-env CLICOLOR = 1
+let-env EDITOR = 'nvim'
+let-env MAKEFLAGS = "-j$(nproc)"
+let-env CAPTURE_FOLDER = $"($env.HOME)/Pictures"
 
 # For more information on defining custom themes, see
 # https://www.nushell.sh/book/coloring_and_theming.html
@@ -901,111 +925,60 @@ $env.config = {
     ]
 }
 
-# General Aliases
-alias c = clear
-alias c- = cd -
+# Enable Powerlevel10k instant prompt (use Oh My Posh or Starship instead)
+# if ($env.XDG_CACHE_HOME | default $env.HOME + "/.cache") | path exists {
+#   let p10k_script = ($env.XDG_CACHE_HOME | default $env.HOME + "/.cache") + "/p10k-instant-prompt-$(hostname).zsh"
+#   if $p10k_script | path exists {
+#     source $p10k_script
+#   }
+# }
+
+# Set various environment variables
+$env.POWERLEVEL9K_INSTANT_PROMPT = "quiet"
+$env.XDG_CONFIG_HOME = $env.HOME + "/.config"
+$env.CF = $env.XDG_CONFIG_HOME
+$env.DOTZ = $env.CF + "/zsh"
+$env.RX = $env.CF + "/rx"
+$env.NV = $env.HOME + "/.lua-is-the-devil"
+$env.NOT = $env.HOME + "/notes"
+$env.DX = $env.HOME + "/Documents"
+$env.DN = $env.HOME + "/Downloads"
+$env.SCS = $env.DX + "/webpage"
+$env.SUSO = $env.HOME + "/sucias-social"
+
+# Ensure XDG_BIN_HOME is in PATH
+let xdg_bin_home = $env.XDG_BIN_HOME | default ($env.XDG_CONFIG_HOME + "/bin")
+if! ($env.PATH | split row (char esep) | any { |x| $x == $xdg_bin_home }) {
+  $env.PATH = ($env.PATH | append $xdg_bin_home)
+}
+
+# Add other paths to PATH if necessary
+$env.PATH = ($env.PATH | append "/opt/homebrew/opt/ruby/bin")
+
+# Load Oh My Posh or Starship for prompt customization
+source ~/.oh-my-posh.nu  # or your Starship config
+
+# Load other scripts and plugins
+for script in ($env.DOTZ + "/scripts" | path join "*.nu"); do
+  source $script
+done
+
+# Initialize rbenv
+if (which rbenv | is-success) {
+  let rbenv_init = (rbenv init --path)
+  eval $rbenv_init
+}
+
+# Initialize fzf and zoxide (adapted for Nushell)
+# source <(fzf --nu)  # If fzf has a Nushell version
+# eval (zoxide init nu)  # If zoxide has a Nushell version
+
+# History settings
+let history_file = $env.HOME + "/.nushell_history"
+$env.HISTORY_FILE = $history_file
+
 def cdc [] {
     cd
     clear
 }
-alias e = exit 0
-alias ex = expand
-alias grep = grep --color=auto
-alias ln = ln -i
-alias o. = open .
-alias nowrap = setterm --linewrap off
-alias wrap = setterm --linewrap on
 
-# Git Aliases
-alias g = git
-alias gfh = git fetch
-alias gst = git status
-
-# File Management Aliases
-alias d = fd -H -t f .DS_Store -X rm -rf
-alias fdf = fd -tf -d 1
-alias f = fzf
-alias mk = mkdir -v
-alias rm = rm -rf
-
-# Directory Navigation Aliases
-alias ... = cd ../..
-alias .... = cd ../../..
-
-# Brew Aliases
-alias bi = brew install
-alias bl = brew list
-alias bri = brew reinstall
-alias brm = brew remove --zap
-def bu [] {
-    brew update
-    brew upgrade
-    brew cleanup
-}
-alias bci = brew install --cask
-alias bs = brew search 
-
-# Luarocks Aliases
-alias lri = sudo luarocks install
-alias lrl = sudo luarocks list
-alias lrs = sudo luarocks search
-
-# Cargo Aliases
-alias ci = cargo install
-
-# Nvim Aliases
-alias v = nvim
-
-# Tmux Aliases
-alias t = tmux
-alias ta = tmux a -t
-alias tl = tmux ls
-
-# eza (ls alternative)
-alias ls = eza --color=always --icons --git
-alias la = ls -a --git
-alias ldn = ls $env.HOME/Downloads
-alias lsd = ls -D
-alias lsf = ls -f
-alias lt = ls --tree --level=2
-alias lta = ls --tree --level=3 --long --git
-alias lx = ls -lbhHgUmuSa@
-alias tree = tree_with_exclusions
-
-## YouTube-DL
-alias ytd = yt_dlp_download
-alias ytx = yt_dlp_extract_audio
-alias ytf = yt_dlp_extract_audio_from_file
-alias yta = yt_dlp_download_with_aria2c
-
-## Luarocks Aliases
-alias lri = sudo luarocks install 
-alias lrl = sudo luarocks list
-alias lrs = sudo luarocks search 
-
-## Cargo Aliases
-alias ci = cargo install 
-
-## Nvim Aliases
-alias v = nvim
-alias va = open_aliases
-alias vf = open_functions
-alias vm = open_nvim_init
-alias vs = open_secrets
-alias vz = open_zshrc
-alias vh = open_zsh_history
-alias vw = open_wezterm
-
-## Rclone Aliases
-alias rcm = rclone_move
-alias rcc = rclone_copy
-alias rdo = rclone_dedupe_old
-alias rdn = rclone_dedupe_new
-
-## Tmux Aliases
-alias t = tmux
-alias ta = tmux a -t 
-alias tl = tmux ls
-alias tn = tmux_new_sesh
-alias tm = tmuxinator
-alias ttmp = tmux new-session -A -s tmp
