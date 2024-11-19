@@ -1,0 +1,80 @@
+bs
+bl
+brew list
+ls
+ls nushell
+v nushell/config.nu
+nvim nushell/config.nu
+nvim nushell/env.nu
+cd
+v nushell/config.nu
+ctc .config/zsh/scripts/aliases.zsh
+exit
+pwd
+starship init nu | save -f .cache/starship/init.nu
+use .cache/starship/init.nu
+/Volumes/armor/buk/
+v nushell/config.nu
+cd
+nvim .config/nushell/config.nu
+which gac
+exit
+which gac
+v nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+ls $RX
+ls $env.RX
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+exit
+source .config/nushell/config.nu
+clear
+source .config/nushell/config.nu
+cd ; clear
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+mkdir -h
+mkdir --help
+man mkdir
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+bu
+q
+quit
+exit
+source .config/nushell/config.nu
+v nushell/config.nu
+la
+RX
+$RX
+exit
+/Volumes/armor/
+ls
+lsd
+exit
+v .config/zsh/scripts/spotdl-dl-errs.log
+exit
