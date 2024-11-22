@@ -1,7 +1,7 @@
 # Nushell Environment Config File
 #
 # version = "0.100.0"
-$env.EDITOR = nvim
+$env.EDITOR = 'nvim'
 $env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
 mkdir ~/.cache/carapace
 carapace _carapace nushell | save --force ~/.cache/carapace/init.nu

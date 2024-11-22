@@ -1,34 +1,5 @@
 # Nushell Config File
 #
-# version = "0.100.0"
-#~/.config/nushell/config.nu
-source ~/.cache/carapace/init.nu
-
-# Source all script files in the scripts directory
-let script_files = [
-    "aliases.nu"
-    "clipboard.nu"
-    "file_management.nu"
-    "functions.nu"
-    "git.nu"
-    "magick.nu"
-    "rclone.nu"
-    "torrent.nu"
-    "youtube.nu"
-]
-
-for file in $script_files {
-    source $"($env.HOME)/.config/nushell/scripts/($file)"
-}
-
-# Environment Variables
-let-env PATH = ($env.PATH | split row (char esep) | prepend $"($env.HOME)/myCommands" | prepend $"($env.HOME)/myCommands/bin" | str join (char esep))
-let-env FZF_DEFAULT_OPTS = '--height=40% --cycle --info=hidden --tabstop=4 --black'
-let-env CLICOLOR = 1
-let-env EDITOR = 'nvim'
-let-env MAKEFLAGS = "-j$(nproc)"
-let-env CAPTURE_FOLDER = $"($env.HOME)/Pictures"
-
 # For more information on defining custom themes, see
 # https://www.nushell.sh/book/coloring_and_theming.html
 # And here is the theme collection
@@ -41,7 +12,7 @@ let dark_theme = {
     empty: blue
     # Closures can be used to choose colors for specific values.
     # The value (in this case, a bool) is piped into the closure.
-    # eg) {|| if $in { 'light_cyan' } else { 'light_gray' } }
+    # eg) {|| if $in { light_cyan } else { light_gray } }
     bool: light_cyan
     int: white
     filesize: cyan
@@ -108,7 +79,7 @@ let light_theme = {
     empty: blue
     # Closures can be used to choose colors for specific values.
     # The value (in this case, a bool) is piped into the closure.
-    # eg) {|| if $in { 'dark_cyan' } else { 'dark_gray' } }
+    # eg) {|| if $in { dark_cyan } else { dark_gray } }
     bool: dark_cyan
     int: dark_gray
     filesize: cyan_bold
@@ -168,13 +139,13 @@ let light_theme = {
 }
 
 # External completer example
-# let carapace_completer = {|spans|
-#     carapace $spans.0 nushell ...$spans | from json
-# }
+let carapace_completer = {|spans|
+    carapace $spans.0 nushell ...$spans | from json
+}
 
 # The default config record. This is where much of your global configuration is setup.
 $env.config = {
-    show_banner: true # true or false to enable or disable the welcome banner at startup
+    show_banner: false # true or false to enable or disable the welcome banner at startup
 
     ls: {
         use_ls_colors: true # use the LS_COLORS environment variable to colorize output
@@ -188,12 +159,12 @@ $env.config = {
     table: {
         mode: rounded # basic, compact, compact_double, light, thin, with_love, rounded, reinforced, heavy, none, other
         index_mode: always # "always" show indexes, "never" show indexes, "auto" = show indexes when a table has "index" column
-        show_empty: true # show 'empty list' and 'empty record' placeholders for command output
+        show_empty: true # show empty list and empty record placeholders for command output
         padding: { left: 1, right: 1 } # a left right padding of each column in a table
         trim: {
             methodology: wrapping # wrapping or truncating
-            wrapping_try_keep_words: true # A strategy used by the 'wrapping' methodology
-            truncating_suffix: "..." # A suffix used by the 'truncating' methodology
+            wrapping_try_keep_words: true # A strategy used by the wrapping methodology
+            truncating_suffix: "..." # A suffix used by the truncating methodology
         }
         header_on_separator: false # show header text on separator/border line
         footer_inheritance: false # render footer in parent table if child is big enough (extended table option)
@@ -214,8 +185,8 @@ $env.config = {
     # Behavior without this configuration point will be to "humanize" the datetime display,
     # showing something like "a day ago."
     datetime_format: {
-        # normal: '%a, %d %b %Y %H:%M:%S %z'    # shows up in displays of variables or other datetime's outside of tables
-        # table: '%m/%d/%y %I:%M:%S%p'          # generally shows up in tabular outputs such as ls. commenting this out will change it to the default human readable datetime format
+        normal: '%a, %d %b %Y %H:%M:%S %z'  # shows up in displays of variables or other datetimes outside of tables
+        table: '%d %M %y %H:%M:%S'         # generally shows up in tabular outputs such as ls. commenting this out will change it to the default human readable datetime format
     }
 
     explore: {
@@ -246,7 +217,7 @@ $env.config = {
         external: {
             enable: true # set to false to prevent nushell looking into $env.PATH to find more suggestions, `false` recommended for WSL users as this look up may be very slow
             max_results: 100 # setting it lower can improve completion performance at the cost of omitting some options
-            completer: null # check 'carapace_completer' above as an example
+            completer: $carapace_completer # check carapace_completer above as an example
         }
         use_ls_colors: true # set this to true to enable file/path/directory completions using LS_COLORS
     }
@@ -268,7 +239,7 @@ $env.config = {
     buffer_editor: null # command that will be used to edit the current line buffer with ctrl+o, if unset fallback to $env.VISUAL and $env.EDITOR
     use_ansi_coloring: true
     bracketed_paste: true # enable bracketed paste, currently useless on windows
-    edit_mode: emacs # emacs, vi
+    edit_mode: vi # emacs, vi
     shell_integration: {
         # osc2 abbreviates the path if in the home_dir, sets the tab/window title, shows the running command in the tab/window title
         osc2: true
@@ -276,7 +247,7 @@ $env.config = {
         osc7: true
         # osc8 is also implemented as the deprecated setting ls.show_clickable_links, it shows clickable links in ls output if your terminal supports it. show_clickable_links is deprecated in favor of osc8
         osc8: true
-        # osc9_9 is from ConEmu and is starting to get wider support. It's similar to osc7 in that it communicates the path to the terminal
+        # osc9_9 is from ConEmu and is starting to get wider support. Its similar to osc7 in that it communicates the path to the terminal
         osc9_9: false
         # osc133 is several escapes invented by Final Term which include the supported ones below.
         # 133;A - Mark prompt start
@@ -298,7 +269,7 @@ $env.config = {
         reset_application_mode: true
     }
     render_right_prompt_on_last_line: false # true or false to enable or disable right prompt to be rendered on last line of the prompt.
-    use_kitty_protocol: false # enables keyboard enhancement protocol implemented by kitty console, only if your terminal support this.
+    use_kitty_protocol: true # enables keyboard enhancement protocol implemented by kitty console, only if your terminal support this.
     highlight_resolved_externals: false # true enables highlighting of external commands in the repl resolved by which.
     recursion_limit: 50 # the maximum number of times nushell allows recursion before stopping it
 
@@ -925,16 +896,7 @@ $env.config = {
     ]
 }
 
-# Enable Powerlevel10k instant prompt (use Oh My Posh or Starship instead)
-# if ($env.XDG_CACHE_HOME | default $env.HOME + "/.cache") | path exists {
-#   let p10k_script = ($env.XDG_CACHE_HOME | default $env.HOME + "/.cache") + "/p10k-instant-prompt-$(hostname).zsh"
-#   if $p10k_script | path exists {
-#     source $p10k_script
-#   }
-# }
-
 # Set various environment variables
-$env.POWERLEVEL9K_INSTANT_PROMPT = "quiet"
 $env.XDG_CONFIG_HOME = $env.HOME + "/.config"
 $env.CF = $env.XDG_CONFIG_HOME
 $env.DOTZ = $env.CF + "/zsh"
@@ -955,23 +917,11 @@ if! ($env.PATH | split row (char esep) | any { |x| $x == $xdg_bin_home }) {
 # Add other paths to PATH if necessary
 $env.PATH = ($env.PATH | append "/opt/homebrew/opt/ruby/bin")
 
-# Load Oh My Posh or Starship for prompt customization
-source ~/.oh-my-posh.nu  # or your Starship config
-
-# Load other scripts and plugins
-for script in ($env.DOTZ + "/scripts" | path join "*.nu"); do
-  source $script
-done
-
 # Initialize rbenv
 if (which rbenv | is-success) {
   let rbenv_init = (rbenv init --path)
   eval $rbenv_init
 }
-
-# Initialize fzf and zoxide (adapted for Nushell)
-# source <(fzf --nu)  # If fzf has a Nushell version
-# eval (zoxide init nu)  # If zoxide has a Nushell version
 
 # History settings
 let history_file = $env.HOME + "/.nushell_history"
@@ -982,3 +932,762 @@ def cdc [] {
     clear
 }
 
+# General Aliases
+alias c = clear
+alias c- = cd -
+alias ctc = copy_file_contents_to_clipboard
+def dt [] {
+    date now | date format "+%F"
+}
+alias e = exit 0
+alias ex = expand
+alias ffav = ffmpeg_remux_audio_video
+alias sdd = spotify_dl
+alias grep = grep --color=auto
+alias ln = ln -i
+alias mnf = mediainfo
+alias o. = ^open .
+alias ptc = paste_output_to_clipboard
+alias nowrap = setterm --linewrap off
+alias wrap = setterm --linewrap on
+
+# Git Aliases
+alias g = git
+alias gad = git_add
+alias gac = git_add_commit_push
+alias gcm = git_commit_message
+alias gcs = git_check_status # check the status of local repos, dirs listed at top of functions.zsh
+alias gfh = git fetch
+alias gpl = git_pull
+alias gla = git_pull_all
+alias gph = git_push
+alias gst = git status
+
+# File Management Aliases
+def bydate [] {
+    $env.RX | path join "sort-file-by-date.sh" | run
+}
+alias d = fd -H -t f.DS_Store -X rm -frv
+alias fdm = fd_files_move_to_dir
+alias fdd = fd_exclude_dir_find_name_move_to_exclude_dir
+alias fdf = fd -tf -d 1 
+alias f = fzf 
+alias free = freespace
+alias ft = fd_type
+def mk [...args] {
+    mkdir -v $args
+}
+alias mia = move_ipa_to_target_directory
+alias mio = move_iso
+def mtt [] {
+    sudo rm -rfv /Volumes/*/.Trashes
+    sudo rm -rfv $env.HOME/.Trash
+}
+alias rm = rm -rfv
+def orgf [] {
+    $env.RX | path join "sort-file-by-date" | run
+}
+alias srm = sudo rm -rfv
+alias mkrx = create_script_and_open
+
+# Torrent Management Aliases
+alias mat = move_all_torrents
+alias mnx = move_nix
+alias mvb = move_btn_torrents
+alias mvm = move_mam_torrents
+alias mvp = move_ptp_torrents
+alias mve = move_emp_torrents
+alias mlf = move_repo_files_larger_than_99M
+alias obt = open_btn_torrents_in_transmission
+alias opt = open_ptp_torrents_in_deluge
+alias odt = open_downloaded_torrents
+
+# Blog Aliases
+def blog [...args] {
+    $env.RX | path join "blog.sh" | run $in ...$args
+}
+def epi [...args] {
+    $env.RX | path join "blog.sh" | run $in "epi" ...$args
+}
+def feat [...args] {
+    $env.RX | path join "blog.sh" | run $in "feat" ...$args
+}
+
+# Image Management Aliases
+alias rsz50p = imagemagick_resize_50
+alias rsz500 = imagemagick_resize_500
+alias rsz720 = imagemagick_resize_720
+alias coltxt = pick_color_fill_text
+alias mpx = move_download_pix_to_pictures_dir
+alias rpx = remove_pix
+alias shave = imagemagick_shave
+alias ytt = youtube_thumbnail
+
+# Miscellaneous Aliases
+alias clock = tty-clock -B -C 5 -c
+def instadl [...args] {
+    $env.RX | path join "igdn.sh" | run $in ...$args
+}
+alias or = ^open /Volumes/cold/ulto/
+def oss [] {
+    run ^open -a ScreenSaverEngine
+}
+alias trv = trim_video
+alias wst = wezterm cli set-tab-title 
+alias zl = zellij
+
+# eza (ls alternative)
+alias ls = eza --color=always --icons --git 
+alias la = ls -a --git
+def ldn [] {
+    ls $env.HOME/Downloads
+}
+alias lsd = ls -D
+alias lsf = ls -f
+alias lt = ls --tree --level=2
+alias lta = ls --tree --level=3 --long --git
+alias lx = ls -lbhHgUmuSa@
+alias tree = tree_with_exclusions
+
+# Directory Navigation Aliases
+alias ... = ../..
+alias .... = ../../..
+
+# Brew Aliases
+alias bi = brew install 
+alias bl = brew list
+alias bri = brew reinstall
+alias brm = brew remove --zap
+alias bu = brew update; brew upgrade; brew cleanup
+alias bci = brew install --cask 
+alias bs = brew search 
+
+# YouTube-DL
+alias ytd = yt_dlp_download
+alias ytx = yt_dlp_extract_audio
+alias ytf = yt_dlp_extract_audio_from_file
+alias yta = yt_dlp_download_with_aria2c
+
+# Luarocks Aliases
+alias lri = sudo luarocks install 
+alias lrl = sudo luarocks list
+alias lrs = sudo luarocks search 
+
+# Cargo Aliases
+alias ci = cargo install 
+
+# Nvim Aliases
+alias v = nvim
+alias va = open_aliases
+alias vf = open_functions
+alias vm = open_nvim_init
+alias vs = open_secrets
+alias vz = open_zshrc
+alias vh = open_zsh_history
+alias vw = open_wezterm
+
+# Rclone Aliases
+alias rcm = rclone_move
+alias rcc = rclone_copy
+alias rdo = rclone_dedupe_old
+alias rdn = rclone_dedupe_new
+
+# Tmux Aliases
+alias t = tmux
+alias ta = tmux a -t 
+alias tl = tmux ls
+alias tn = tmux_new_sesh
+alias tm = tmuxinator
+alias ttmp = tmux new-session -A -s tmp
+
+# ===========================
+# Clipboard Functions
+# ===========================
+
+def read_file_content [file_path: string] {
+    if not ($file_path | path exists) {
+        echo "(눈︿눈)  File $file_path does not exist."
+        return
+    }
+    cat $file_path
+}
+
+def copy_file_contents_to_clipboard [file_path: string] {
+    read_file_content $file_path | clip
+}
+
+def paste_to_file [filename: string] {
+    if ($filename | is-empty) {
+        echo "┐(￣ヘ￣)┌  paste_to_file <filename>"
+        return
+    }
+    clip | append $filename
+}
+
+def paste_output_to_clipboard [command: string] {
+    if ($command | is-empty) {
+        echo "٩(•̀ᴗ•́)و  Copying command output to clipboard"
+        return
+    }
+    eval $command | clip
+}
+# ===========================
+# File Management Functions
+# ===========================
+let BACKUP_DIR = "/Volumes/armor/"
+
+def freespace [disk?: string] {
+    if ($disk | is-empty) {
+        echo "┐(￣ヘ￣)┌  ($env.CURRENT_FILE) <disk>"
+        echo "Example: ($env.CURRENT_FILE) /dev/disk1s1"
+        echo ""
+        echo "Possible disks:"
+        ^df -h | lines | where { $it | str starts-with "/dev/disk" or $it | str contains "Filesystem" }
+        return
+    }
+
+    echo "٩(•̀ᴗ•́)و  Cleaning purgeable files from disk: ($disk)...."
+    ^diskutil secureErase freespace 0 $disk
+}
+
+def move_repo_files_larger_than_99M [pwd_command: string] {
+    let target_dir = $"($env.HOME)/jackpot"
+    let files_to_move = (fd -tf -S +99M | lines)
+
+    for file in $files_to_move {
+        let filename = ($file | path basename)
+        let target_path = $"($target_dir)/($file | path dirname)"
+        mkdir $target_path
+        mv $file $"($target_path)/($filename)"
+    }
+}
+
+## Create and Open Script Files
+def create_script_file [name: string] {
+    let script_name = $"($name).sh"
+    let script_file = $"($env.HOME)/.config/rx/($script_name)"
+
+    if ($script_file | path exists) {
+        echo "(눈︿눈)  Script file ($script_file) already exists."
+        return
+    }
+
+    mkdir ($script_file | path dirname)
+    $"#!/bin/zsh" | save $script_file
+    chmod +x $script_file
+}
+
+def open_script_file_in_editor [name: string] {
+    let script_name = $"($name).sh"
+    let script_file = $"($env.HOME)/.config/rx/($script_name)"
+
+    if (not ($script_file | path exists)) {
+        echo "(눈︿눈)  Script file ($script_file) does not exist."
+        return
+    }
+
+    nvim $script_file
+}
+
+def create_script_and_open [name: string] {
+    create_script_file $name
+    open_script_file_in_editor $name
+}
+
+## Move Files
+def move_iso [] {
+    let source_dir = $env.DN
+    let target_dir = "/Volumes/armor/iso/"
+
+    if (not ($target_dir | path exists)) {
+        echo "0_0 you tard, ($target_dir) does NOT exist"
+        return
+    }
+
+    for ext in [iso dmg pkg] {
+        ls $"($source_dir)/*.($ext)" | each { |file|
+            mv $file.name $target_dir
+            echo "( ⋂‿⋂) ($file.name | path basename) made its way to ($target_dir)"
+        }
+    }
+}
+
+def move_nix [] {
+    let source_dir = $env.DN
+    let target_dir = $"($BACKUP_DIR)/iso/nix/"
+
+    if (not ($target_dir | path exists)) {
+        echo "0_0 you tard, ($target_dir) does NOT exist"
+        return
+    }
+
+    ls $"($source_dir)/*.iso" | each { |file|
+        mv $file.name $target_dir
+        echo "( ⋂‿⋂) ($file.name | path basename) made its way to ($target_dir)"
+    }
+}
+
+def move_download_pix_to_pictures_dir [] {
+    let source_dir = $env.DN
+    let target_dir = $"($env.HOME)/Pictures/"
+
+    for ext in [heic jpg jpeg png webp] {
+        ls $"($source_dir)/*.($ext)" | each { |file|
+            mv $file.name $target_dir
+            echo "( ⋂‿⋂) ($file.name | path basename) made its way to ($target_dir)"
+        }
+    }
+}
+
+def move_ipa_to_target_directory [] {
+    let source_directory = $env.DN
+    let target_directory = $"($BACKUP_DIR)/iso/ipa/"
+
+    ls $"($source_directory)/*.ipa" | each { |file|
+        mv $file.name $target_directory
+        echo "( ⋂‿⋂) ($file.name | path basename) was moved to ($target_directory)"
+    }
+}
+
+## Remove Files
+def remove_pix [] {
+    let old_dir = $env.PWD
+    cd /Volumes/cold/ulto/
+    fd -e jpg -e jpeg -e png -e webp -e nfo -e txt -x rm -v
+    cd $old_dir
+}
+
+## Extract Archives
+def expand [...filenames: string] {
+    for filename in $filenames {
+        if ($filename | path exists) {
+            match ($filename | path parse | get extension) {
+                "tar.bz2" => { tar xjf $filename },
+                "tar.gz" => { tar xzf $filename },
+                "bz2" => { bunzip2 $filename },
+                "rar" => { unrar x $filename },
+                "gz" => { gunzip $filename },
+                "tar" => { tar xf $filename },
+                "tbz2" => { tar xjf $filename },
+                "tgz" => { tar xzf $filename },
+                "zip" => { unzip $filename },
+                "Z" => { uncompress $filename },
+                "7z" => { 7z x $filename },
+                _ => { echo "(눈︿눈) $filename cannot be extracted via ex()" }
+            }
+        } else {
+            echo "(눈︿눈) $filename is not found"
+        }
+    }
+}
+
+## Create and Navigate to Directory
+def mkd [...dirs: string] {
+    mkdir $dirs
+    cd ($dirs | last)
+}
+
+## Backup and Restore Files
+def bak [file: string] {
+    let filename = ($file | path parse).stem
+    let extension = ($file | path parse).extension
+
+    if $extension == "bak" {
+        let base_filename = ($filename | path parse).stem
+        mv $file $base_filename
+        echo "Removed.bak extension from ($file). New filename: ($base_filename)"
+    } else {
+        let new_filename = $"($file).bak"
+        if ($new_filename | path exists) {
+            echo "(눈︿눈)  ($new_filename) already exists."
+        } else {
+            mv $file $new_filename
+            echo "Appended.bak extension to ($file). New filename: ($new_filename)"
+        }
+    }
+}
+
+def debak [target: string] {
+    if ($target | str contains ".bak") {
+        let new_name = ($target | str replace ".bak" "")
+        if ($new_name | path exists) {
+            echo "(눈︿눈)  File or directory $new_name already exists."
+            return
+        }
+        mv $target $new_name
+        echo "Removed.bak from $target. New name: $new_name"
+    } else {
+        echo "No.bak found in $target."
+    }
+}
+# ===========================
+# Miscellaneous Functions
+# ===========================
+
+def timer [time: string] {
+    ^termdown $time
+    ^cvlc $"($env.HOME)/Music/ddd.mp3" --play-and-exit >/dev/null
+}
+
+def tree_with_exclusions [] {
+    ^tree -a -I ".DS_Store|.git|node_modules|vendor/bundle" -N
+}
+
+def fd_exclude_dir_find_name_move_to_exclude_dir [pattern: string, dir: string] {
+    ^fd -tf $pattern -E $dir -x mv {} $dir
+}
+
+def fd_files_move_to_dir [pattern: string, target_dir: string] {
+    ^fd -tf -d 1 $pattern -x mv -v {} $target_dir
+}
+
+def fd_type [] {
+    ^fd --type d | lines | each { |dir|
+        echo $dir
+    }
+}
+
+def slug [filename: string] {
+    if ($filename | is-empty) {
+        echo "(￣ヘ￣)  slugifying <filename>"
+        return 1
+    }
+
+    let slugified = (^slugify -atcdu $filename)
+    echo $slugified
+}
+
+def trim_video [input_file: string, output_file: string, start_time?: string] {
+    if ($start_time | is-empty) {
+        ^ffmpeg -i $input_file -c:v copy -c:a copy $output_file
+    } else {
+        ^ffmpeg -i $input_file -ss $start_time -c:v copy -c:a copy $output_file
+    }
+}
+
+def open_nvim_init [] {
+    nvim $"($env.HOME)/.lua-is-the-devil/nvim/init.lua"
+}
+
+def open_wezterm [] {
+    nvim $"($env.XDG_CONFIG_HOME)/wezterm.lua"
+}
+
+def open_zsh_history [] {
+    nvim $"($env.HOME)/.zsh_history"
+}
+
+def open_zshrc [] {
+    nvim $"($env.DOTZ)/zshrc"
+}
+
+def open_aliases [] {
+    nvim $"($env.DOTZ)/scripts/aliases.zsh"
+}
+
+def open_functions [] {
+    cd $"($env.DOTZ)/scripts/"
+    nvim -c "args *.zsh"
+}
+
+def ffmpeg_remux_audio_video [input_file1: string, input_file2: string, output_file: string] {
+    ^ffmpeg -i $input_file1 -i $input_file2 -c copy $output_file
+}
+
+def spotify_dl [url: string] {
+    ^spotdl download $url
+}
+
+def mkv_to_mp4 [] {
+    ls *.mkv | each { |f|
+        let output_file = ($f.name | str replace '.mkv' '.mp4')
+        ^ffmpeg -i $f.name -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k $output_file
+    }
+}
+# ===========================
+# ImageMagick Functions
+# ===========================
+
+def imagemagick_resize_50 [input_file: string, output_file: string] {
+    ^magick $input_file -resize 50% $output_file
+}
+
+def imagemagick_resize_500 [input_file: string, output_file: string] {
+    ^magick $input_file -resize 500 $output_file
+}
+
+def imagemagick_resize_720 [input_file: string, output_file: string] {
+    ^magick $input_file -resize 720 $output_file
+}
+
+def imagemagick_shave [input_file: string, output_file: string, shave_args: string] {
+    ^magick $input_file -shave $shave_args $output_file
+}
+
+def pick_color_fill_text [
+    label: string,
+    font: string,
+    font_size: string,
+    fill: string,
+    filename: string,
+    stroke?: string
+] {
+    if ($stroke | is-empty) {
+        ^magick -background transparent -density 250 -pointsize $font_size -font $font -interline-spacing -15 -fill $fill -gravity center label:"$label" "$filename.png"
+    } else {
+        ^magick -background transparent -density 250 -pointsize $font_size -font $font -interline-spacing -15 -fill $fill -stroke $stroke -strokewidth 2 -gravity center label:"$label" "$filename.png"
+    }
+}
+
+def youtube_thumbnail [
+    label: string,
+    filename: string,
+    font?: string = "Arial-Black",
+    template_img?: string = "$SCS/images/YT-thumbnail-template.png",
+    output_dir?: string = "/Volumes/cold/sucias-pod-files/YT-thumbs",
+    output_file?: string = "$output_dir/${filename}-thumb.png"
+] {
+    # Create temporary label image
+    ^magick -background transparent -density 250 -pointsize 27 -font $font -interline-spacing -35 -fill gold -stroke magenta -strokewidth 2 -gravity center label:"$label" -rotate -12 $output_file
+
+    # Composite label image with template and save final output
+    ^magick composite -geometry +600+20 $output_file $template_img $output_file
+}
+# ===========================
+# Git Functions
+# ===========================
+
+def is_apple_silicon [] {
+    if ($env.CPU_ARCH == "arm64") {
+        return true
+    } else {
+        return false
+    }
+}
+def setup_ssh [] {
+    if ($env.SSH_AGENT_PID | is-empty) or (ps | where pid == $env.SSH_AGENT_PID | is-empty) {
+        eval (^ssh-agent -s)
+    }
+}
+def git_pull [remote?: string, branch?: string] {
+    setup_ssh
+    let remote = if ($remote | is-empty) { "origin" } else { $remote }
+    let branch = if ($branch | is-empty) { (^git rev-parse --abbrev-ref HEAD) } else { $branch }
+    ^git pull --rebase -q $remote $branch
+}
+
+def git_push [remote?: string, branch?: string] {
+    setup_ssh
+    let remote = if ($remote | is-empty) { "origin" } else { $remote }
+    let branch = if ($branch | is-empty) { (^git rev-parse --abbrev-ref HEAD) } else { $branch }
+    ^git push -q $remote $branch
+}
+
+def git_add [] {
+    ^git add.
+}
+
+def git_commit_message [message?: string] {
+    if ($message | is-empty) {
+        let today = (^date +%Y-%m-%d)
+        let changed_files = (^git status --short | awk {print $2} | str join "\n")
+        let message = $"$today\nChanged files:\n$changed_files"
+    } else {
+        let message = $message
+    }
+
+    ^git commit -m $message
+    if (^git commit -m $message | is-error) {
+        echo "(X︿x )  Failed to commit changes."
+        return 1
+    }
+}
+
+def check_git_status [repos] {
+    for repo in $repos {
+        if ($repo | path exists) {
+            try $repo catch { continue }
+            echo "Checking git status for $repo"
+            ^git status
+            try {
+                cd -
+            } catch {
+                
+            continue }
+        } else {
+            echo "Directory $repo does not exist"
+        }
+    }
+}
+
+
+def git_add_commit_push [message?: string] {
+    setup_ssh
+    git_add
+    git_commit_message $message
+    git_push
+}
+# ===========================
+# Rclone functions
+# ===========================
+
+let base_opts = "-P --exclude-from $env.XDG_CONFIG_HOME/clear --fast-list"
+let move_opts = "--delete-empty-src-dirs"
+let new_dedupe = "--dedupe-mode newest"
+let old_dedupe = "--dedupe-mode oldest"
+
+# Define a function to execute rclone commands
+def execute_rclone_command [
+    command: string,
+    source_dir: string,
+    target_dir?: string,
+    extra_opts?: string
+] {
+    if not ($source_dir | path exists) {
+        echo "(눈︿눈)   Source file or directory $source_dir does not exist."
+        return 1
+    }
+
+    ^rclone $command $base_opts $source_dir $target_dir $extra_opts
+}
+
+## Copy with rclone
+# usage: rclone_copy <source_dir> <target_dir>
+def rclone_copy [source_dir: string, target_dir: string] {
+    execute_rclone_command "copy" $source_dir $target_dir
+}
+
+## Move with rclone
+# usage: rclone_move <source_dir> <target_dir>
+def rclone_move [source_dir: string, target_dir: string] {
+    execute_rclone_command "move" $source_dir $target_dir $move_opts
+}
+
+## Dedupe with rclone keeping newest files
+# usage: rclone_dedupe_new <source_dir>
+def rclone_dedupe_new [source_dir: string] {
+    execute_rclone_command "dedupe" $source_dir "--by-hash" $new_dedupe
+}
+
+## Dedupe with rclone keeping oldest files
+# usage: rclone_dedupe_old <source_dir>
+def rclone_dedupe_old [source_dir: string] {
+    execute_rclone_command "dedupe" $source_dir "--by-hash" $old_dedupe
+}
+# ===========================
+# Torrent Management Functions
+# ===========================
+let TORRENT_DIR = /Volumes/kalisma/torrent
+let BACKUP_DIR = /Volumes/armor
+let REPOS = [
+  $"($env.HOME)/.dotfiles",
+  $"($env.HOME)/.lua-is-the-devil",
+  $"($env.HOME)/.noktados",
+  $"($env.HOME)/Documents/widclub",
+  $"($env.HOME)/notes"
+]
+
+## Open Torrent Files
+def open_downloaded_torrents [] {
+  ls $"($env.DN)/*.torrent" | each { |file| open $file.name }
+  ^open -a wezterm
+}
+
+## Move Torrent Files
+def move_torrents [source_dir: string, target_dir: string, pattern: string] {
+  if not ($target_dir | path exists) {
+    mkdir $target_dir
+  }
+  fd -e torrent $pattern --search-path $source_dir -X mv -v {} $target_dir
+}
+
+def move_emp_torrents [] {
+  cd $env.DN
+  fd -tf -e torrent "empornium" -x mv {} "/Volumes/kalisma/torrent/EMP/"
+}
+
+def move_mam_torrents [] {
+    let torrent_dir = "/Volumes/kalisma/torrent/MAM/"
+    let download_dir = $env.DN
+
+    fd -e torrent --regex '\[[0-9]{5,6}\]' $download_dir -x mv {} $torrent_dir
+}
+
+def move_btn_torrents [] {
+  let destination = $"($TORRENT_DIR)/BTN"
+  ls $"($env.DN)/*.torrent" | each { |file|
+    let tracker_info = (^transmission-show $file.name | grep -o "landof")
+    if ($tracker_info | is-not-empty) {
+      mv -v $file.name $destination
+    }
+  }
+}
+
+def open_btn_torrents_in_transmission [] {
+  ls $"($env.DN)/*.torrent" | each { |file|
+    let tracker_info = (^transmission-show $file.name | grep -o "landof")
+    if ($tracker_info | is-not-empty) {
+     ^open -a "Transmission" $file.name
+    }
+  }
+}
+
+def move_ptp_torrents [] {
+  let destination = $"($TORRENT_DIR)/PTP"
+  ls $"($env.DN)/*.torrent" | each { |file|
+    let tracker_info = (^transmission-show $file.name | grep -o "passthepopcorn")
+    if ($tracker_info | is-not-empty) {
+      mv -v $file.name $destination
+    }
+  }
+}
+
+def open_ptp_torrents_in_deluge [] {
+  ls $"($env.DN)/*.torrent" | each { |file|
+    let tracker_info = (^transmission-show $file.name | grep -o "passthepopcorn")
+    if ($tracker_info | is-not-empty) {
+     ^open -a "Deluge" $file.name
+    }
+  }
+}
+
+def move_all_torrents [] {
+  move_emp_torrents
+  move_ptp_torrents
+  move_mam_torrents
+  move_btn_torrents
+  ^open -a wezterm
+}
+# ===========================
+# YouTube-DL Functions
+# ===========================
+
+def yt_dlp_download [...args: string] {
+    ^yt-dlp --embed-chapters --no-warnings --format "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]" -o "%(title)s.%(ext)s" $args
+}
+
+def yt_dlp_extract_audio [...args: string] {
+    ^yt-dlp -x --audio-format "mp3/m4a" --audio-quality 0 --write-thumbnail --embed-metadata --concurrent-fragments 6 --yes-playlist -o "%(artist)s - %(title)s.%(ext)s" --ignore-errors --no-overwrites --continue $args
+}
+
+def yt_dlp_extract_audio_from_file [source_file: string] {
+    let temp_file = (mktemp)
+    let output_template = "%(title)s.%(ext)s"
+
+    while read -r url; do
+        let existing_file = (^yt-dlp --get-filename -o $output_template --format "mp3/m4a" $url)
+        if ($existing_file | path exists) {
+            continue
+        }
+
+        if (^yt-dlp -x --format "mp3/m4a" --audio-quality 0 --write-thumbnail --embed-metadata --concurrent-fragments 6 --yes-playlist -o $output_template --ignore-errors --no-overwrites --cookies "$env.HOME/Desktop/cookies.txt" --continue $url | is-success); then
+            : # Do nothing on success
+        else
+            echo $url >> $temp_file
+            echo "Failed to download: $url"
+        fi
+    done < $source_file
+
+    mv $temp_file $source_file
+    echo "Completed processing. URLs of failed downloads (if any) remain in $source_file"
+}

@@ -78,3 +78,98 @@ lsd
 exit
 v .config/zsh/scripts/spotdl-dl-errs.log
 exit
+ctc .config/zsh/scripts/aliases.zsh
+ctc .config/nushell/config.nu
+exit
+nvim .config/nushell/config.nu
+source .config/nushell/config.nu
+exit
+nvim .config/nushell/config.nu
+exit
+ctc .config/nushell/config.nu
+v .config/nushell/scripts/aliases.nu
+nvim .config/nushell/config.nu
+exit
+cat scripts/aliases.nu scripts/clipboard.nu scripts/file-management.nu scripts/functions.nu scripts/magick.nu scripts/git.nu scripts/rclone.nu scripts/torrent.nu scripts/youtube.nu | save --append config.nu
+exit
+c
+clear
+exit
+v config.nu
+nvim config.nu
+ctc config.nu
+exit
+c-
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+v config.nu
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+nvim config.nu
+exit
+open /Volumes/cold/ulto/
+open -h
+open -a Finder /Volumes/cold/ulto/
+open .
+^open .
+exit
+oss
+exit
+cd ; clear
+exit
+cd ; clear
+exit
+exidt
+exit
+/Volumes/
+fd -td torrent
+kalisma/torrent/
+ls
+EMP/
+where name =~ "empornium"
+ls
+fd -e torrent empornium
+c-
+cd 
+.config/nushell/
+exit
+cd -
+/Volumes/kalisma/torrent/MAM/
+ls
+cd -
+fd -e torrent -g '[0-9]{5,6}'
+fd -e torrent -g '[0-9]{6,6}'
+fd -e torrent -g '[0-9]{6}'
+fd -e torrent
+fd -e torrent -g '\[[0-9]{5,6}\]'
+fd -e torrent --regex '\[[0-9]{5,6}\]'
+cd -
+exit
