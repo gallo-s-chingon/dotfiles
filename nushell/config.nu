@@ -908,20 +908,14 @@ $env.DN = $env.HOME + "/Downloads"
 $env.SCS = $env.DX + "/webpage"
 $env.SUSO = $env.HOME + "/sucias-social"
 
-# Ensure XDG_BIN_HOME is in PATH
-let xdg_bin_home = $env.XDG_BIN_HOME | default ($env.XDG_CONFIG_HOME + "/bin")
-if! ($env.PATH | split row (char esep) | any { |x| $x == $xdg_bin_home }) {
-  $env.PATH = ($env.PATH | append $xdg_bin_home)
-}
-
-# Add other paths to PATH if necessary
-$env.PATH = ($env.PATH | append "/opt/homebrew/opt/ruby/bin")
-
-# Initialize rbenv
-if (which rbenv | is-success) {
-  let rbenv_init = (rbenv init --path)
-  eval $rbenv_init
-}
+def cfg [] { $env.CF }
+def nv [] { $env.NV }
+def rx [] { $env.RX }
+def dx [] { $env.DX }
+def dn [] { $env.DN }
+def scs [] { $env.SCS }
+def dotz [] { $env.DOTZ }
+def not [] { $env.NOT }
 
 # History settings
 let history_file = $env.HOME + "/.nushell_history"
@@ -974,11 +968,12 @@ alias fdf = fd -tf -d 1
 alias f = fzf 
 alias free = freespace
 alias ft = fd_type
-def mk [...args] {
-    mkdir -v $args
-}
 alias mia = move_ipa_to_target_directory
 alias mio = move_iso
+def mk {
+    mkdir -p $dir;
+    cd $dir
+}
 def mtt [] {
     sudo rm -rfv /Volumes/*/.Trashes
     sudo rm -rfv $env.HOME/.Trash
@@ -1078,7 +1073,6 @@ alias ci = cargo install
 
 # Nvim Aliases
 alias v = nvim
-alias va = open_aliases
 alias vf = open_functions
 alias vm = open_nvim_init
 alias vs = open_secrets
@@ -1282,7 +1276,7 @@ def expand [...filenames: string] {
 }
 
 ## Create and Navigate to Directory
-def mkd [...dirs: string] {
+def mkd [...dirs] {
     mkdir $dirs
     cd ($dirs | last)
 }
@@ -1381,8 +1375,8 @@ def open_zshrc [] {
     nvim $"($env.DOTZ)/zshrc"
 }
 
-def open_aliases [] {
-    nvim $"($env.DOTZ)/scripts/aliases.zsh"
+def vn [] { #open_aliases
+    ^nvim $"($env.CF)/nushell/config.nu"
 }
 
 def open_functions [] {
@@ -1506,7 +1500,10 @@ def git_commit_message [message?: string] {
 def check_git_status [repos] {
     for repo in $repos {
         if ($repo | path exists) {
-            try $repo catch { continue }
+            try {
+                $repo
+            } catch {
+                continue }
             echo "Checking git status for $repo"
             ^git status
             try {
@@ -1670,24 +1667,25 @@ def yt_dlp_extract_audio [...args: string] {
     ^yt-dlp -x --audio-format "mp3/m4a" --audio-quality 0 --write-thumbnail --embed-metadata --concurrent-fragments 6 --yes-playlist -o "%(artist)s - %(title)s.%(ext)s" --ignore-errors --no-overwrites --continue $args
 }
 
-def yt_dlp_extract_audio_from_file [source_file: string] {
-    let temp_file = (mktemp)
-    let output_template = "%(title)s.%(ext)s"
+def yt_dlp_extract_audio_from_file (file_path: string) {
+    # Create or clear the log file
+    let log_file = "download_errors.log"
+    open $log_file | each { |_| rm $log_file }
 
-    while read -r url; do
-        let existing_file = (^yt-dlp --get-filename -o $output_template --format "mp3/m4a" $url)
-        if ($existing_file | path exists) {
-            continue
+    # Read URLs from the specified file
+    let urls = open $file_path | get 0
+
+    # Iterate over each URL
+    for $url in $urls {
+        # Attempt to download audio using yt-dlp
+        let result = run yt-dlp -x --audio-format "mp3/m4a" --audio-quality 0 --write-thumbnail --embed-metadata --concurrent-fragments 6 --yes-playlist -o "%(artist)s - %(title)s.%(ext)s" --ignore-errors --no-overwrites --continue $url
+
+        # Check if the download was successful
+        if ($result.status != 0) {
+            # Log the URL if there was an error
+            echo $url >> $log_file
         }
+    }
 
-        if (^yt-dlp -x --format "mp3/m4a" --audio-quality 0 --write-thumbnail --embed-metadata --concurrent-fragments 6 --yes-playlist -o $output_template --ignore-errors --no-overwrites --cookies "$env.HOME/Desktop/cookies.txt" --continue $url | is-success); then
-            : # Do nothing on success
-        else
-            echo $url >> $temp_file
-            echo "Failed to download: $url"
-        fi
-    done < $source_file
-
-    mv $temp_file $source_file
-    echo "Completed processing. URLs of failed downloads (if any) remain in $source_file"
+    echo "Download complete. Check '$log_file' for any errors."
 }

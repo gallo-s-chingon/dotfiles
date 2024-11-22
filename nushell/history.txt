@@ -1,0 +1,55 @@
+exit
+cd
+ls
+v .config/nushell/config.nu
+which nu
+vn
+va
+v .config/nushell/config.nu
+va
+exdt
+exit
+v nushell/config.nu
+va
+v nushell/config.nu
+brm mas
+vn
+cd
+mk .cache/starship
+mkd .cache/starship
+..
+cd
+exit
+ls
+cd
+lt
+not
+notes
+lsd
+notes/
+lt
+lsd
+4-archive/mnc/
+...
+cd -
+....
+c-
+cd
+c
+mk .cache/starship
+vn
+vn
+exit
+cd
+mk .cache/starship
+exit
+vn
+v nushell/config.nu
+nvim nushell/config.nu
+exit
+nvim nushell/config.nu
+exit
+exdt
+exit
+v nushell/config.nu
+nvim nushell/config.nu
