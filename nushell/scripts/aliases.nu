@@ -30,7 +30,7 @@ alias gph = 'git_push'
 alias gst = 'git status'
 
 # File Management Aliases
-alias bydate = '$RX/sort-file-by-date.sh'
+alias bydate = '$env.RX/sort-file-by-date.sh'
 alias d = 'fd -H -t f.DS_Store -X rm -frv'
 alias fdm = 'fd_files_move_to_dir'
 alias fdd = 'fd_exclude_dir_find_name_move_to_exclude_dir'
@@ -43,7 +43,7 @@ alias mia = 'move_ipa_to_target_directory'
 alias mio = 'move_iso'
 alias mtt = 'sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv $HOME/.Trash'
 alias rm = 'rm -rfv'
-alias orgf = '$RX/sort-file-by-date'
+alias orgf = '$env.RX/sort-file-by-date'
 alias srm = 'sudo rm -rfv'
 alias mkrx = 'create_script_and_open'
 
@@ -60,9 +60,9 @@ alias opt = 'open_ptp_torrents_in_deluge'
 alias odt = 'open_downloaded_torrents'
 
 # Blog Aliases
-alias blog = '$RX/blog.sh blog'
-alias epi = '$RX/blog.sh epi'
-alias feat = '$RX/blog.sh feat'
+alias blog = '$env.RX/blog.sh blog'
+alias epi = '$env.RX/blog.sh epi'
+alias feat = '$env.RX/blog.sh feat'
 
 # Image Management Aliases
 alias 50p = 'imagemagick_resize_50'
@@ -76,7 +76,7 @@ alias ytt = 'youtube_thumbnail'
 
 # Miscellaneous Aliases
 alias clock = 'tty-clock -B -C 5 -c'
-alias instadl = '$RX/igdn.sh'
+alias instadl = '$env.RX/igdn.sh'
 alias or = 'open /Volumes/cold/ulto/'
 alias oss = 'open -a ScreenSaverEngine'
 alias res = 'source $HOME/.zshenv && szr'
@@ -97,8 +97,9 @@ alias lx = 'ls -lbhHgUmuSa@'
 alias tree = 'tree_with_exclusions'
 
 # Directory Navigation Aliases
-alias... = '../..'
-alias.... = '../../..'
+alias ... = '../..'
+alias .... = '../../..'
+alias ..... = '../../../..'
 
 # Brew Aliases
 alias bi = 'brew install '
