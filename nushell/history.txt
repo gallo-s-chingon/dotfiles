@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 exit
 cd
 ls
@@ -53,3 +54,14 @@ exdt
 exit
 v nushell/config.nu
 nvim nushell/config.nu
+=======
+or
+oss
+which or
+va
+gpl
+git pull
+exit
+v test.md
+exit
+>>>>>>> e451879 (lazy)
