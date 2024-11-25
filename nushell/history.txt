@@ -126,3 +126,28 @@ datetime -h
 mk .cache/starship
 cd
 starship init nu | save -f ~/.cache/starship/init.nu
+exit
+bi starship
+brew install starship
+bi carapace
+brew install carapace
+brew reinstall carapace
+.
+..
+la
+ls -a
+ls .cache/
+ls .cache/carapace/
+exit
+v nushell/config.nu
+nvim nushell/config.nu
+exit
+gst
+gac "nu conf tweaks"
+exit
+setup_ssh
+exit
+gac "nu conf tweaks"
+which gac
+exit
+gcp "nu conf tweaks"

@@ -212,7 +212,7 @@ $env.config = {
         external: {
             enable: true # set to false to prevent nushell looking into $env.PATH to find more suggestions, `false` recommended for WSL users as this look up may be very slow
             max_results: 100 # setting it lower can improve completion performance at the cost of omitting some options
-            completer: $carapace_completer # check carapace_completer above as an example
+            completer: null # check carapace_completer above as an example
         }
         use_ls_colors: true # set this to true to enable file/path/directory completions using LS_COLORS
     }
@@ -943,7 +943,7 @@ alias wrap = setterm --linewrap on
 # Git Aliases
 alias g = git
 alias gad = git_add
-alias gac = git_add_commit_push
+alias gcp = git_add_commit_push
 alias gcm = git_commit_message
 alias gcs = git_check_status # check the status of local repos, dirs listed at top of functions.zsh
 alias gfh = git fetch
@@ -1437,18 +1437,18 @@ def youtube_thumbnail [
 # Git Functions
 # ===========================
 
-def is_apple_silicon [] {
-    if ($env.CPU_ARCH == "arm64") {
-        return true
-    } else {
-        return false
-    }
-}
-def setup_ssh [] {
-    if ($env.SSH_AGENT_PID | is-empty) or (ps | where pid == $env.SSH_AGENT_PID | is-empty) {
-        eval (^ssh-agent -s)
-    }
-}
+# def is_apple_silicon [] {
+#     if ($env.CPU_ARCH == "arm64") {
+#         return true
+#     } else {
+#         return false
+#     }
+# }
+# def setup_ssh [] {
+#     if ($env.SSH_AGENT_PID | is-empty) or (ps | where pid == $env.SSH_AGENT_PID | is-empty) {
+#         eval (^ssh-agent -s)
+#     }
+# }
 def git_pull [remote?: string, branch?: string] {
     setup_ssh
     let remote = if ($remote | is-empty) { "origin" } else { $remote }
@@ -1505,7 +1505,6 @@ def check_git_status [repos] {
 
 
 def git_add_commit_push [message?: string] {
-    setup_ssh
     git_add
     git_commit_message $message
     git_push
