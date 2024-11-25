@@ -65,3 +65,64 @@ exit
 v test.md
 exit
 >>>>>>> e451879 (lazy)
+v config.nu
+nvim config.nu
+e
+exit
+nwim
+dt
+date
+date now
+date time
+date weekday_name
+date humanize
+date
+date now
+exit
+nvim config.nu
+mk test
+exit
+v config.nu
+ctc config.nu
+exit
+ctc config.nu
+exit
+...
+dx
+ls
+dx
+ls
+cd dx
+exit
+dx
+cd ~/Documents/
+ls 
+cd
+notes/4-archive/mnc/2024-03-11_46D/
+....
+..
+exit
+dx
+ls /Volumes/
+lt /Volumes/
+ls /Volumes/Untitled/
+lt /Volumes/Untitled/
+ls
+exit
+ls
+cd
+exit
+...
+ls
+help rm
+man rm
+format date
+date forma
+date format
+date -h
+date now
+datetime
+datetime -h
+mk .cache/starship
+cd
+starship init nu | save -f ~/.cache/starship/init.nu

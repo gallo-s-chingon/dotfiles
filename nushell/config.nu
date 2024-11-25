@@ -138,11 +138,6 @@ let light_theme = {
     shape_raw_string: light_purple
 }
 
-# External completer example
-let carapace_completer = {|spans|
-    carapace $spans.0 nushell ...$spans | from json
-}
-
 # The default config record. This is where much of your global configuration is setup.
 $env.config = {
     show_banner: false # true or false to enable or disable the welcome banner at startup
@@ -223,7 +218,7 @@ $env.config = {
     }
 
     filesize: {
-        metric: false # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
+        metric: true # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
         format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, auto
     }
 
@@ -899,7 +894,7 @@ $env.config = {
 # Set various environment variables
 $env.XDG_CONFIG_HOME = $env.HOME + "/.config"
 $env.CF = $env.XDG_CONFIG_HOME
-$env.DOTZ = $env.CF + "/zsh"
+$env.DOTN = $env.CF + "/nushell"
 $env.RX = $env.CF + "/rx"
 $env.NV = $env.HOME + "/.lua-is-the-devil"
 $env.NOT = $env.HOME + "/notes"
@@ -908,14 +903,14 @@ $env.DN = $env.HOME + "/Downloads"
 $env.SCS = $env.DX + "/webpage"
 $env.SUSO = $env.HOME + "/sucias-social"
 
-def cfg [] { $env.CF }
-def nv [] { $env.NV }
-def rx [] { $env.RX }
-def dx [] { $env.DX }
-def dn [] { $env.DN }
-def scs [] { $env.SCS }
-def dotz [] { $env.DOTZ }
-def not [] { $env.NOT }
+def --env cfg [] { cd $env.CF }
+def --env nv [] { cd $env.NV }
+def --env rx [] { cd $env.RX }
+def --env dx [] { cd $env.DX }
+def --env dn [] { cd $env.DN }
+def --env scs [] { cd $env.SCS }
+def --env dotn [] { cd $env.DOTN }
+def --env not [] { cd $env.NOT }
 
 # History settings
 let history_file = $env.HOME + "/.nushell_history"
@@ -939,7 +934,7 @@ alias ffav = ffmpeg_remux_audio_video
 alias sdd = spotify_dl
 alias grep = grep --color=auto
 alias ln = ln -i
-alias mnf = mediainfo
+alias mnf = ^mediainfo
 alias o. = ^open .
 alias ptc = paste_output_to_clipboard
 alias nowrap = setterm --linewrap off
@@ -970,8 +965,8 @@ alias free = freespace
 alias ft = fd_type
 alias mia = move_ipa_to_target_directory
 alias mio = move_iso
-def mk {
-    mkdir -p $dir;
+def --env mk [dir] {
+    mkdir -v $dir;
     cd $dir
 }
 def mtt [] {
@@ -979,9 +974,6 @@ def mtt [] {
     sudo rm -rfv $env.HOME/.Trash
 }
 alias rm = rm -rfv
-def orgf [] {
-    $env.RX | path join "sort-file-by-date" | run
-}
 alias srm = sudo rm -rfv
 alias mkrx = create_script_and_open
 
@@ -1045,15 +1037,19 @@ alias lx = ls -lbhHgUmuSa@
 alias tree = tree_with_exclusions
 
 # Directory Navigation Aliases
-alias ... = ../..
-alias .... = ../../..
+alias "..." = ../..
+alias "...." = ../../..
 
 # Brew Aliases
 alias bi = brew install 
 alias bl = brew list
 alias bri = brew reinstall
 alias brm = brew remove --zap
-alias bu = brew update; brew upgrade; brew cleanup
+def bu [] {
+    brew update
+    brew upgrade
+    brew cleanup
+}
 alias bci = brew install --cask 
 alias bs = brew search 
 
@@ -1063,11 +1059,6 @@ alias ytx = yt_dlp_extract_audio
 alias ytf = yt_dlp_extract_audio_from_file
 alias yta = yt_dlp_download_with_aria2c
 
-# Luarocks Aliases
-alias lri = sudo luarocks install 
-alias lrl = sudo luarocks list
-alias lrs = sudo luarocks search 
-
 # Cargo Aliases
 alias ci = cargo install 
 
@@ -1076,8 +1067,8 @@ alias v = nvim
 alias vf = open_functions
 alias vm = open_nvim_init
 alias vs = open_secrets
-alias vz = open_zshrc
-alias vh = open_zsh_history
+alias vz = open_nu_conf
+alias vh = open_nu_history
 alias vw = open_wezterm
 
 # Rclone Aliases
@@ -1098,18 +1089,13 @@ alias ttmp = tmux new-session -A -s tmp
 # Clipboard Functions
 # ===========================
 
-def read_file_content [file_path: string] {
-    if not ($file_path | path exists) {
-        echo "(눈︿눈)  File $file_path does not exist."
-        return
+def copy_file_contents_to_clipboard [file_path] {
+    if ($file_path | path exists) {
+        cat $file_path | pbcopy
+    } else {
+        echo "File not found. Please check the path is correct."
     }
-    cat $file_path
 }
-
-def copy_file_contents_to_clipboard [file_path: string] {
-    read_file_content $file_path | clip
-}
-
 def paste_to_file [filename: string] {
     if ($filename | is-empty) {
         echo "┐(￣ヘ￣)┌  paste_to_file <filename>"
@@ -1367,12 +1353,12 @@ def open_wezterm [] {
     nvim $"($env.XDG_CONFIG_HOME)/wezterm.lua"
 }
 
-def open_zsh_history [] {
-    nvim $"($env.HOME)/.zsh_history"
+def open_nu_history [] {
+    nvim $"($env.DOTN)/history.txt"
 }
 
-def open_zshrc [] {
-    nvim $"($env.DOTZ)/zshrc"
+def open_nu_conf [] {
+    nvim $"($env.DOTN)/config.nu"
 }
 
 def vn [] { #open_aliases
@@ -1380,8 +1366,8 @@ def vn [] { #open_aliases
 }
 
 def open_functions [] {
-    cd $"($env.DOTZ)/scripts/"
-    nvim -c "args *.zsh"
+    cd $"($env.DOTN)/scripts/"
+    nvim -c "args *.nu"
 }
 
 def ffmpeg_remux_audio_video [input_file1: string, input_file2: string, output_file: string] {
@@ -1574,8 +1560,15 @@ def rclone_dedupe_old [source_dir: string] {
 # ===========================
 # Torrent Management Functions
 # ===========================
-let TORRENT_DIR = /Volumes/kalisma/torrent
-let BACKUP_DIR = /Volumes/armor
+if ( '/Volumes/kalisma/torrent' | path exists ) {
+    let TORRENT_DIR = '/Volumes/kalisma/torrent'
+    # Any other code that uses TORRENT_DIR
+}
+if ( '/Volumes/armor' | path exists ) {
+    let BACKUP_DIR = '/Volumes/armor'
+    # Any other code that uses BACKUP_DIR
+}
+
 let REPOS = [
   $"($env.HOME)/.dotfiles",
   $"($env.HOME)/.lua-is-the-devil",
@@ -1611,7 +1604,7 @@ def move_mam_torrents [] {
 }
 
 def move_btn_torrents [] {
-  let destination = $"($TORRENT_DIR)/BTN"
+  let destination = "/Volumes/kalisma/torrent/BTN"
   ls $"($env.DN)/*.torrent" | each { |file|
     let tracker_info = (^transmission-show $file.name | grep -o "landof")
     if ($tracker_info | is-not-empty) {
@@ -1630,7 +1623,7 @@ def open_btn_torrents_in_transmission [] {
 }
 
 def move_ptp_torrents [] {
-  let destination = $"($TORRENT_DIR)/PTP"
+  let destination = "/Volumes/kalisma/torrent/PTP"
   ls $"($env.DN)/*.torrent" | each { |file|
     let tracker_info = (^transmission-show $file.name | grep -o "passthepopcorn")
     if ($tracker_info | is-not-empty) {
@@ -1689,3 +1682,5 @@ def yt_dlp_extract_audio_from_file (file_path: string) {
 
     echo "Download complete. Check '$log_file' for any errors."
 }
+use ~/.cache/starship/init.nu
+source ~/.cache/carapace/init.nu
