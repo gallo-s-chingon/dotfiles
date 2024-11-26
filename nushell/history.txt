@@ -151,3 +151,34 @@ gac "nu conf tweaks"
 which gac
 exit
 gcp "nu conf tweaks"
+git add .
+git commit -m "nu conf tweaks"
+git push
+gst
+git status
+v nushell/config.nu
+cd
+ls
+l
+ll
+la
+lt
+or
+z ipa
+exit
+oss
+^opes 
+^open -a ScreenSaverEngine
+oss
+^open -a ScreenSaverEngine
+or
+oss
+.config
+gpl
+git pull
+git commit -m "nu conf tweaks take dos"
+git add .
+gst
+git add . ; git push
+git pull
+exit
