@@ -1017,7 +1017,7 @@ def instadl [...args] {
 }
 alias or = ^open /Volumes/cold/ulto/
 def oss [] {
-    run ^open -a ScreenSaverEngine
+    ^open -a ScreenSaverEngine
 }
 alias trv = trim_video
 alias wst = wezterm cli set-tab-title 
