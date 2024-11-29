@@ -1088,12 +1088,12 @@ alias ttmp = tmux new-session -A -s tmp
 # ===========================
 # Clipboard Functions
 # ===========================
-
-def copy_file_contents_to_clipboard [file_path] {
+def copy_file_contents_to_clipboard [file_path: string] {
     if ($file_path | path exists) {
-        cat $file_path | pbcopy
+        cat $file_path ; pbcopy
+        echo "٩(•̀ᴗ•́)و File contents copied to clipboard."
     } else {
-        echo "File not found. Please check the path is correct."
+        echo "┐(￣ヘ￣)┌  File not found. Please check the path is correct."
     }
 }
 def paste_to_file [filename: string] {
@@ -1101,7 +1101,7 @@ def paste_to_file [filename: string] {
         echo "┐(￣ヘ￣)┌  paste_to_file <filename>"
         return
     }
-    clip | append $filename
+    pbpaste ; append $filename
 }
 
 def paste_output_to_clipboard [command: string] {
@@ -1109,7 +1109,7 @@ def paste_output_to_clipboard [command: string] {
         echo "٩(•̀ᴗ•́)و  Copying command output to clipboard"
         return
     }
-    eval $command | clip
+    eval $command ; pbpaste
 }
 # ===========================
 # File Management Functions
