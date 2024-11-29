@@ -928,6 +928,7 @@ alias ctc = copy_file_contents_to_clipboard
 def dt [] {
     date now | date format "+%F"
 }
+alias z = zoxide
 alias e = exit 0
 alias ex = expand
 alias ffav = ffmpeg_remux_audio_video
@@ -941,16 +942,13 @@ alias nowrap = setterm --linewrap off
 alias wrap = setterm --linewrap on
 
 # Git Aliases
-alias g = git
-alias gad = git_add
-alias gcp = git_add_commit_push
-alias gcm = git_commit_message
-alias gcs = git_check_status # check the status of local repos, dirs listed at top of functions.zsh
-alias gfh = git fetch
-alias gpl = git_pull
-alias gla = git_pull_all
-alias gph = git_push
+alias gc = git commit -m 
+alias gca = git commit -am 
 alias gst = git status
+alias glog = git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit
+alias gadd = git add .
+
+
 
 # File Management Aliases
 def bydate [] {
@@ -1067,7 +1065,6 @@ alias v = nvim
 alias vf = open_functions
 alias vm = open_nvim_init
 alias vs = open_secrets
-alias vz = open_nu_conf
 alias vh = open_nu_history
 alias vw = open_wezterm
 
@@ -1355,10 +1352,6 @@ def open_wezterm [] {
 
 def open_nu_history [] {
     nvim $"($env.DOTN)/history.txt"
-}
-
-def open_nu_conf [] {
-    nvim $"($env.DOTN)/config.nu"
 }
 
 def vn [] { #open_aliases
@@ -1683,3 +1676,6 @@ def yt_dlp_extract_audio_from_file (file_path: string) {
 }
 use ~/.cache/starship/init.nu
 source ~/.cache/carapace/init.nu
+source ~/.config/nushell/env.nu
+source ~/.local/share/atuin/init.nu
+source ~/.zoxide.nu

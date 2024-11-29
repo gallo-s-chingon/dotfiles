@@ -189,3 +189,43 @@ z ulto
 which fdm
 fdm reyna.de reyna-delacruz/
 exit
+vn
+bi starship
+exit
+nvim nushell/config.nu
+starship
+starship init
+starship init nu
+exit
+curl -sS https://starship.rs/install.sh | sh
+..
+ls .cache/starship/
+starship init nu | save -f ~/.cache/starship/init.nu
+$nu.env-path
+v .config/nushell/env.nu
+nvim .config/nushell/env.nu
+nvim .config/nushell/config.nu
+exit
+curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+atuin register
+atuin init nu | save ~/.local/share/atuin/init.nu
+exit
+nvim .config/nushell/config.nu
+exit
+gst
+.config/
+gst
+rm fish/
+exit
+zoxide init nushell | save -f ~/.zoxide.nu
+z movie
+zoxide movie
+zoxide -h
+vn
+vz
+vn
+exit
+z movie
+z movies
+c-
+exit
