@@ -14,3 +14,10 @@ c-
 gst
 ga
 gadd
+zoxide init nu | ~/.zoxide.nu
+cd
+touch .zoxide.nu
+gst
+e
+exit
+gst
