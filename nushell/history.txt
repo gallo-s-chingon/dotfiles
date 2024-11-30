@@ -21,3 +21,8 @@ gst
 e
 exit
 gst
+ls
+lt
+gst
+v .gitignore 
+gst
