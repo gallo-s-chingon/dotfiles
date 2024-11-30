@@ -968,17 +968,13 @@ def bydate [] {
     $env.RX | path join "sort-file-by-date.sh" | run
 }
 alias d = fd -H -t f.DS_Store -X rm -frv
-alias fdm = fd_files_move_to_dir
-alias fdd = fd_exclude_dir_find_name_move_to_exclude_dir
 alias fdf = fd -tf -d 1 
 alias f = fzf 
 alias free = freespace
 alias ft = fd_type
 alias mia = move_ipa_to_target_directory
-alias mio = move_iso
 def --env mk [dir] {
     mkdir -v $dir;
-    cd $dir
 }
 def mtt [] {
     sudo rm -rfv /Volumes/*/.Trashes
@@ -1075,10 +1071,6 @@ alias ci = cargo install
 
 # Nvim Aliases
 alias v = nvim
-alias vf = open_functions
-alias vm = open_nvim_init
-alias vs = open_secrets
-alias vh = open_nu_history
 alias vw = open_wezterm
 
 # Rclone Aliases
@@ -1106,9 +1098,9 @@ def copy_file_contents_to_clipboard [file_path: string] {
         echo "┐(￣ヘ￣)┌  File not found. Please check the path is correct."
     }
 }
-def paste_to_file [filename: string] {
+def paste-to-file [filename: string] {
     if ($filename | is-empty) {
-        echo "┐(￣ヘ￣)┌  paste_to_file <filename>"
+        echo "┐(￣ヘ￣)┌  paste-to-file <filename>"
         return
     }
     pbpaste ; append $filename
@@ -1125,20 +1117,6 @@ def paste_output_to_clipboard [command: string] {
 # File Management Functions
 # ===========================
 let BACKUP_DIR = "/Volumes/armor/"
-
-def freespace [disk?: string] {
-    if ($disk | is-empty) {
-        echo "┐(￣ヘ￣)┌  ($env.CURRENT_FILE) <disk>"
-        echo "Example: ($env.CURRENT_FILE) /dev/disk1s1"
-        echo ""
-        echo "Possible disks:"
-        ^df -h | lines | where { $it | str starts-with "/dev/disk" or $it | str contains "Filesystem" }
-        return
-    }
-
-    echo "٩(•̀ᴗ•́)و  Cleaning purgeable files from disk: ($disk)...."
-    ^diskutil secureErase freespace 0 $disk
-}
 
 def move_repo_files_larger_than_99M [pwd_command: string] {
     let target_dir = $"($env.HOME)/jackpot"
@@ -1185,7 +1163,7 @@ def create_script_and_open [name: string] {
 }
 
 ## Move Files
-def move_iso [] {
+def mvo [] { # move-iso-file from downloads to /Volumes/armor/iso/
     let source_dir = $env.DN
     let target_dir = "/Volumes/armor/iso/"
 
@@ -1195,25 +1173,35 @@ def move_iso [] {
     }
 
     for ext in [iso dmg pkg] {
-        ls $"($source_dir)/*.($ext)" | each { |file|
-            mv $file.name $target_dir
-            echo "( ⋂‿⋂) ($file.name | path basename) made its way to ($target_dir)"
+        let files = (glob $"($source_dir)/*.($ext)")
+        if ($files | is-empty) {
+            continue
+        }
+        $files | each { |file|
+            mv $file $target_dir
+            echo "( ⋂‿⋂) (($file | path basename)) made its way to ($target_dir)"
         }
     }
 }
 
 def move_nix [] {
     let source_dir = $env.DN
-    let target_dir = $"($BACKUP_DIR)/iso/nix/"
+    let target_dir = $"($env.BACKUP_DIR)/iso/nix/"
 
     if (not ($target_dir | path exists)) {
         echo "0_0 you tard, ($target_dir) does NOT exist"
         return
     }
 
-    ls $"($source_dir)/*.iso" | each { |file|
-        mv $file.name $target_dir
-        echo "( ⋂‿⋂) ($file.name | path basename) made its way to ($target_dir)"
+    let files = (glob $"($source_dir)/*.iso")
+    if ($files | is-empty) {
+        echo "No .iso files found in ($source_dir)"
+        return
+    }
+
+    $files | each { |file|
+        mv $file $target_dir
+        echo "( ⋂‿⋂) (($file | path basename)) made its way to ($target_dir)"
     }
 }
 
@@ -1221,21 +1209,41 @@ def move_download_pix_to_pictures_dir [] {
     let source_dir = $env.DN
     let target_dir = $"($env.HOME)/Pictures/"
 
+    if (not ($target_dir | path exists)) {
+        echo "0_0 you tard, ($target_dir) does NOT exist"
+        return
+    }
+
     for ext in [heic jpg jpeg png webp] {
-        ls $"($source_dir)/*.($ext)" | each { |file|
-            mv $file.name $target_dir
-            echo "( ⋂‿⋂) ($file.name | path basename) made its way to ($target_dir)"
+        let files = (glob $"($source_dir)/*.($ext)")
+        if ($files | is-empty) {
+            continue
+        }
+        $files | each { |file|
+            mv $file $target_dir
+            echo "( ⋂‿⋂) (($file | path basename)) made its way to ($target_dir)"
         }
     }
 }
 
 def move_ipa_to_target_directory [] {
     let source_directory = $env.DN
-    let target_directory = $"($BACKUP_DIR)/iso/ipa/"
+    let target_directory = $"($env.BACKUP_DIR)/iso/ipa/"
 
-    ls $"($source_directory)/*.ipa" | each { |file|
-        mv $file.name $target_directory
-        echo "( ⋂‿⋂) ($file.name | path basename) was moved to ($target_directory)"
+    if (not ($target_directory | path exists)) {
+        echo "0_0 you tard, ($target_directory) does NOT exist"
+        return
+    }
+
+    let files = (glob $"($source_directory)/*.ipa")
+    if ($files | is-empty) {
+        echo "No .ipa files found in ($source_directory)"
+        return
+    }
+
+    $files | each { |file|
+        mv $file $target_directory
+        echo "( ⋂‿⋂) (($file | path basename)) was moved to ($target_directory)"
     }
 }
 
@@ -1251,22 +1259,29 @@ def remove_pix [] {
 def expand [...filenames: string] {
     for filename in $filenames {
         if ($filename | path exists) {
-            match ($filename | path parse | get extension) {
-                "tar.bz2" => { tar xjf $filename },
-                "tar.gz" => { tar xzf $filename },
-                "bz2" => { bunzip2 $filename },
-                "rar" => { unrar x $filename },
-                "gz" => { gunzip $filename },
-                "tar" => { tar xf $filename },
-                "tbz2" => { tar xjf $filename },
-                "tgz" => { tar xzf $filename },
-                "zip" => { unzip $filename },
-                "Z" => { uncompress $filename },
-                "7z" => { 7z x $filename },
-                _ => { echo "(눈︿눈) $filename cannot be extracted via ex()" }
+            let extension = ($filename | path parse | get extension)
+            let full_extension = if $extension == "gz" or $extension == "bz2" {
+                $"tar.($extension)"
+            } else {
+                $extension
+            }
+            
+            match $full_extension {
+                "tar.bz2" => { run-external "tar" "xjf" $filename },
+                "tar.gz" => { run-external "tar" "xzf" $filename },
+                "bz2" => { run-external "bunzip2" $filename },
+                "rar" => { run-external "unrar" "x" $filename },
+                "gz" => { run-external "gunzip" $filename },
+                "tar" => { run-external "tar" "xf" $filename },
+                "tbz2" => { run-external "tar" "xjf" $filename },
+                "tgz" => { run-external "tar" "xzf" $filename },
+                "zip" => { run-external "unzip" $filename },
+                "Z" => { run-external "uncompress" $filename },
+                "7z" => { run-external "7z" "x" $filename },
+                _ => { echo $"(눈︿눈) ($filename) cannot be extracted via ex()" }
             }
         } else {
-            echo "(눈︿눈) $filename is not found"
+            echo $"(눈︿눈) ($filename) is not found"
         }
     }
 }
@@ -1278,38 +1293,36 @@ def mkd [...dirs] {
 }
 
 ## Backup and Restore Files
-def bak [file: string] {
-    let filename = ($file | path parse).stem
-    let extension = ($file | path parse).extension
 
-    if $extension == "bak" {
-        let base_filename = ($filename | path parse).stem
-        mv $file $base_filename
-        echo "Removed.bak extension from ($file). New filename: ($base_filename)"
+def bak [
+    file: string,  # The file to backup or restore
+    --ext: string = "bak",  # Custom backup extension (default: bak)
+    --quiet(-q)  # Suppress output
+] {
+    if not ($file | path exists) {
+        error make {msg: $"File '($file)' does not exist"}
+    }
+
+    let parsed = ($file | path parse)
+    let filename = $parsed.stem
+    let original_ext = $parsed.extension
+
+    if $original_ext == $ext {
+        let base_filename = ($filename | str replace -r $"[.]?($ext)$" "")
+        let new_filename = ([$parsed.parent $base_filename] | path join)
+        mv $file $new_filename
+        if not $quiet { echo $"Removed .($ext) extension from '($file)'. New filename: '($new_filename)'" }
     } else {
-        let new_filename = $"($file).bak"
+        let new_filename = ([$parsed.parent $"($filename).($original_ext).($ext)"] | path join)
         if ($new_filename | path exists) {
-            echo "(눈︿눈)  ($new_filename) already exists."
+            error make {msg: $"'($new_filename)' already exists."}
         } else {
             mv $file $new_filename
-            echo "Appended.bak extension to ($file). New filename: ($new_filename)"
+            if not $quiet { echo $"Appended .($ext) extension to '($file)'. New filename: '($new_filename)'" }
         }
     }
 }
 
-def debak [target: string] {
-    if ($target | str contains ".bak") {
-        let new_name = ($target | str replace ".bak" "")
-        if ($new_name | path exists) {
-            echo "(눈︿눈)  File or directory $new_name already exists."
-            return
-        }
-        mv $target $new_name
-        echo "Removed.bak from $target. New name: $new_name"
-    } else {
-        echo "No.bak found in $target."
-    }
-}
 # ===========================
 # Miscellaneous Functions
 # ===========================
@@ -1319,23 +1332,11 @@ def timer [time: string] {
     ^cvlc $"($env.HOME)/Music/ddd.mp3" --play-and-exit >/dev/null
 }
 
-def tree_with_exclusions [] {
-    ^tree -a -I ".DS_Store|.git|node_modules|vendor/bundle" -N
-}
+# fd file(s) exclude dir then move to excluded dir
+def fdd [pattern: string, dir: string] { ^fd -tf $pattern -E $dir -x mv {} $dir }
 
-def fd_exclude_dir_find_name_move_to_exclude_dir [pattern: string, dir: string] {
-    ^fd -tf $pattern -E $dir -x mv {} $dir
-}
-
-def fd_files_move_to_dir [pattern: string, target_dir: string] {
-    ^fd -tf -d 1 $pattern -x mv -v {} $target_dir
-}
-
-def fd_type [] {
-    ^fd --type d | lines | each { |dir|
-        echo $dir
-    }
-}
+# fd file(s) and move-to-dir
+def fdm [pattern: string, target_dir: string] { ^fd -tf -d 1 $pattern -x mv -v {} $target_dir }
 
 def slug [filename: string] {
     if ($filename | is-empty) {
@@ -1347,34 +1348,54 @@ def slug [filename: string] {
     echo $slugified
 }
 
-def trim_video [input_file: string, output_file: string, start_time?: string] {
-    if ($start_time | is-empty) {
-        ^ffmpeg -i $input_file -c:v copy -c:a copy $output_file
-    } else {
-        ^ffmpeg -i $input_file -ss $start_time -c:v copy -c:a copy $output_file
+# Trim video from start to specified time, or copy without trimming if no start time is provided
+def trv [
+    input_file: string,
+    output_file: string,
+    --start(-s): duration,
+    --end(-e): duration,
+    --overwrite(-y)
+] {
+    if not ($input_file | path exists) {
+        error make {msg: $"Input file '($input_file)' does not exist"}
     }
+
+    mut args = [-i $input_file -c:v copy -c:a copy]
+
+    if not ($start | is-empty) {
+        $args = ($args | prepend [-ss $start])
+    }
+
+    if not ($end | is-empty) {
+        $args = ($args | append [-to $end])
+    }
+
+    if $overwrite {
+        $args = ($args | prepend [-y])
+    }
+
+    $args = ($args | append $output_file)
+
+    let result = (^ffmpeg ...$args)
+
+    if $result.exit_code != 0 {
+        error make {msg: $"FFmpeg command failed: ($result.stderr)"}
+    }
+
+    echo $"Video processed successfully: '($output_file)'"
 }
 
-def open_nvim_init [] {
-    nvim $"($env.HOME)/.lua-is-the-devil/nvim/init.lua"
-}
+# Open Neovim configuration file in Neovim
+def vm [] { nvim $"($env.HOME)/.lua-is-the-devil/nvim/init.lua" }
 
-def open_wezterm [] {
-    nvim $"($env.XDG_CONFIG_HOME)/wezterm.lua"
-}
+# Open WezTerm configuration file in Neovim
+def vw [] { nvim $"($env.XDG_CONFIG_HOME)/wezterm.lua" }
 
-def open_nu_history [] {
-    nvim $"($env.DOTN)/history.txt"
-}
+# Open Nushell history file in Neovim
+def vh [] { nvim $"($env.DOTN)/history.txt" }
 
-def vn [] { #open_aliases
-    ^nvim $"($env.CF)/nushell/config.nu"
-}
-
-def open_functions [] {
-    cd $"($env.DOTN)/scripts/"
-    nvim -c "args *.nu"
-}
+# Open Nushell configuration file in Neovim
+def vn [] { ^nvim $"($env.CF)/nushell/config.nu" }
 
 def ffmpeg_remux_audio_video [input_file1: string, input_file2: string, output_file: string] {
     ^ffmpeg -i $input_file1 -i $input_file2 -c copy $output_file

@@ -1,28 +1,58 @@
-rm nushell/history.txt
-gst
-lsd
-c-
-.config
-ls
-lsd
-ls
-cs
-ls
-cd
-ls
-c-
-gst
-ga
-gadd
 zoxide init nu | ~/.zoxide.nu
-cd
-touch .zoxide.nu
-gst
+mio
+which mio
+mvo
+which mio
+mvo
+ls dn
+ldn
+dn
+ls
+mvo
+ls
+fdm paypal Pictures
 e
 exit
-gst
+fdm paypal Pictures
+dx
+lsd
+ft webpage/
+webpage/
+ft
+ft -tf | lines | each { |file| echo $file }
+fd -tf | lines | each { |file| echo $file }
+fd -tf
+px
+dx
+.. ; Pictures/
+..
+Pictures/
+l
 ls
-lt
-gst
-v .gitignore 
-gst
+fd SCR
+fdm SCR Screenshots
+which fdm
+exit
+Pictures/
+fdm SCR Screenshots
+exit
+Pictures/
+fdm SCR Screenshots
+fd SCR
+fdm SCR Screenshots/
+fd -tf
+ls
+slug `DJ Scott Toxsin font.png`
+slug `DJ Scott Toxsin new logo.png`
+exit
+Pictures/
+slug `DJ Scott Toxsin new logo.png`
+fdm SCR Screenshots/
+exit
+Pictures/
+fdm SCR Screenshots/
+exit
+Pictures/
+fdm SCR Screenshots/
+ls Screenshots/
+exit
