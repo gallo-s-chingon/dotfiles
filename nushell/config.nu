@@ -1,5 +1,3 @@
-# Nushell Config File
-#
 # For more information on defining custom themes, see
 # https://www.nushell.sh/book/coloring_and_theming.html
 # And here is the theme collection
@@ -944,11 +942,26 @@ alias wrap = setterm --linewrap on
 # Git Aliases
 alias gc = git commit -m 
 alias gca = git commit -am 
+alias gph = git push origin HEAD
+alias gpu = git pull origin
 alias gst = git status
 alias glog = git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit
 alias gadd = git add .
 
+def gacp [$args] {
+    git fetch
+    git add .
+    gca $args
+    gph
+}
 
+# Chezmoi Aliases
+export alias ch = chezmoi
+export alias chad = chezmoi add
+export alias chap = chezmoi apply
+export alias chd = chezmoi diff
+export alias chda = chezmoi data
+export alias chs = chezmoi status
 
 # File Management Aliases
 def bydate [] {
@@ -1674,8 +1687,9 @@ def yt_dlp_extract_audio_from_file (file_path: string) {
 
     echo "Download complete. Check '$log_file' for any errors."
 }
-use ~/.cache/starship/init.nu
-source ~/.cache/carapace/init.nu
+
 source ~/.config/nushell/env.nu
-source ~/.local/share/atuin/init.nu
 source ~/.zoxide.nu
+source ~/.cache/carapace/init.nu
+source ~/.local/share/atuin/init.nu
+use ~/.cache/starship/init.nu
