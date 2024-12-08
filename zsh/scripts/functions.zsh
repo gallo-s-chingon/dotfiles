@@ -63,7 +63,7 @@ trim_video () {
 }
 
 open_nvim_init() {
-  nvim "$HOME/.lua-is-the-devil/nvim/init.lua"
+  nvim "$HOME/.lua-is-the-devil/init.lua"
 }
 
 open_wezterm() {

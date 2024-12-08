@@ -929,6 +929,7 @@ def dt [] {
 alias z = zoxide
 alias e = exit 0
 alias ex = expand
+alias o = ^open
 alias ffav = ffmpeg_remux_audio_video
 alias sdd = spotify_dl
 alias grep = grep --color=auto
