@@ -3,6 +3,7 @@
 *.DS_Store
 *.zwc
 gtk*
+nvim
 nvim/
 raycast/
 Sonarr/

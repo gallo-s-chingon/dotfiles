@@ -67,7 +67,7 @@ open_nvim_init() {
 }
 
 open_wezterm() {
-  nvim "$XDG_CONFIG_HOME/wezterm.lua"
+  nvim "$HOME/.wezterm.lua"
 }
 
 open_zsh_history ()
@@ -97,9 +97,18 @@ spotify_dl ()
   spotdl download "$1"
 }
 
-mkv_to_mp4 () {
-for f in *.mkv; do
-    ffmpeg -i "$f" -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k "${f%.mkv}.mp4"
-done
-echo "Conversion complete!"
+wmv_to_mp4() {
+    find . -maxdepth 2 -type f -name "*.wmv" | while read -r f; do
+        output_file="${f%.wmv}.mp4"
+        ffmpeg -i "$f" -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k "$output_file"
+    done
+    echo "Conversion complete!"
+}
+
+mkv_to_mp4() {
+    find . -maxdepth 2 -type f -name "*.mkv" | while read -r f; do
+        output_file="${f%.mkv}.mp4"
+        ffmpeg -i "$f" -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k "$output_file"
+    done
+    echo "Conversion complete!"
 }
