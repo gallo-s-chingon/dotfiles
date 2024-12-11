@@ -6,8 +6,8 @@ local config = {
 	cursor_blink_ease_in = "Linear",
 	cursor_blink_ease_out = "Linear",
 	color_scheme = "MaterialOcean",
-	font_size = 17,
-	font = wezterm.font("Fira Code", { weight = "Regular", style = "Normal" }),
+	font_size = 19,
+	font = wezterm.font("Hack", { weight = "Regular", style = "Normal" }),
 
 	use_fancy_tab_bar = false,
 	hide_tab_bar_if_only_one_tab = true,
