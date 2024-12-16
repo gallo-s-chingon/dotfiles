@@ -901,14 +901,14 @@ $env.DN = $env.HOME + "/Downloads"
 $env.SCS = $env.DX + "/webpage"
 $env.SUSO = $env.HOME + "/sucias-social"
 
-def --env cfg [] { cd $env.CF }
-def --env nv [] { cd $env.NV }
-def --env rx [] { cd $env.RX }
-def --env dx [] { cd $env.DX }
-def --env dn [] { cd $env.DN }
-def --env scs [] { cd $env.SCS }
-def --env dotn [] { cd $env.DOTN }
-def --env not [] { cd $env.NOT }
+def cf [] { cd $env.CF }
+def nv [] { cd $env.NV }
+def rx [] { cd $env.RX }
+def dx [] { cd $env.DX }
+def dn [] { cd $env.DN }
+def scs [] { cd $env.SCS }
+def dotn [] { cd $env.DOTN }
+def not [] { cd $env.NOT }
 
 # History settings
 let history_file = $env.HOME + "/.nushell_history"
@@ -940,7 +940,7 @@ alias ptc = paste_output_to_clipboard
 alias nowrap = setterm --linewrap off
 alias wrap = setterm --linewrap on
 
-# Git Aliases
+# Git Alias
 alias gc = git commit -m 
 alias gca = git commit -am 
 alias gph = git push origin HEAD
@@ -956,6 +956,7 @@ def gacp [$args] {
     gph
 }
 
+alias va = ^nvim env.DOTN/config.nu
 # Chezmoi Aliases
 export alias ch = chezmoi
 export alias chad = chezmoi add
