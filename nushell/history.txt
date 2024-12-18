@@ -1,0 +1,43 @@
+zoxide init nu | ~/.zoxide.nu
+mio
+mvo
+fdm paypal Pictures
+webpage/
+fd -tf | lines | each { |file| echo $file }
+slug `DJ Scott Toxsin new logo.png`
+mk Music/pulled
+mtt
+sudo rm -frv .Trash
+instadl
+cd
+mk /Volumes/gallo.muzik/pulled
+oss
+or
+z ult
+gst
+nnn
+ranger
+mk .obsidian/themes
+v .obsidian/themes/gallos-theme.css
+cfg
+cg
+cf
+e
+cfg
+which cfg
+e
+cfg
+nu
+conf
+which conf
+cfdr
+nu
+cfdr
+nu
+exit
+cdfc
+cdfr
+cfdr
+version
+bu
+exit

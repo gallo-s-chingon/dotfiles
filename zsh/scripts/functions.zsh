@@ -53,6 +53,7 @@ slug() {
 trim_video () {
   if [ $# -eq 3 ]; then
     ffmpeg -i "$2" -ss "$1" -c:v copy -c:a copy "$3"
+
   elif [ $# -eq 2 ]; then
     ffmpeg -i "$1" -c:v copy -c:a copy "$2"
   else
