@@ -892,18 +892,9 @@ $env.config = {
 # Set various environment variables
 $env.XDG_CONFIG_HOME = $env.HOME + "/.config"
 $env.CF = $env.XDG_CONFIG_HOME
-$env.DOTN = $env.CF + "/nushell"
-$env.RX = $env.CF + "/rx"
-$env.NV = $env.HOME + "/.lua-is-the-devil"
-$env.NOT = $env.HOME + "/notes"
-$env.DX = $env.HOME + "/Documents"
-$env.DN = $env.HOME + "/Downloads"
-$env.SCS = $env.DX + "/webpage"
-$env.SUSO = $env.HOME + "/sucias-social"
 
 def cfdr [] {
-   ^cd ~/.config;
-  pwd
+   cd ~/.config
 }
 
 # History settings
@@ -952,7 +943,7 @@ def gacp [$args] {
     gph
 }
 
-alias va = ^nvim env.DOTN/config.nu
+alias va = ^nvim ~/.config/nushell/config.nu
 # Chezmoi Aliases
 export alias ch = chezmoi
 export alias chad = chezmoi add
@@ -971,8 +962,8 @@ alias f = fzf
 alias free = freespace
 alias ft = fd_type
 alias mia = move_ipa_to_target_directory
-def --env mk [dir] {
-    mkdir -v $dir;
+def --env mk [args] {
+    mkdir -v $args;
 }
 def mtt [] {
     sudo rm -rfv /Volumes/*/.Trashes
@@ -1031,15 +1022,15 @@ alias zl = zellij
 # eza (ls alternative)
 alias ls = eza --color=always --icons --git 
 alias la = ls -a --git
+alias y = yazi
+
 def ldn [] {
     ls $env.HOME/Downloads
 }
-alias lsd = ls -D
 alias lsf = ls -f
 alias lt = ls --tree --level=2
-alias lta = ls --tree --level=3 --long --git
+alias lta = ls --tree --level=4 --long --git
 alias lx = ls -lbhHgUmuSa@
-alias tree = tree_with_exclusions
 
 # Directory Navigation Aliases
 alias "..." = ../..

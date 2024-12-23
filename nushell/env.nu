@@ -3,8 +3,6 @@
 # version = "0.100.0"
 $env.EDITOR = 'nvim'
 $env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
-mkdir ~/.cache/carapace
-carapace _carapace nushell | save --force ~/.cache/carapace/init.nu
 
 def create_left_prompt [] {
     let dir = match (do { $env.PWD | path relative-to $nu.home-path }) {
@@ -45,9 +43,9 @@ $env.PROMPT_COMMAND_RIGHT = {|| create_right_prompt }
 
 # The prompt indicators are environmental variables that represent
 # the state of the prompt
-$env.PROMPT_INDICATOR = {|| "> " }
-$env.PROMPT_INDICATOR_VI_INSERT = {|| ": " }
-$env.PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
+$env.PROMPT_INDICATOR = {|| " > " }
+$env.PROMPT_INDICATOR_VI_INSERT = {|| " I " }
+$env.PROMPT_INDICATOR_VI_NORMAL = {|| " N " }
 $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 
 # If you want previously entered commands to have a different prompt from the usual one,
