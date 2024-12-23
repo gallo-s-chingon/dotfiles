@@ -158,40 +158,41 @@ _atuin_search() {
         fi
     fi
 }
-_atuin_search_vicmd() {
-    _atuin_search --keymap-mode=vim-normal
-}
-_atuin_search_viins() {
-    _atuin_search --keymap-mode=vim-insert
-}
-
-_atuin_up_search() {
-    # Only trigger if the buffer is a single line
-    if [[ ! $BUFFER == *$'\n'* ]]; then
-        _atuin_search --shell-up-key-binding "$@"
-    else
-        zle up-line
-    fi
-}
-_atuin_up_search_vicmd() {
-    _atuin_up_search --keymap-mode=vim-normal
-}
-_atuin_up_search_viins() {
-    _atuin_up_search --keymap-mode=vim-insert
-}
-
-add-zsh-hook preexec _atuin_preexec
-add-zsh-hook precmd _atuin_precmd
-
-zle -N atuin-search _atuin_search
-zle -N atuin-search-vicmd _atuin_search_vicmd
-zle -N atuin-search-viins _atuin_search_viins
-zle -N atuin-up-search _atuin_up_search
-zle -N atuin-up-search-vicmd _atuin_up_search_vicmd
-zle -N atuin-up-search-viins _atuin_up_search_viins
-
-# These are compatibility widget names for "atuin <= 17.2.1" users.
-zle -N _atuin_search_widget _atuin_search
-zle -N _atuin_up_search_widget _atuin_up_search
-
+# _atuin_search_vicmd() {
+#     _atuin_search --keymap-mode=vim-normal
+# }
+# _atuin_search_viins() {
+#     _atuin_search --keymap-mode=vim-insert
+# }
+# 
+# _atuin_up_search() {
+#     # Only trigger if the buffer is a single line
+#     if [[ ! $BUFFER == *$'\n'* ]]; then
+#         _atuin_search --shell-up-key-binding "$@"
+#     else
+#         zle up-line
+#     fi
+# }
+# _atuin_up_search_vicmd() {
+#     _atuin_up_search --keymap-mode=vim-normal
+# }
+# _atuin_up_search_viins() {
+#     _atuin_up_search --keymap-mode=vim-insert
+# }
+# 
+# add-zsh-hook preexec _atuin_preexec
+# add-zsh-hook precmd _atuin_precmd
+# 
+# zle -N atuin-search _atuin_search
+# zle -N atuin-search-vicmd _atuin_search_vicmd
+# zle -N atuin-search-viins _atuin_search_viins
+# zle -N atuin-up-search _atuin_up_search
+# zle -N atuin-up-search-vicmd _atuin_up_search_vicmd
+# zle -N atuin-up-search-viins _atuin_up_search_viins
+# 
+# # These are compatibility widget names for "atuin <= 17.2.1" users.
+# zle -N _atuin_search_widget _atuin_search
+# zle -N _atuin_up_search_widget _atuin_up_search
+# 
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"

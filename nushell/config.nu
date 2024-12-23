@@ -901,29 +901,10 @@ $env.DN = $env.HOME + "/Downloads"
 $env.SCS = $env.DX + "/webpage"
 $env.SUSO = $env.HOME + "/sucias-social"
 
-<<<<<<< HEAD
-def cf [] { cd $env.CF }
-def nv [] { cd $env.NV }
-def rx [] { cd $env.RX }
-def dx [] { cd $env.DX }
-def dn [] { cd $env.DN }
-def scs [] { cd $env.SCS }
-def dotn [] { cd $env.DOTN }
-def not [] { cd $env.NOT }
-=======
 def cfdr [] {
    ^cd ~/.config;
   pwd
 }
-
-def --env nv [] { cd $env.NV }
-def --env rx [] { cd $env.RX }
-def --env dx [] { cd $env.DX }
-def --env dn [] { cd $env.DN }
-def --env scs [] { cd $env.SCS }
-def --env dotn [] { cd $env.DOTN }
-def --env not [] { cd $env.NOT }
->>>>>>> 0a15990 (forgot to push here before mini)
 
 # History settings
 let history_file = $env.HOME + "/.nushell_history"
