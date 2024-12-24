@@ -137,6 +137,7 @@ alias lrs='sudo luarocks search '
 alias ci='cargo install '
 
 ## Nvim Aliases
+alias nv='neovide'
 alias v='nvim'
 alias va='open_aliases'
 alias vf='open_functions'
