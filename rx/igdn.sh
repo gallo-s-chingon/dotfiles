@@ -2,12 +2,12 @@
 export PATH=/opt/homebrew/bin/:$PATH
 igdown () {
     cd /Volumes/armor/didact/IG
-    instaloader --login=gallo.s.chingon --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini ignorancebegone
-    instaloader --login=gallo.s.chingon --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini paths2frdm2022
-    instaloader --login=gallo.s.chingon --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini receiptdropper
-    instaloader --login=gallo.s.chingon --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini yusef_el_19
-    instaloader --login=gallo.s.chingon --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini amyr_law
-    instaloader --login=gallo.s.chingon --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini equitablesociety
+    instaloader --cookiefile $HOME/Desktop/cookies.txt --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini ignorancebegone
+    instaloader --cookiefile $HOME/Desktop/cookies.txt --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini paths2frdm2022
+    instaloader --cookiefile $HOME/Desktop/cookies.txt --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini receiptdropper
+    instaloader --cookiefile $HOME/Desktop/cookies.txt --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini yusef_el_19
+    instaloader --cookiefile $HOME/Desktop/cookies.txt --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini amyr_law
+    instaloader --cookiefile $HOME/Desktop/cookies.txt --no-video-thumbnails --no-profile-pic --no-captions --no-metadata-json --latest-stamps $HOME/.config/instaloader/latest-stamps.ini equitablesociety
 }
 
 igdown

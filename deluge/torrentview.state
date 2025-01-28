@@ -105,7 +105,8 @@ ListViewColumnState
 p25
 (dp26
 g4
-Nsg5
+I23
+sg5
 S'Added'
 p27
 sg7
@@ -113,7 +114,7 @@ I105
 sg8
 I01
 sg9
-I0
+I1
 sg10
 I6
 sba(ideluge.ui.gtkui.listview
@@ -137,12 +138,11 @@ ListViewColumnState
 p31
 (dp32
 g4
-I5
-sg5
+Nsg5
 S'Name'
 p33
 sg7
-I487
+I195
 sg8
 I01
 sg9
@@ -210,7 +210,7 @@ I126
 sg8
 I01
 sg9
-I0
+I1
 sg10
 I12
 sba(ideluge.ui.gtkui.listview
@@ -222,7 +222,7 @@ Nsg5
 S'Save Path'
 p48
 sg7
-I134
+I212
 sg8
 I01
 sg9
@@ -270,7 +270,7 @@ Nsg5
 S'Seeders/Peers'
 p57
 sg7
-I296
+I39
 sg8
 I01
 sg9
