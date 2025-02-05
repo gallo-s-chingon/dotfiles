@@ -59,6 +59,7 @@ alias orgf='$RX/sort-file-by-date'
 alias sdd='spotdl_error_logger'
 alias srm='sudo rm -rfv'
 alias mkrx='create_script_and_open'
+alias fpf='fabric_pattern'
 
 ## Torrent Management Aliases
 alias mat='move_all_torrents'

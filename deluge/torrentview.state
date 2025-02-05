@@ -105,8 +105,7 @@ ListViewColumnState
 p25
 (dp26
 g4
-I23
-sg5
+Nsg5
 S'Added'
 p27
 sg7
@@ -186,7 +185,8 @@ ListViewColumnState
 p40
 (dp41
 g4
-Nsg5
+I6
+sg5
 S'Size'
 p42
 sg7
@@ -210,7 +210,7 @@ I126
 sg8
 I01
 sg9
-I1
+I0
 sg10
 I12
 sba(ideluge.ui.gtkui.listview
@@ -270,7 +270,7 @@ Nsg5
 S'Seeders/Peers'
 p57
 sg7
-I39
+I48
 sg8
 I01
 sg9

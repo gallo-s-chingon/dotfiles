@@ -113,3 +113,29 @@ mkv_to_mp4() {
     done
     echo "Conversion complete!"
 }
+
+function fabric_pattern() {
+    local input_file=$1
+    local pattern_name=$2
+    local output_dir=${3:-.}  # Default to current directory if no third argument is provided
+    local base_filename=$(basename "$input_file" | cut -d. -f1)
+    local output_file="${output_dir}/${base_filename}-${pattern_name}.md"
+
+    # Check if the file already exists in the specified directory
+    if [ -e "$output_file" ]; then
+        local suffix=00
+        while [ -e "${output_dir}/${base_filename}-${pattern_name}-${suffix}.md" ]; do
+            ((suffix++))
+            if [[ $suffix -ge 256 ]]; then
+                echo "Error: Maximum number of files reached."
+                return 1
+            fi
+        done
+
+        output_file="${output_dir}/${base_filename}-${pattern_name}-${suffix}.md"
+    fi
+
+    # Use fabric with the specified pattern to generate the markdown file
+    cat "$input_file" | fabric -p "${pattern_name//_/-}" > "$output_file"
+    echo "Output saved to $output_file"
+}
