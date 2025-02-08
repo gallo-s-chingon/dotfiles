@@ -113,7 +113,7 @@ I105
 sg8
 I01
 sg9
-I1
+I0
 sg10
 I6
 sba(ideluge.ui.gtkui.listview
@@ -141,7 +141,7 @@ Nsg5
 S'Name'
 p33
 sg7
-I195
+I331
 sg8
 I01
 sg9
