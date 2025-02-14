@@ -4,6 +4,7 @@
 *.zwc
 *.mono/
 .mono/
+deluge/
 gtk*
 nvim
 nvim/
