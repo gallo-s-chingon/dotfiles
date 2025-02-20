@@ -1,204 +1,38 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ${HOME}/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-${HOME}/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-${HOME}/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# ~/.config/zsh/zshrc
+# Main Zsh configuration file
+
+# Enable Powerlevel10k instant prompt
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Ensure XDG_BIN_HOME is in PATH
-if ! [[ $PATH == "$XDG_BIN_HOME"* ]]; then
-  export PATH="$XDG_BIN_HOME:$PATH"
-fi
-
-# Set various environment variables
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-
-export XDG_CONFIG_HOME="$HOME/.config"
-export CF="$HOME/.config"
-export DOTZ="$CF/zsh"
-export RX="$CF/rx"
-export NV="$HOME/.lua-is-the-devil"
-export NOT="$HOME/notes"
-export DX="$HOME/Documents"
-export DN="$HOME/Downloads"
-export SCS="$DX/webpage"
-export SUSO="$HOME/sucias-social"
-export FUNCNEST=25000
-
-# Set directory to store zinit and plugs
-ZINIT_HOME="${HOME}/.local/share/zinit/zinit.git"
-
-# Download Zinit if it doesn't exist
-if [[ ! -d "$ZINIT_HOME" ]]; then
-  mkdir -p "$(dirname $ZINIT_HOME)"
-  git clone https://github.com/zdharma-continuum/zinit "$ZINIT_HOME"
-fi
-
-# Source / load zinit
-source "${ZINIT_HOME}/zinit.zsh"
-
-# Load plugins using zinit
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-zinit light Aloxaf/fzf-tab
-
-# Load completions
-autoload -U compinit && compinit
-zinit cdreplay -q
-
-# Load Powerlevel10k configuration if it exists
-[[ ! -f ${HOME}/.config/p10k.zsh ]] || source ${HOME}/.config/p10k.zsh
-
-zle_keymap-select(){
-case $KEYMAP$ZLE_STATE in
-  # block
-  vicmd*) print -n "\e[2 q";;
-esac
-}
-# Keybindings
-bindkey -v
-bindkey '^[[A' history-search-backward
-bindkey '^[[B' history-search-forward
-bindkey '^[w' kill-region
-
-HYPHEN_INSENSITIVE="true"
-# History settings
-HISTSIZE=5000
-HISTFILE=${HOME}/.zsh_history
-SAVEHIST=$HISTSIZE
-HISTDUP=erase
-HISTORY_IGNORE="mv*|ls*|lt*|ld*|c*|\$*|or|cp*|..*|mtt|source*|bu|brm*|la*|"
-
-# History options
-setopt auto_cd
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
-# Debugging: Ensure files exist and are readable
-for script in $DOTZ/scripts/*.zsh; do
-  source "$script" > /dev/null
+# Source all module files
+for module in "$DOTZ/modules"/*.zsh; do
+  source "$module" >/dev/null 2>&1 || echo "Failed to source $module"
 done
-  source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  source $(brew --prefix)/share/zsh-autopair/autopair.zsh
-  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  source $(brew --prefix)/share/zsh-completions
 
-if command -v rbenv 1>/dev/null 2>&1; then
-  eval "$(rbenv init -)"
-fi
+# History settings
+HISTSIZE=5000                  # Max history entries in memory
+HISTFILE="$HOME/.zsh_history"  # History file location
+SAVEHIST=$HISTSIZE             # Max history entries to save
+HISTDUP=erase                  # Remove duplicates from history
+HISTORY_IGNORE="mv*|ls*|lt*|ld*|c*|\$*|or|cp*|..*|mtt|source*|bu|brm*|la*"  # Ignore these patterns
 
-# Initialize fzf and zoxide
-source <(fzf --zsh)
-eval "$(zoxide init zsh)"
+# Shell options
+setopt auto_cd               # Cd into directories without typing `cd`
+setopt appendhistory         # Append to history file
+setopt sharehistory          # Share history across sessions
+setopt hist_ignore_space     # Ignore commands starting with space
+setopt hist_ignore_all_dups  # Remove all duplicates
+setopt hist_save_no_dups     # Don’t save duplicates to file
+setopt hist_ignore_dups      # Ignore consecutive duplicates
+setopt hist_find_no_dups     # Don’t show duplicates in search
 
-# Completion styling
-autoload -U add-zsh-hook
+# Keybindings (vi mode)
+bindkey -v
+bindkey '^[[A' history-search-backward  # Up arrow
+bindkey '^[[B' history-search-forward   # Down arrow
+bindkey '^[w' kill-region               # Alt+w
 
-zmodload zsh/datetime 2>/dev/null
-# If zsh-autosuggestions is installed, configure it to use Atuin's search. If
-# you'd like to override this, then add your config after the $(atuin init zsh)
-# in your .zshrc
-_zsh_autosuggest_strategy_atuin() {
-    suggestion=$(ATUIN_QUERY="$1" atuin search --cmd-only --limit 1 --search-mode prefix)
-}
-
-if [ -n "${ZSH_AUTOSUGGEST_STRATEGY:-}" ]; then
-    ZSH_AUTOSUGGEST_STRATEGY=("atuin" "${ZSH_AUTOSUGGEST_STRATEGY[@]}")
-else
-    ZSH_AUTOSUGGEST_STRATEGY=("atuin")
-fi
-
-export ATUIN_SESSION=$(atuin uuid)
-ATUIN_HISTORY_ID=""
-
-_atuin_preexec() {
-    local id
-    id=$(atuin history start -- "$1")
-    export ATUIN_HISTORY_ID="$id"
-    __atuin_preexec_time=${EPOCHREALTIME-}
-}
-
-_atuin_precmd() {
-    local EXIT="$?" __atuin_precmd_time=${EPOCHREALTIME-}
-
-    [[ -z "${ATUIN_HISTORY_ID:-}" ]] && return
-
-    local duration=""
-    if [[ -n $__atuin_preexec_time && -n $__atuin_precmd_time ]]; then
-        printf -v duration %.0f $(((__atuin_precmd_time - __atuin_preexec_time) * 1000000000))
-    fi
-
-    (ATUIN_LOG=error atuin history end --exit $EXIT ${duration:+--duration=$duration} -- $ATUIN_HISTORY_ID &) >/dev/null 2>&1
-    export ATUIN_HISTORY_ID=""
-}
-
-_atuin_search() {
-    emulate -L zsh
-    zle -I
-
-    # swap stderr and stdout, so that the tui stuff works
-    # TODO: not this
-    local output
-    # shellcheck disable=SC2048
-    output=$(ATUIN_SHELL_ZSH=t ATUIN_LOG=error ATUIN_QUERY=$BUFFER atuin search $* -i 3>&1 1>&2 2>&3)
-
-    zle reset-prompt
-
-    if [[ -n $output ]]; then
-        RBUFFER=""
-        LBUFFER=$output
-
-        if [[ $LBUFFER == __atuin_accept__:* ]]
-        then
-            LBUFFER=${LBUFFER#__atuin_accept__:}
-            zle accept-line
-        fi
-    fi
-}
-# _atuin_search_vicmd() {
-#     _atuin_search --keymap-mode=vim-normal
-# }
-# _atuin_search_viins() {
-#     _atuin_search --keymap-mode=vim-insert
-# }
-# 
-# _atuin_up_search() {
-#     # Only trigger if the buffer is a single line
-#     if [[ ! $BUFFER == *$'\n'* ]]; then
-#         _atuin_search --shell-up-key-binding "$@"
-#     else
-#         zle up-line
-#     fi
-# }
-# _atuin_up_search_vicmd() {
-#     _atuin_up_search --keymap-mode=vim-normal
-# }
-# _atuin_up_search_viins() {
-#     _atuin_up_search --keymap-mode=vim-insert
-# }
-# 
-# add-zsh-hook preexec _atuin_preexec
-# add-zsh-hook precmd _atuin_precmd
-# 
-# zle -N atuin-search _atuin_search
-# zle -N atuin-search-vicmd _atuin_search_vicmd
-# zle -N atuin-search-viins _atuin_search_viins
-# zle -N atuin-up-search _atuin_up_search
-# zle -N atuin-up-search-vicmd _atuin_up_search_vicmd
-# zle -N atuin-up-search-viins _atuin_up_search_viins
-# 
-# # These are compatibility widget names for "atuin <= 17.2.1" users.
-# zle -N _atuin_search_widget _atuin_search
-# zle -N _atuin_up_search_widget _atuin_up_search
-# 
-export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
-# Golang environment variables
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-
-# Update PATH to include GOPATH and GOROOT binaries
-export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
+# Load Powerlevel10k config
+[[ -f "$HOME/.config/p10k.zsh" ]] && source "$HOME/.config/p10k.zsh"

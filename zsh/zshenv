@@ -1,1 +1,32 @@
-source $HOME/.zprofile
+# ~/.config/zsh/zshenv
+# Defines global environment variables for all Zsh sessions
+
+# Base directories
+export XDG_CONFIG_HOME="$HOME/.config"  # Standard XDG config directory
+export CF="$XDG_CONFIG_HOME"            # Alias for config home
+export DOTZ="$CF/zsh"                  # Zsh configuration directory
+export RX="$CF/rx"                     # Custom scripts directory
+export NV="$HOME/.lua-is-the-devil"    # Original Neovim config directory
+export DOTN="$HOME/il-diab"            # Neovim config repo (symlinked to ~/.config/nvim)
+export NOT="$HOME/notes"               # Notes directory
+export DX="$HOME/Documents"            # Documents directory
+export DN="$HOME/Downloads"            # Downloads directory
+export SCS="$DX/webpage"               # Webpage-related directory (future use)
+export SUSO="$HOME/sucias-social"      # Sucias social directory
+export CAPTURE_FOLDER="$HOME/Pictures" # Image capture directory
+
+# Tool-specific settings
+export PATH="$HOME/myCommands:$HOME/myCommands/bin:/opt/homebrew/opt/ruby/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH"  # Extend PATH
+export FZF_DEFAULT_OPTS='--height=40% --cycle --info=hidden --tabstop=4 --black'  # fzf display options
+export CLICOLOR=1                       # Enable color in terminal output
+export EDITOR='nvim'                    # Default editor
+export MAKEFLAGS="-j$(nproc)"           # Parallel make jobs based on CPU cores
+export FUNCNEST=25000                   # Max function nesting depth
+
+# Golang settings
+export GOROOT="/usr/local/go"           # Go installation root
+export GOPATH="$HOME/go"                # Go workspace
+export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"  # Add Go binaries to PATH
+
+# Source zprofile for architecture-specific setup
+source "$DOTZ/zprofile"
