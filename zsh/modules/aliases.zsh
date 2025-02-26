@@ -47,10 +47,12 @@ alias mia='move-ipa-to-target-directory' # Move .ipa files to target dir
 alias mio='move-iso'                     # Move ISO-like files
 alias mtt='sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv $HOME/.Trash'  # Empty all trashes
 alias rm='rm -rfv'                       # Remove recursively, forcefully, verbose
-alias orgf='$RX/sort-file-by-date'       # Alias for sorting files by date
+alias orgf='$RX/sort-file-by-date'       # Alias for sorting file.wqs by date
 alias srm='sudo rm -rfv'                 # Remove with sudo, verbose
 alias mkrx='create-script-and-open'      # Create and open a script
 alias fpf='fabric-pattern'               # Apply fabric pattern (assumes custom command)
+alias videdit='node $HOME/.config/rx/processVideo.js'
+alias fby='fabric_automation'
 
 # ===== Torrent Management Aliases =====
 alias mat='move-all-torrents'            # Move all torrents to respective dirs

@@ -6,11 +6,6 @@ timer() {
   cvlc "$HOME/Music/ddd.mp3" --play-and-exit >/dev/null
 }
 
-slug() {
-  [ $# -ne 1 ] && { echo "(￣ヘ￣) Usage: slug <filename>"; return 1; }
-  echo "$(slugged "$1")"  # Assumes `slugged` is custom
-}
-
 trim-video() {
   if [ $# -eq 3 ]; then
     ffmpeg -i "$2" -ss "$1" -c:v copy -c:a copy "$3"

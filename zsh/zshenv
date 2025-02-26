@@ -2,31 +2,42 @@
 # Defines global environment variables for all Zsh sessions
 
 # Base directories
-export XDG_CONFIG_HOME="$HOME/.config"  # Standard XDG config directory
-export CF="$XDG_CONFIG_HOME"            # Alias for config home
-export DOTZ="$CF/zsh"                  # Zsh configuration directory
-export RX="$CF/rx"                     # Custom scripts directory
-export NV="$HOME/.lua-is-the-devil"    # Original Neovim config directory
-export DOTN="$HOME/il-diab"            # Neovim config repo (symlinked to ~/.config/nvim)
-export NOT="$HOME/notes"               # Notes directory
-export DX="$HOME/Documents"            # Documents directory
-export DN="$HOME/Downloads"            # Downloads directory
-export SCS="$DX/webpage"               # Webpage-related directory (future use)
-export SUSO="$HOME/sucias-social"      # Sucias social directory
-export CAPTURE_FOLDER="$HOME/Pictures" # Image capture directory
+export XDG_CONFIG_HOME="$HOME/.config"  # Symlinked from ~/.config where possible
+export CF="$XDG_CONFIG_HOME"
+export DOTZ="$HOME/.config/zsh"           # Real files in ~/.config/zsh
+export RX="$HOME/.config/rx"              # Real files in ~/.config/rx
+export NV="$HOME/.lua-is-the-devil"
+export DOTN="$HOME/il-diab"            # Real Neovim repo
+export NOT="$HOME/notes"
+export DX="$HOME/Documents"
+export DN="$HOME/Downloads"
+export SCS="$DX/webpage"
+export SUSO="$HOME/sucias-social"
+export CAPTURE_FOLDER="$HOME/Pictures"
 
 # Tool-specific settings
-export PATH="$HOME/myCommands:$HOME/myCommands/bin:/opt/homebrew/opt/ruby/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH"  # Extend PATH
-export FZF_DEFAULT_OPTS='--height=40% --cycle --info=hidden --tabstop=4 --black'  # fzf display options
-export CLICOLOR=1                       # Enable color in terminal output
-export EDITOR='nvim'                    # Default editor
-export MAKEFLAGS="-j$(nproc)"           # Parallel make jobs based on CPU cores
-export FUNCNEST=25000                   # Max function nesting depth
+export PATH="$HOME/myCommands:$HOME/myCommands/bin:/opt/homebrew/opt/ruby/bin:$HOME/.cargo/bin:$HOME/.local/bin:$RX:$PATH"  # Add $RX to PATH
+export FZF_DEFAULT_OPTS='--height=25% --cycle --info=hidden --tabstop=4 --black'
+export CLICOLOR=1
+export EDITOR='nvim'
+
+# Set MAKEFLAGS based on system type
+if [[ "$(uname)" == "Darwin" ]]; then
+  if [[ "$(sysctl -n hw.cputype)" == "16777228" ]]; then
+    export MAKEFLAGS="-j$(sysctl -n hw.ncpu)"  # Apple Silicon
+  else
+    export MAKEFLAGS="-j$(sysctl -n hw.ncpu)"  # Intel
+  fi
+elif [[ "$(uname)" == "Linux" ]]; then
+  export MAKEFLAGS="-j$(nproc)"
+fi
+
+export FUNCNEST=25000
 
 # Golang settings
-export GOROOT="/usr/local/go"           # Go installation root
-export GOPATH="$HOME/go"                # Go workspace
-export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"  # Add Go binaries to PATH
+export GOROOT="/usr/local/go"
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
-# Source zprofile for architecture-specific setup
+# Source zprofile
 source "$DOTZ/zprofile"
