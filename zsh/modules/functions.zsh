@@ -8,17 +8,6 @@ timer() {
   cvlc "$HOME/Music/ddd.mp3" --play-and-exit >/dev/null
 }
 
-slug() {
-    if [ $# -ne 1 ]; then
-        echo "(￣ヘ￣)  slugifying <filename>"
-        return 1
-    fi
-
-    filename=$1
-    slugified=$(slugged "$filename")
-    echo "$slugified"
-}
-
 trim-video () {
   if [ $# -eq 3 ]; then
     ffmpeg -i "$2" -ss "$1" -c:v copy -c:a copy "$3"
@@ -127,49 +116,31 @@ fabric_automation() {
   # Create output directory - this is the video title slugified folder
   local OUTPUT_DIR="$PARENT_DIR/$SLUG_TITLE"
   
-  # Define output file names with the same base structure
-  local OUTPUT_BASE="${SLUG_TITLE}-${PATTERN_SLUG}-${VIDEO_ID}"
-  local MD_FILE="$OUTPUT_DIR/$OUTPUT_BASE.md"
-  local VIDEO_FILE="$OUTPUT_DIR/$OUTPUT_BASE.mp4"
+  # Define new file naming scheme
+  local VIDEO_BASE="${SLUG_TITLE}-${VIDEO_ID}"
+  local MD_BASE="${SLUG_TITLE}-${VIDEO_ID}-${PATTERN_SLUG}"
   
-  # Check if files already exist
-  local FILES_EXIST=0
-  if [[ -f "$MD_FILE" || -f "$VIDEO_FILE" ]]; then
-    FILES_EXIST=1
-    echo "Files for this video and pattern already exist:"
-    [[ -f "$MD_FILE" ]] && echo "  Markdown: $MD_FILE"
-    [[ -f "$VIDEO_FILE" ]] && echo "  Video: $VIDEO_FILE"
+  local VIDEO_FILE="$OUTPUT_DIR/$VIDEO_BASE.mp4"
+  local MD_FILE="$OUTPUT_DIR/$MD_BASE.md"
+  
+  # Check if video file exists and skip if it does
+  if [[ -f "$VIDEO_FILE" ]]; then
+    echo "Video file already exists, skipping video download: $VIDEO_FILE"
+    local SKIP_VIDEO=1
+  else
+    local SKIP_VIDEO=0
+  fi
+  
+  # Auto-enumerate markdown file if needed
+  if [[ -f "$MD_FILE" ]]; then
+    # Find a new suffix number
+    local COUNT=2
+    while [[ -f "$OUTPUT_DIR/${MD_BASE}-${COUNT}.md" ]]; do
+      ((COUNT++))
+    done
     
-    echo "Options:"
-    echo "  [s] Skip - do nothing and exit"
-    echo "  [o] Overwrite - replace existing files"
-    echo "  [k] Keep both - add a numbered suffix to new files"
-    read -p "What would you like to do? (s/o/k): " CHOICE
-    
-    case "$CHOICE" in
-      [oO])
-        echo "Overwriting existing files..."
-        ;;
-      [kK])
-        # Find a new suffix number
-        local COUNT=2
-        while [[ -f "$OUTPUT_DIR/${OUTPUT_BASE}-${COUNT}.md" || -f "$OUTPUT_DIR/${OUTPUT_BASE}-${COUNT}.mp4" ]]; do
-          ((COUNT++))
-        done
-        
-        OUTPUT_BASE="${OUTPUT_BASE}-${COUNT}"
-        MD_FILE="$OUTPUT_DIR/$OUTPUT_BASE.md"
-        VIDEO_FILE="$OUTPUT_DIR/$OUTPUT_BASE.mp4"
-        echo "Creating new files with suffix: $COUNT"
-        echo "  New markdown: $MD_FILE"
-        echo "  New video: $VIDEO_FILE"
-        ;;
-      *)
-        echo "Skipping processing for this video."
-        rm -rf "$TEMP_DIR"
-        return 0
-        ;;
-    esac
+    echo "Found matching markdown filename, using numbered suffix: $COUNT"
+    MD_FILE="$OUTPUT_DIR/${MD_BASE}-${COUNT}.md"
   fi
   
   # Create output directory if needed
@@ -180,7 +151,10 @@ fabric_automation() {
   }
   
   echo "Output directory: $OUTPUT_DIR"
-  echo "Output base: $OUTPUT_BASE"
+  echo "Markdown file: $MD_FILE"
+  if [[ $SKIP_VIDEO -eq 0 ]]; then
+    echo "Video file: $VIDEO_FILE"
+  fi
   echo "Pattern name: $ORIGINAL_PATTERN (original directory name)"
   
   # Run fabric with the ORIGINAL pattern name
@@ -195,27 +169,33 @@ fabric_automation() {
     return 1
   fi
   
-  # Download video
-  echo "Downloading video to: $VIDEO_FILE"
-  yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" \
-    --merge-output-format mp4 \
-    -o "$VIDEO_FILE" \
-    "$VIDEO_URL" 2> "$TEMP_DIR/yt_dlp_download_error.txt"
-  
-  if [[ ! -f "$VIDEO_FILE" ]]; then
-    log_error "Failed to download video: $(cat "$TEMP_DIR/yt_dlp_download_error.txt")"
-    cat "$TEMP_DIR/yt_dlp_download_error.txt"
-    rm -rf "$TEMP_DIR"
-    return 1
+  # Only download video if it doesn't exist already
+  if [[ $SKIP_VIDEO -eq 0 ]]; then
+    echo "Downloading video to: $VIDEO_FILE"
+    yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" \
+      --merge-output-format mp4 \
+      -o "$VIDEO_FILE" \
+      "$VIDEO_URL" 2> "$TEMP_DIR/yt_dlp_download_error.txt"
+    
+    if [[ ! -f "$VIDEO_FILE" ]]; then
+      log_error "Failed to download video: $(cat "$TEMP_DIR/yt_dlp_download_error.txt")"
+      cat "$TEMP_DIR/yt_dlp_download_error.txt"
+      rm -rf "$TEMP_DIR"
+      return 1
+    fi
   fi
   
   # Clean up
   rm -rf "$TEMP_DIR"
   
   echo "Process completed successfully."
-  echo "Files created:"
+  echo "Files:"
   echo "  Markdown: $MD_FILE"
-  echo "  Video:    $VIDEO_FILE"
+  if [[ $SKIP_VIDEO -eq 0 ]]; then
+    echo "  Video:    $VIDEO_FILE"
+  else
+    echo "  Video:    $VIDEO_FILE (pre-existing, skipped)"
+  fi
   
   return 0
 }

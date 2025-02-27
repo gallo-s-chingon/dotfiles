@@ -53,6 +53,7 @@ alias mkrx='create-script-and-open'      # Create and open a script
 alias fpf='fabric-pattern'               # Apply fabric pattern (assumes custom command)
 alias videdit='node $HOME/.config/rx/processVideo.js'
 alias fby='fabric_automation'
+alias slug='$RX/slugged.sh'
 
 # ===== Torrent Management Aliases =====
 alias mat='move-all-torrents'            # Move all torrents to respective dirs

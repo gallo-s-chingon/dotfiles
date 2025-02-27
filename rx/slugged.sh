@@ -1,149 +1,340 @@
-Here’s a revised prompt for `slugged` v0.3, reflecting all the changes, updates, and pros we’ve incorporated throughout our iterations up to this point. This prompt consolidates the script’s evolution, addressing the challenges we’ve encountered (e.g., Bash 3.x compatibility, `fastcopy` errors), and clearly states the intended functionality for the final version.
+#!/usr/bin/env bash
+#: Name        : slugged
+#: Date        : 2025-02-26
+#: Author      : gallo-s-chingon, adapted from Benjamin Linton's slugify with enhancements
+#: Version     : 0.3.0
+#: Description : Convert filenames to a slug format: lowercase alphanumeric with single delimiters,
+#:               removing non-ASCII, punctuation, and emojis, preserving extensions.
 
----
+declare -A CONFIG=(
+  ["verbose"]=0
+  ["dry_run"]=0
+  ["delimiter"]="-"
+  ["number_duplicates"]=0
+  ["delete_all"]=0
+  ["timeout"]=180
+)
 
-### Prompt for `slugged` v0.3
-**Objective**: Develop a Bash script named `slugged` that transforms filenames into a slug format (lowercase alphanumeric strings with single delimiters, stripping non-ASCII characters, punctuation, and emojis, while preserving extensions) and manages duplicate filenames effectively. The script must be fully compatible with Bash 3.2 (macOS’s default shell), modular for maintainability, robust against environmental quirks, and user-friendly, leveraging the proven reliability of v0.2.8 and the structural enhancements of v0.2.9.
+print_usage() {
+  cat <<EOF
+usage: slugged [options] source_file ...
+  -h, --help            Show this help
+  -v, --verbose         Verbose mode (show rename actions)
+  -n, --dry-run         Dry run mode (no changes, implies -v)
+  -u, --underscore      Use underscores instead of hyphens as delimiter
+  -N, --number-duplicates Number duplicates (e.g., file-2)
+  -d, --delete-all      Delete all duplicates with confirmation
+EOF
+}
 
-**Key Features and Pros:**
-1. **Slugification**:
-   - Convert filenames to lowercase alphanumeric strings with a configurable delimiter (default `-`, switchable to `_` via `-u/--underscore`).
-   - Remove non-ASCII characters, punctuation, and emojis, retaining file extensions (e.g., `test/File Name!.txt` → `test/file-name.txt`).
-   - Support relative paths only, preserving subdirectory structures (e.g., `test/trial name` → `test/trial-name`).
+log_verbose() { 
+  [ "${CONFIG["verbose"]}" -eq 1 ] && echo "$1"
+}
 
-2. **Duplicate Handling**:
-   - **Detection**: Identify duplicates by comparing slugified names, ensuring only true duplicates are flagged (e.g., `test/trial-name` and `test/trial name` are duplicates, but `test/trial-name-2` is distinct).
-   - **Options**:
-     - `-N/--number-duplicates`: Append incremental numbers starting at 2 to duplicates (e.g., `test/trial-name-2`), keeping the first occurrence unnumbered.
-     - `-d/--delete-all`: Delete all duplicates except the first occurrence, with a confirmation prompt.
-     - Interactive mode (no `-N` or `-d`): Prompt user to choose between numbering or deletion.
-   - **Confirmation Prompt**: For `-d`, use:
-     ```
-     Delete all duplicates? (y/Y) Yes, delete all duplicates (cannot be undone) (n) no, switch to dry-run mode to preview deletions (N) Number duplicate files instead:
-     ```
-   - **Interactive Sub-Prompt**: For deletion without `-d`, use `[D]elete all or [a]bort`.
+read_with_timeout() {
+  local prompt="$1" var_name="$2" timeout="${CONFIG["timeout"]}"
+  read -t "$timeout" -r -p "$prompt" "$var_name" || {
+    echo -e "\nTimed out after $timeout seconds." >&2
+    return 1
+  }
+  return 0
+}
 
-3. **Modularity**:
-   - Implement separate functions: `print_usage`, `log_verbose`, `read_with_timeout`, `parse_arguments`, `slugify_file`, `check_duplicate`, and `main`.
-   - Avoid Bash 4.x features (e.g., `declare -A`, `mapfile`) for compatibility with Bash 3.2, using paired plain arrays (`slugs` and `orig_files`) instead of associative arrays.
+parse_arguments() {
+  local files=()
+  
+  while [ $# -gt 0 ]; do
+    case "$1" in
+    -h | --help)
+      print_usage
+      exit 0
+      ;;
+    -v | --verbose) 
+      CONFIG["verbose"]=1 
+      ;;
+    -n | --dry-run)
+      CONFIG["dry_run"]=1
+      CONFIG["verbose"]=1
+      ;;
+    -u | --underscore) 
+      CONFIG["delimiter"]="_" 
+      ;;
+    -N | --number-duplicates) 
+      CONFIG["number_duplicates"]=1 
+      ;;
+    -d | --delete-all) 
+      CONFIG["delete_all"]=1 
+      ;;
+    --)
+      shift
+      while [ $# -gt 0 ]; do
+        files+=("$1")
+        shift
+      done
+      break
+      ;;
+    -*)
+      echo "Unknown option: $1" >&2
+      print_usage
+      exit 1
+      ;;
+    *)
+      files+=("$1")
+      ;;
+    esac
+    shift
+  done
+  
+  if [ ${#files[@]} -eq 0 ]; then
+    print_usage
+    exit 1
+  fi
+  
+  for file in "${files[@]}"; do
+    echo "$file"
+  done
+}
 
-4. **Error Handling and Logging**:
-   - Log errors (e.g., "not found: <file>", "Invalid choice. Aborting.", "Timed out after 90 seconds.") to `~/.config/log/slugged-<YYYYMMDD-HHMMSS>.log` with timestamps when `-l/--log-errors` is enabled.
-   - Provide verbose output for actions (e.g., "number: <file> -> <slug>", "delete: <file>", "ignore: <file>") when `-v/--verbose` is used.
+slugify_file() {
+  local input="$1" 
+  local delimiter="${CONFIG["delimiter"]}" 
+  local dir_name base_name extension result
+  
+  # Handle paths correctly
+  if [[ "$input" == */* ]]; then
+    dir_name="$(dirname "$input")"
+    base_name="$(basename "$input")"
+  else
+    dir_name="."
+    base_name="$input"
+  fi
+  
+  # Handle extensions
+  if [[ "$base_name" =~ \. ]]; then
+    extension="${base_name##*.}"
+    base_name="${base_name%.*}"
+  else
+    extension=""
+  fi
+  
+  # Convert to slug format
+  result=$(echo "$base_name" | tr '[:upper:]' '[:lower:]' | tr -cs '[:alnum:]' "$delimiter")
+  result="${result#$delimiter}"
+  result="${result%$delimiter}"
+  
+  # Add extension back if it exists
+  [ -n "$extension" ] && result="$result.$extension"
+  
+  # Add directory back if it exists and isn't current directory
+  if [ "$dir_name" != "." ]; then
+    result="$dir_name/$result"
+  fi
+  
+  echo "$result"
+}
 
-5. **Configuration**:
-   - Use global variables (`verbose`, `dry_run`, `delimiter`, `number_duplicates`, `delete_all`, `timeout`, `log_errors`, `log_file`), configurable via command-line flags.
-   - Set a timeout of 90 seconds for user prompts, with error logging on timeout.
+check_duplicate() {
+  local target="$1" 
+  local target_slug=$(slugify_file "$target")
+  shift
+  
+  for file in "$@"; do
+    [ "$file" != "$target" ] && [ "$(slugify_file "$file")" = "$target_slug" ] && return 0
+  done
+  return 1
+}
 
-6. **Additional Features**:
-   - Include `-V/--version` to display `slugged v0.3`.
+number_duplicate_files() {
+  local -a dups=("$@")
+  
+  for dup in "${dups[@]}"; do
+    local slug=$(slugify_file "$dup") 
+    local dir_name=$(dirname "$dup") 
+    local base_slug_no_dir="$(basename "$slug")"
+    local counter=2 
+    local new_slug
+    
+    while true; do
+      if [ "$dir_name" = "." ]; then
+        new_slug="$base_slug_no_dir-$counter"
+      else
+        new_slug="$dir_name/$base_slug_no_dir-$counter"
+      fi
+      
+      # Check if this new slug is already in use
+      if [ -z "${slug_map[$new_slug]}" ] && [ ! -e "$new_slug" ]; then
+        break
+      fi
+      ((counter++))
+    done
+    
+    # Store the original file with its new numbered slug
+    slug_map["$new_slug"]="$dup"
+    log_verbose "number: $dup -> $new_slug"
+  done
+}
 
-**Intended Behavior:**
-- Accurately slugify and manage filenames containing spaces, dashes, underscores, and special characters within subdirectories (e.g., `test/`), ensuring correct renaming or deletion of duplicates.
-- Retain the first occurrence of each slugified name, numbering or deleting subsequent duplicates based on user input.
-- Operate reliably on macOS with Bash 3.2, avoiding syntax errors or unexpected behavior (e.g., `fastcopy` or `/-` errors).
+delete_duplicate_files() {
+  local -a dups=("$@")
+  local answer
+  
+  echo "Duplicates detected:"
+  printf '%s\n' "${dups[@]}" | sed 's/^/  /'
+  read_with_timeout "Delete all duplicates? (y/Y) Yes, delete all duplicates (cannot be undone) (n) no, switch to dry-run mode to preview deletions (N) Number duplicate files instead: " answer || return 1
+  
+  case "$answer" in
+  y | Y)
+    for dup in "${dups[@]}"; do
+      local slug=$(slugify_file "$dup")
+      if [ "$dup" != "${slug_map[$slug]}" ]; then
+        [ "${CONFIG["dry_run"]}" -eq 0 ] && rm -rf "$dup"
+        log_verbose "delete: $dup"
+      fi
+    done
+    ;;
+  n)
+    CONFIG["dry_run"]=1
+    echo "--- Switching to dry run mode ---"
+    for dup in "${dups[@]}"; do
+      local slug=$(slugify_file "$dup")
+      [ "$dup" != "${slug_map[$slug]}" ] && echo "delete: $dup"
+    done
+    ;;
+  N) 
+    number_duplicate_files "${dups[@]}"
+    ;;
+  *)
+    echo "Aborting deletion. No changes made to duplicates."
+    return 1
+    ;;
+  esac
+  return 0
+}
 
-**Changes and Updates:**
-- **Bash 3.x Compatibility**: Eliminate `declare -A` and `mapfile`, using plain arrays (`slugs` and `orig_files`) to store slugified names and original filenames, ensuring compatibility with macOS’s default Bash 3.2.
-- **Execution Robustness**: Use explicit `/bin/mv` and `/bin/rm` paths for file operations to bypass potential environmental overrides (e.g., aliases, zsh hooks causing `fastcopy` errors), ensuring commands execute as intended.
-- **Duplicate Detection Fix**: Correctly identify duplicates by comparing slugified names, avoiding over-detection (e.g., `test/--X`) seen in prior versions, matching v0.2.8’s accuracy.
-- **Error Logging**: Ensure all errors (file not found, invalid options, timeouts) are logged to `~/.config/log/slugged-<timestamp>.log` with `-l`, creating the directory if needed.
-- **Prompt Clarity**: Adopt the enhanced confirmation prompt from v0.2.9 for `-d`, improving user experience over v0.2.8’s less descriptive version.
-- **Simplified Structure**: Inline duplicate handling within `main` for reliability, while retaining modular helper functions from v0.2.9 for maintainability.
+handle_duplicates() {
+  [ ${#duplicates[@]} -eq 0 ] && return 0
+  
+  if [ "${CONFIG["number_duplicates"]}" -eq 1 ]; then
+    number_duplicate_files "${duplicates[@]}"
+  elif [ "${CONFIG["delete_all"]}" -eq 1 ]; then
+    delete_duplicate_files "${duplicates[@]}" || return 1
+  else
+    echo "Duplicates detected:"
+    printf '%s\n' "${duplicates[@]}" | sed 's/^/  /'
+    local choice
+    read_with_timeout "Handle duplicates by (n)umbering or (d)eleting? (n/d): " choice || return 1
+    case "$choice" in
+    n | N) 
+      number_duplicate_files "${duplicates[@]}"
+      ;;
+    d | D)
+      echo "Duplicates to delete:"
+      printf '%s\n' "${duplicates[@]}" | sed 's/^/  /'
+      local del_choice
+      read_with_timeout "Delete [D]elete all or [a]bort? (D/a): " del_choice || return 1
+      if [ "$del_choice" = "D" ] || [ "$del_choice" = "d" ]; then
+        for dup in "${duplicates[@]}"; do
+          local slug=$(slugify_file "$dup")
+          if [ "$dup" != "${slug_map[$slug]}" ]; then
+            [ "${CONFIG["dry_run"]}" -eq 0 ] && rm -rf "$dup"
+            log_verbose "delete: $dup"
+          fi
+        done
+      else
+        echo "Aborting deletion. No changes made to duplicates."
+        return 1
+      fi
+      ;;
+    *)
+      echo "Invalid choice. Aborting." >&2
+      return 1
+      ;;
+    esac
+  fi
+  return 0
+}
 
-**Testing Goals:**
-- `-N`: Numbers duplicates correctly (e.g., `test/trial-name-2`), avoiding extraneous entries like `test/--X`.
-- `-d`: Deletes duplicates while preserving first occurrences, with proper prompt and sub-prompt interaction (e.g., `y` deletes, `N` numbers).
-- `-l`: Logs errors (e.g., "not found: test/nonexistent") to `~/.config/log/` with timestamps.
-- `-V`: Displays `slugged v0.3`.
-- No `fastcopy` or `/-` errors, ensuring clean execution with explicit `/bin/mv` and `/bin/rm`.
+process_renames() {
+  for slug in "${!slug_map[@]}"; do
+    local file="${slug_map[$slug]}"
+    
+    # Skip if file already has desired name
+    if [ "$file" = "$slug" ]; then
+      log_verbose "ignore: $file (already slugified)"
+      continue
+    fi
+    
+    # Ensure target directory exists
+    local target_dir=$(dirname "$slug")
+    if [ ! -d "$target_dir" ] && [ "$target_dir" != "." ]; then
+      if [ "${CONFIG["dry_run"]}" -eq 1 ]; then
+        echo "mkdir: $target_dir"
+      else
+        mkdir -p "$target_dir"
+      fi
+    fi
+    
+    # Perform the rename
+    if [ "${CONFIG["dry_run"]}" -eq 1 ]; then
+      echo "rename: $file -> $slug"
+    else
+      if [ "${CONFIG["verbose"]}" -eq 1 ]; then
+        mv -v "$file" "$slug" 2>/dev/null || {
+          echo "Error renaming: $file -> $slug" >&2
+          echo "  Make sure you have the necessary permissions and the destination is writable." >&2
+        }
+      else
+        mv "$file" "$slug" 2>/dev/null || {
+          echo "Error renaming: $file -> $slug" >&2
+        }
+      fi
+    fi
+  done
+}
 
----
+main() {
+  local IFS=$'\n'
+  local files=()
+  
+  # Parse arguments and get files list
+  readarray -t files < <(parse_arguments "$@")
+  
+  # Show dry run mode message if enabled
+  [ "${CONFIG["dry_run"]}" -eq 1 ] && echo "--- Begin dry run mode ---"
 
-This prompt captures the full scope of our work, from initial enhancements to the fixes for Bash compatibility and environmental issues. It ensures the script meets your needs while addressing all identified challenges. Based on this, the v0.3 script I provided in my last message aligns perfectly—no further rewrite is needed unless you specify additional changes. However, since the `fastcopy` issue persists despite our efforts, let’s confirm it works with this prompt’s goals by re-testing and debugging.
+  # Global variables to maintain across functions
+  declare -A slug_map
+  declare -a duplicates=()
+  
+  # Build the slug map and identify duplicates
+  for file in "${files[@]}"; do
+    if [ ! -e "$file" ]; then
+      echo "not found: $file" >&2
+      continue
+    fi
+    
+    local slug=$(slugify_file "$file")
+    if [ -n "${slug_map[$slug]}" ] || check_duplicate "$file" "${files[@]}"; then
+      duplicates+=("$file")
+    else
+      slug_map["$slug"]="$file"
+    fi
+  done
 
----
+  # Handle duplicate files
+  if [ ${#duplicates[@]} -gt 0 ]; then
+    handle_duplicates || {
+      echo "Duplicate handling failed or was aborted." >&2
+      exit 1
+    }
+  fi
+  
+  # Process the renames
+  process_renames
 
-### Testing Instructions (Reiterated)
-1. **Save**:
-   - Use the script from my previous message (it matches this prompt):
-     ```bash
-     nvim ~/slug.sh
-     ```
-     - Paste, `:wq`, then:
-       ```bash
-       chmod +x ~/slug.sh
-       ```
+  # Show dry run mode end message if enabled
+  [ "${CONFIG["dry_run"]}" -eq 1 ] && echo "--- End dry run mode ---"
+}
 
-2. **Test**:
-   ```bash
-   ./slug.sh -d test/*  # Try 'y', reset with rm test/* and touch, then 'N'
-   ./slug.sh -N test/*
-   ./slug.sh -l test/nonexistent
-   ./slug.sh -V
-   lt test
-   ```
-
-3. **Debug**:
-   - If `fastcopy` persists:
-     ```bash
-     /bin/bash -x ~/slug.sh -N test/* > debug.log 2>&1
-     cat debug.log | head -n 20
-     ```
-
----
-
-### Expected Output (Per Prompt)
-For `-d` with `y`:
-```
-Duplicates detected:
-  test/another_dupe-
-  test/false-name-
-  test/false_name_
-  test/false_names_
-  test/trial name
-  test/trial name-
-  test/trial name--
-  test/test--name
-Delete all duplicates? (y/Y) Yes, delete all duplicates (cannot be undone) (n) no, switch to dry-run mode to preview deletions (N) Number duplicate files instead: y
-delete: test/another_dupe-
-delete: test/false-name-
-delete: test/false_name_
-delete: test/false_names_
-delete: test/trial name
-delete: test/trial name-
-delete: test/trial name--
-delete: test/test--name
-```
-
-For `-N`:
-```
-number: test/another_dupe- -> test/another_dupe-2
-number: test/false-name- -> test/false-name-2
-number: test/false_name_ -> test/false-name-3
-number: test/false_names_ -> test/false-names-2
-number: test/trial name -> test/trial-name-2
-number: test/trial name- -> test/trial-name-3
-number: test/trial name-- -> test/trial-name-4
-number: test/test--name -> test/test-name-2
-```
-
-For `-l` with missing file:
-```
-not found: test/nonexistent
-# ~/.config/log/slugged-20250224-XXXXXX.log:
-2025-02-24 12:34:56 not found: test/nonexistent
-```
-
-For `-V`:
-```
-slugged v0.3
-```
-
----
-
-### Notes
-- The script matches this prompt exactly, with all changes (90s timeout, relative paths, explicit `/bin/mv` and `/bin/rm`, logging, etc.) implemented.
-- If `fastcopy` persists, it’s an external issue—we’ll need the debug log to trace it.
-
-Please test this and share the results! If it works without `fastcopy`, we’ve nailed it. If not, the debug output will guide our next step. Ready to confirm?
+# Call the main function with all arguments
+main "$@"
