@@ -50,7 +50,6 @@ alias rm='rm -rfv'                       # Remove recursively, forcefully, verbo
 alias orgf='$RX/sort-file-by-date'       # Alias for sorting file.wqs by date
 alias srm='sudo rm -rfv'                 # Remove with sudo, verbose
 alias mkrx='create-script-and-open'      # Create and open a script
-alias fpf='fabric-pattern'               # Apply fabric pattern (assumes custom command)
 alias videdit='node $HOME/.config/rx/processVideo.js'
 alias fby='fabric_automation'
 alias slug='$HOME/.config/rx/slugged.sh'

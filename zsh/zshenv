@@ -35,9 +35,10 @@ fi
 export FUNCNEST=25000
 
 # Golang settings
-export GOROOT="/usr/local/go"
-export GOPATH="$HOME/go"
-export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
+# Golang environment variables
+export GOROOT=$(brew --prefix go)/libexec
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
 
 # Source zprofile
 source "$DOTZ/zprofile"
