@@ -41,3 +41,4 @@ export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
 # Source zprofile
 source "$DOTZ/zprofile"
+source <(carapace _carapace zsh)
