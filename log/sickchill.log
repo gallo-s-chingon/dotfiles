@@ -23549,3 +23549,192 @@ Stack (most recent call last):
 2025-03-02 01:47:53 INFO :: POSTPROCESSOR-AUTO :: Auto post processing task for /Volumes/shows/series completed
 2025-03-02 01:54:37 INFO :: SHOWQUEUE-REFRESH :: Performing refresh on A Thousand Blows
 2025-03-02 01:54:38 INFO :: SHOWQUEUE-REFRESH :: 423901: Updating NFOs for show with new indexer info
+2025-03-02 02:06:27 INFO :: POSTPROCESSOR :: Auto post processing task for /Volumes/shows/series was added to the queue
+2025-03-02 02:06:29 INFO :: POSTPROCESSOR-AUTO :: Beginning auto post processing task: /Volumes/shows/series
+2025-03-02 02:06:29 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series
+2025-03-02 02:06:43 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/the.old.man.s02e04.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:06:44 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:44 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/the.old.man.s02e04.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:06:44 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Penguin.S01E05.Homecoming.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:44 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:44 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Penguin.S01E05.Homecoming.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:44 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Evil.S04E05.How.To.Fly.An.Airplane.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:45 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:45 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Evil.S04E05.How.To.Fly.An.Airplane.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:45 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Before.2024.S01E06.1080p.WEB.h264-ETHEL.mkv (None)
+2025-03-02 02:06:45 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Before.2024.S01E06.1080p.WEB.h264-ETHEL.mkv doesn't exist, did unrar fail?
+2025-03-02 02:06:45 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Before.2024.S01E06.1080p.WEB.h264-ETHEL.mkv: 
+2025-03-02 02:06:45 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Penguin.S01E03.Bliss.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:46 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:46 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Penguin.S01E03.Bliss.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:46 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Penguin.S01E01.After.Hours.720p.AMZN.WEB-DL.DDP5.1.Atmos.H.264-FLUX.mkv (None)
+2025-03-02 02:06:46 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:46 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Penguin.S01E01.After.Hours.720p.AMZN.WEB-DL.DDP5.1.Atmos.H.264-FLUX.mkv: 
+2025-03-02 02:06:46 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Landman.S01E01.Landman.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:46 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Landman.S01E01.Landman.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv doesn't exist, did unrar fail?
+2025-03-02 02:06:46 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Landman.S01E01.Landman.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:47 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Evil.S04E04.How.To.Build.A.Coffin.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:47 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:47 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Evil.S04E04.How.To.Build.A.Coffin.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:48 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Hysteria.2024.S01E01.1080p.WEB.h264-ETHEL.mkv (None)
+2025-03-02 02:06:48 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:48 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Hysteria.2024.S01E01.1080p.WEB.h264-ETHEL.mkv: 
+2025-03-02 02:06:48 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/the.old.man.s02e06.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:06:49 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:49 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/the.old.man.s02e06.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:06:49 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/the.old.man.s02e05.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:06:49 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:49 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/the.old.man.s02e05.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:06:50 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Penguin.S01E07.1080p.WEB.h264-ETHEL.mkv (None)
+2025-03-02 02:06:50 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:50 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Penguin.S01E07.1080p.WEB.h264-ETHEL.mkv: 
+2025-03-02 02:06:50 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Teacup.S01E01.Think.About.the.Bubbles.720p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv (None)
+2025-03-02 02:06:50 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Teacup.S01E01.Think.About.the.Bubbles.720p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv doesn't exist, did unrar fail?
+2025-03-02 02:06:50 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Teacup.S01E01.Think.About.the.Bubbles.720p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv: 
+2025-03-02 02:06:51 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Landman.S01E08.Clumsy.This.Life.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:51 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Landman.S01E08.Clumsy.This.Life.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv doesn't exist, did unrar fail?
+2025-03-02 02:06:51 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Landman.S01E08.Clumsy.This.Life.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:51 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Chicano.Squad.S01E01.1080p.WEB.h264-EDITH.mkv (None)
+2025-03-02 02:06:51 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:51 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Chicano.Squad.S01E01.1080p.WEB.h264-EDITH.mkv: 
+2025-03-02 02:06:51 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/landman.s01e10.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:06:52 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:52 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/landman.s01e10.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:06:52 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/earth.abides.s01e04.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:06:52 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:52 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/earth.abides.s01e04.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:06:52 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Penguin.S01E06.Gold.Summit.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:53 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:53 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Penguin.S01E06.Gold.Summit.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:53 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/the.old.man.s02e08.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:06:53 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:53 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/the.old.man.s02e08.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:06:54 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Penguin.S01E08.A.Great.Or.Little.Thing.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:54 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:54 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Penguin.S01E08.A.Great.Or.Little.Thing.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:54 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/earth.abides.s01e06.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:06:54 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:54 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/earth.abides.s01e06.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:06:55 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Orphan.Black.Echoes.S01E01.1080p.BluRay.x264-BORDURE.mkv (None)
+2025-03-02 02:06:55 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:55 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Orphan.Black.Echoes.S01E01.1080p.BluRay.x264-BORDURE.mkv: 
+2025-03-02 02:06:55 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Before.2024.S01E01.The.Imposter.1080p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-Kitsune.mkv (None)
+2025-03-02 02:06:55 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Before.2024.S01E01.The.Imposter.1080p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-Kitsune.mkv doesn't exist, did unrar fail?
+2025-03-02 02:06:55 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Before.2024.S01E01.The.Imposter.1080p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-Kitsune.mkv: 
+2025-03-02 02:06:55 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Disclaimer.S01E02.II.720p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-BYNDR.mkv (None)
+2025-03-02 02:06:56 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:56 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Disclaimer.S01E02.II.720p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-BYNDR.mkv: 
+2025-03-02 02:06:56 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Disclaimer.S01E01.I.720p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-BYNDR.mkv (None)
+2025-03-02 02:06:56 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:56 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Disclaimer.S01E01.I.720p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-BYNDR.mkv: 
+2025-03-02 02:06:57 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Landman.S01E05.Where.is.Home.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:57 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Landman.S01E05.Where.is.Home.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv doesn't exist, did unrar fail?
+2025-03-02 02:06:57 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Landman.S01E05.Where.is.Home.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:57 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Landman.S01E02.Dreamers.and.Losers.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:57 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Landman.S01E02.Dreamers.and.Losers.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv doesn't exist, did unrar fail?
+2025-03-02 02:06:57 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Landman.S01E02.Dreamers.and.Losers.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:57 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Penguin.S01E04.Centanni.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:57 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:57 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Penguin.S01E04.Centanni.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:58 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Before.2024.S01E02.The.Scientist.1080p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-Kitsune.mkv (None)
+2025-03-02 02:06:58 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Before.2024.S01E02.The.Scientist.1080p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-Kitsune.mkv doesn't exist, did unrar fail?
+2025-03-02 02:06:58 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Before.2024.S01E02.The.Scientist.1080p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-Kitsune.mkv: 
+2025-03-02 02:06:58 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Landman.S01E06.Beware.The.Second.Beating.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:58 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:58 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Landman.S01E06.Beware.The.Second.Beating.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:58 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Cruel.Intentions.S01E01.Alpha.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:06:59 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:59 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Cruel.Intentions.S01E01.Alpha.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:06:59 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/the.old.man.s02e01.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:06:59 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:06:59 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/the.old.man.s02e01.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:06:59 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Landman.S01E04.The.Sting.of.Second.Chances.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:07:00 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:00 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Landman.S01E04.The.Sting.of.Second.Chances.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:07:00 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Teacup.S01E06.You.Dont.Know.What.It.Means.to.Win.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv (None)
+2025-03-02 02:07:00 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Teacup.S01E06.You.Dont.Know.What.It.Means.to.Win.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv doesn't exist, did unrar fail?
+2025-03-02 02:07:00 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Teacup.S01E06.You.Dont.Know.What.It.Means.to.Win.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv: 
+2025-03-02 02:07:00 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Earth.Abides.S01E05.1080p.WEB.h264-ETHEL.mkv (None)
+2025-03-02 02:07:00 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:00 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Earth.Abides.S01E05.1080p.WEB.h264-ETHEL.mkv: 
+2025-03-02 02:07:00 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Evil.S04E02.How.To.Train.A.Dog.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:07:01 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:01 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Evil.S04E02.How.To.Train.A.Dog.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:07:01 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/landman.s01e07.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:07:01 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:01 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/landman.s01e07.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:07:01 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/poppas.house.s01e01.1080p.web.h264-nhtfs.mkv (None)
+2025-03-02 02:07:02 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:02 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/poppas.house.s01e01.1080p.web.h264-nhtfs.mkv: 
+2025-03-02 02:07:02 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/earth.abides.s01e02.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:07:02 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:02 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/earth.abides.s01e02.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:07:03 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/rivals.2024.s01e01.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:07:03 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:03 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/rivals.2024.s01e01.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:07:03 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Before.2024.S01E09.1080p.WEB.h264-ETHEL.mkv (None)
+2025-03-02 02:07:03 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Before.2024.S01E09.1080p.WEB.h264-ETHEL.mkv doesn't exist, did unrar fail?
+2025-03-02 02:07:03 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Before.2024.S01E09.1080p.WEB.h264-ETHEL.mkv: 
+2025-03-02 02:07:03 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/the.old.man.s02e03.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:07:04 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:04 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/the.old.man.s02e03.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:07:04 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Metalocalypse.S05E00.The.Doomstar.Requiem-A.Klok.Opera.720p.WEB-DL.AAC2.0.H.264.mkv (None)
+2025-03-02 02:07:04 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:04 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Metalocalypse.S05E00.The.Doomstar.Requiem-A.Klok.Opera.720p.WEB-DL.AAC2.0.H.264.mkv: 
+2025-03-02 02:07:04 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Penguin.S01E02.Inside.Man.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:07:05 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:05 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Penguin.S01E02.Inside.Man.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:07:05 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/landman.s01e09.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:07:05 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:05 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/landman.s01e09.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:07:05 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Teacup.S01E03.Quite.for.No.Reason.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv (None)
+2025-03-02 02:07:05 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Teacup.S01E03.Quite.for.No.Reason.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv doesn't exist, did unrar fail?
+2025-03-02 02:07:05 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Teacup.S01E03.Quite.for.No.Reason.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv: 
+2025-03-02 02:07:05 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Evil.S04E01.How.to.Split.an.Atom.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:07:06 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:06 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Evil.S04E01.How.to.Split.an.Atom.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:07:06 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Old.Man.S02E07.XIV.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:07:06 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:06 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Old.Man.S02E07.XIV.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:07:06 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Evil.S04E06.How.To.Dance.In.Three.Easy.Steps.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:07:07 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:07 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Evil.S04E06.How.To.Dance.In.Three.Easy.Steps.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:07:07 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/earth.abides.s01e01.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:07:07 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:07 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/earth.abides.s01e01.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:07:07 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Landman.S01E03.Hell.Has.a.Front.Yard.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:07:08 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:08 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Landman.S01E03.Hell.Has.a.Front.Yard.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:07:08 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/The.Chicano.Squad.S01E02.1080p.WEB.h264-EDITH.mkv (None)
+2025-03-02 02:07:08 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:08 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/The.Chicano.Squad.S01E02.1080p.WEB.h264-EDITH.mkv: 
+2025-03-02 02:07:08 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/earth.abides.s01e03.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:07:08 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:08 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/earth.abides.s01e03.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:07:09 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Teacup.S01E02.My.Little.Lighthouse.720p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv (None)
+2025-03-02 02:07:09 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Teacup.S01E02.My.Little.Lighthouse.720p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv doesn't exist, did unrar fail?
+2025-03-02 02:07:09 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Teacup.S01E02.My.Little.Lighthouse.720p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv: 
+2025-03-02 02:07:09 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Teacup.S01E05.Im.a.Witness.to.the.Sickness.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv (None)
+2025-03-02 02:07:09 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Teacup.S01E05.Im.a.Witness.to.the.Sickness.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv doesn't exist, did unrar fail?
+2025-03-02 02:07:09 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Teacup.S01E05.Im.a.Witness.to.the.Sickness.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv: 
+2025-03-02 02:07:09 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/the.old.man.s02e02.1080p.web.h264-successfulcrab.mkv (None)
+2025-03-02 02:07:09 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:09 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/the.old.man.s02e02.1080p.web.h264-successfulcrab.mkv: 
+2025-03-02 02:07:09 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Teacup.S01E04.In.The.Heart.of.the.Country.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv (None)
+2025-03-02 02:07:09 INFO :: POSTPROCESSOR-AUTO :: File /Volumes/shows/series/Teacup.S01E04.In.The.Heart.of.the.Country.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv doesn't exist, did unrar fail?
+2025-03-02 02:07:09 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Teacup.S01E04.In.The.Heart.of.the.Country.1080p.PCOK.WEB-DL.DDP5.1.x264-NTb.mkv: 
+2025-03-02 02:07:10 INFO :: POSTPROCESSOR-AUTO :: Processing /Volumes/shows/series/Evil.S04E03.How.To.Slaughter.A.Pig.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv (None)
+2025-03-02 02:07:10 INFO :: POSTPROCESSOR-AUTO :: This show isn't in your list, you need to add it to SC before post-processing an episode
+2025-03-02 02:07:10 WARNING :: POSTPROCESSOR-AUTO :: Processing failed for /Volumes/shows/series/Evil.S04E03.How.To.Slaughter.A.Pig.1080p.AMZN.WEB-DL.DDP5.1.H.264-NTb.mkv: 
+2025-03-02 02:07:31 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/The.Last.of.Us.S01.2160p.HMAX.WEB-DL.DDP5.1.DoVi.x265-NTb
+2025-03-02 02:07:40 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Mama.June.From.Not.to.Hot.S06.1080p.AMZN.WEB-DL.DDP2.0.H.264-NOGRP
+2025-03-02 02:07:40 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Mama.June.From.Not.to.Hot.S06.1080p.AMZN.WEB-DL.DDP2.0.H.264-NOGRP/Season 6
+2025-03-02 02:07:40 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Family.Guy.S01.Hybrid.1080p.STAN.WEB-DL.DD2.0.H.264-PHOENiX
+2025-03-02 02:07:41 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Family.Guy.S01.Hybrid.1080p.STAN.WEB-DL.DD2.0.H.264-PHOENiX/Season 2
+2025-03-02 02:07:41 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Family.Guy.S01.Hybrid.1080p.STAN.WEB-DL.DD2.0.H.264-PHOENiX/Season 5
+2025-03-02 02:07:42 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Family.Guy.S01.Hybrid.1080p.STAN.WEB-DL.DD2.0.H.264-PHOENiX/Season 4
+2025-03-02 02:07:44 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Family.Guy.S01.Hybrid.1080p.STAN.WEB-DL.DD2.0.H.264-PHOENiX/Season 3
+2025-03-02 02:07:45 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Family.Guy.S01.Hybrid.1080p.STAN.WEB-DL.DD2.0.H.264-PHOENiX/Season 8
+2025-03-02 02:07:47 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Family.Guy.S01.Hybrid.1080p.STAN.WEB-DL.DD2.0.H.264-PHOENiX/Season 6
+2025-03-02 02:07:48 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Family.Guy.S01.Hybrid.1080p.STAN.WEB-DL.DD2.0.H.264-PHOENiX/Season 7
+2025-03-02 02:07:50 WARNING :: POSTPROCESSOR-AUTO :: Cannot process an episode that's already been moved to its show dir, skipping /Volumes/shows/series/Family.Guy.S01.Hybrid.1080p.STAN.WEB-DL.DD2.0.H.264-PHOENiX/Season 9
