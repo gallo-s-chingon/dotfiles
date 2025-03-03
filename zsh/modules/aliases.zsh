@@ -34,7 +34,6 @@ alias gph='git-push'                     # Push changes to remote
 alias gst='git status'                   # Show git status
 
 # ===== File Management Aliases =====
-alias bydate='$RX/sort-file-by-date.sh'  # Sort files by date (custom script)
 alias d='fd -H -t f .DS_Store -X rm -frv'  # Remove .DS_Store files (macOS)
 alias fdm='fd-files-move-to-dir'         # Move files matching pattern to dir
 alias fdd='fd-exclude-dir-find-name-move-to-exclude-dir'  # Move files excluding a dir
@@ -47,12 +46,8 @@ alias mia='move-ipa-to-target-directory' # Move .ipa files to target dir
 alias mio='move-iso'                     # Move ISO-like files
 alias mtt='sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv $HOME/.Trash'  # Empty all trashes
 alias rm='rm -rfv'                       # Remove recursively, forcefully, verbose
-alias orgf='$RX/sort-file-by-date'       # Alias for sorting file.wqs by date
 alias srm='sudo rm -rfv'                 # Remove with sudo, verbose
 alias mkrx='create-script-and-open'      # Create and open a script
-alias videdit='node $HOME/.config/rx/processVideo.js'
-alias fby='fabric_automation'
-alias slug='$HOME/.config/rx/slugged.sh'
 
 # ===== Torrent Management Aliases =====
 alias mat='move-all-torrents'            # Move all torrents to respective dirs
@@ -70,6 +65,14 @@ alias odt='open-downloaded-torrents'     # Open downloaded torrents
 alias blog='$RX/blog.sh blog'            # Run blog script with 'blog' arg
 alias epi='$RX/blog.sh epi'              # Run blog script with 'epi' arg
 alias feat='$RX/blog.sh feat'            # Run blog script with 'feat' arg
+
+# ===== Scripts =====
+alias fby='$RX/fabric_automation.sh'
+alias slug='$RX/slugged.sh'
+alias stm='$RX/srt_to_md.sh'
+alias videdit='node $RX/processVideo.js'
+alias orgf='$RX/sort-file-by-date'       # Alias for sorting file.wqs by date
+alias bydate='$RX/sort-file-by-date.sh'  # Sort files by date (custom script)
 
 # ===== Image Management Aliases =====
 alias 50p='imagemagick-resize-50'        # Resize image to 50%

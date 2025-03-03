@@ -1,34 +1,80 @@
 #!/bin/bash
 # ==========
-# script to run `fabric $URL -p $PATTERN_NAME -o $PARENT_DIR/$SLUG_TITLE-$VIDEO_ID-$PATTERN_SLUG.md` or `pbpaste | fabric -p $PATTERN_NAME -o (user entered output dir/filenome)`
+# script to run `fabric $URL -p $PATTERN_NAME -o $PARENT_DIR/$SLUG_TITLE-$VIDEO_ID-$PATTERN_SLUG.md` or `pbpaste | fabric -p $PATTERN_NAME -o (user entered output dir/filename)`
+# Includes transcript download and conversion functionality
 # ==========
-
-# Source needed functions from zshenv
-. "$HOME/.config/zsh/modules/functions.zsh"
 
 fabric_automation() {
   local INPUT="$1"
   local PATTERN_NAME="$2"
-  local LOG_DIR="$HOME/.config/log"
+  local LOG_DIR="$HOME/log"
   local ERROR_LOG="$LOG_DIR/fabric_automation.log"
   local TEMP_DIR="/tmp/fabric_automation_$(date +%s)"
   local USE_CLIPBOARD=0
   local VIDEO_URL=""
+  local MAX_RETRIES=3
+  local VIDEO_PID=""
+  local TRANSCRIPT_PID=""
+  local CONVERT_PID=""
 
   # Create log directories if they don't exist
   mkdir -p "$LOG_DIR"
   touch "$ERROR_LOG"
 
   # Function to log errors
-  log_error() {
+  log_message() {
+    local func_name="$1"
+    local level="$2"
+    local message="$3"
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    echo "$timestamp - Error: $1" >>"$ERROR_LOG"
-    echo "Error: $1" >&2
+    echo "$timestamp - $func_name [$level]: $message" >>"$ERROR_LOG"
+    echo "$level: $message" >&2
   }
 
   # Function to slugify string
   slugify() {
     echo "$1" | iconv -t ascii//TRANSLIT | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr '[:upper:]' '[:lower:]'
+  }
+
+  # Function to clean memory
+  clean_memory() {
+    echo "Freeing up system memory..."
+    if command -v purge &>/dev/null && [[ "$(uname)" == "Darwin" ]]; then
+      sudo purge
+    elif [[ "$(uname)" == "Linux" ]]; then
+      echo 3 | sudo tee /proc/sys/vm/drop_caches &>/dev/null
+    fi
+    sleep 1
+  }
+
+  # Function to convert SRT to MD
+  srt_to_md() {
+    local input_file="$1"
+    local output_file="$2"
+
+    echo "Converting SRT to Markdown: $input_file → $output_file"
+
+    # Use fabric to convert SRT to MD
+    cat "$input_file" | fabric -p "srt-transcript-to-md" -o "$output_file" 2> >(while read line; do
+      log_message "srt_to_md" "ERROR" "fabric: $line"
+    done)
+
+    local exit_code=$?
+    if [[ $exit_code -ne 0 || ! -s "$output_file" ]]; then
+      log_message "srt_to_md" "ERROR" "Failed to convert SRT to Markdown"
+      return 1
+    fi
+
+    log_message "srt_to_md" "INFO" "Successfully created markdown file: $output_file"
+    echo "Markdown transcript created: $output_file"
+
+    # Delete original SRT file after successful conversion
+    if [[ -f "$input_file" && -s "$output_file" ]]; then
+      echo "Removing original SRT file"
+      rm "$input_file"
+    fi
+
+    return 0
   }
 
   # Check if input is "pbpaste" to use clipboard
@@ -39,14 +85,17 @@ fabric_automation() {
     VIDEO_URL="$INPUT"
     # Validate input URL
     if [[ -z "$VIDEO_URL" ]]; then
-      log_error "No URL provided"
+      log_message "fabric_automation" "ERROR" "No URL provided"
       return 1
     fi
   fi
 
+  # Free up memory before processing
+  clean_memory
+
   # Create temporary directory
   mkdir -p "$TEMP_DIR" || {
-    log_error "Failed to create temporary directory"
+    log_message "fabric_automation" "ERROR" "Failed to create temporary directory"
     return 1
   }
 
@@ -58,7 +107,7 @@ fabric_automation() {
     VIDEO_ID=$(yt-dlp --print id "$VIDEO_URL" 2>>"$TEMP_DIR/yt_dlp_error.txt")
 
     if [[ -z "$VIDEO_TITLE" || -z "$VIDEO_ID" ]]; then
-      log_error "Failed to extract video information: $(cat "$TEMP_DIR/yt_dlp_error.txt")"
+      log_message "fabric_automation" "ERROR" "Failed to extract video information: $(cat "$TEMP_DIR/yt_dlp_error.txt")"
       rm -rf "$TEMP_DIR"
       return 1
     fi
@@ -75,7 +124,7 @@ fabric_automation() {
     PATTERN_NAME=$(echo "$PATTERN_DIRS" | fzf)
 
     if [[ -z "$PATTERN_NAME" ]]; then
-      log_error "No pattern selected"
+      log_message "fabric_automation" "ERROR" "No pattern selected"
       rm -rf "$TEMP_DIR"
       return 1
     fi
@@ -104,12 +153,37 @@ fabric_automation() {
 
     echo "Running fabric with pattern: $ORIGINAL_PATTERN"
     echo "Using clipboard data as input"
-    pbpaste | ifne fabric -p "$ORIGINAL_PATTERN" -o "$MD_FILE" 2>"$TEMP_DIR/fabric_error.txt"
+    echo "Output file: $MD_FILE"
+
+    # Run with retries for memory issues
+    local RETRY_COUNT=0
+    local SUCCESS=0
+
+    while [[ $RETRY_COUNT -lt $MAX_RETRIES && $SUCCESS -eq 0 ]]; do
+      clean_memory
+      pbpaste | ifne fabric -p "$ORIGINAL_PATTERN" -o "$MD_FILE" 2>"$TEMP_DIR/fabric_error.txt"
+
+      if grep -q "llama runner process has terminated: signal: killed" "$TEMP_DIR/fabric_error.txt"; then
+        ((RETRY_COUNT++))
+        echo "Attempt $RETRY_COUNT/$MAX_RETRIES: Llama process ran out of memory. Retrying after cleanup..."
+        sleep 2
+        clean_memory
+      else
+        SUCCESS=1
+      fi
+    done
+
+    if [[ $SUCCESS -eq 0 ]]; then
+      log_message "fabric_automation" "ERROR" "Failed after $MAX_RETRIES attempts due to memory issues"
+      echo "Try reducing input size or increasing system memory"
+      rm -rf "$TEMP_DIR"
+      return 1
+    fi
 
     if [[ ! -s "$MD_FILE" || $(grep -c "could not get pattern" "$MD_FILE") -gt 0 ]]; then
       echo "Content of markdown file:"
       cat "$MD_FILE"
-      log_error "Failed to run fabric with pattern $ORIGINAL_PATTERN: $(cat "$TEMP_DIR/fabric_error.txt")"
+      log_message "fabric_automation" "ERROR" "Failed to run fabric with pattern $ORIGINAL_PATTERN: $(cat "$TEMP_DIR/fabric_error.txt")"
       rm -rf "$TEMP_DIR"
       return 1
     fi
@@ -146,26 +220,36 @@ fabric_automation() {
   local VIDEO_FILE="$OUTPUT_DIR/$VIDEO_BASE.mp4"
   local MD_FILE="$OUTPUT_DIR/$MD_BASE.md"
   local TRANSCRIPT_FILE="$OUTPUT_DIR/${VIDEO_BASE}-transcript.srt"
+  local TRANSCRIPT_MD_FILE="$OUTPUT_DIR/${VIDEO_BASE}-transcript.md"
 
   # Create output directory if needed
   mkdir -p "$OUTPUT_DIR" || {
-    log_error "Failed to create output directory: $OUTPUT_DIR"
+    log_message "fabric_automation" "ERROR" "Failed to create output directory: $OUTPUT_DIR"
     rm -rf "$TEMP_DIR"
     return 1
   }
 
   # Check if files exist
   local VIDEO_EXISTS=0
+  local SRT_EXISTS=0
+  local TRANSCRIPT_MD_EXISTS=0
 
   if [[ -f "$VIDEO_FILE" ]]; then
     echo "Video file exists: $VIDEO_FILE"
     VIDEO_EXISTS=1
   fi
 
-  echo "Using YouTube API for transcript"
-  fabric -y "$VIDEO_URL" -p "$ORIGINAL_PATTERN" -o "$MD_FILE" 2>"$TEMP_DIR/fabric_error.txt"
+  if [[ -f "$TRANSCRIPT_FILE" ]]; then
+    echo "SRT transcript file exists: $TRANSCRIPT_FILE"
+    SRT_EXISTS=1
+  fi
 
-  # Auto-enumerate markdown file if needed
+  if [[ -f "$TRANSCRIPT_MD_FILE" ]]; then
+    echo "Markdown transcript file exists: $TRANSCRIPT_MD_FILE"
+    TRANSCRIPT_MD_EXISTS=1
+  fi
+
+  # Check if markdown file exists BEFORE running fabric
   if [[ -f "$MD_FILE" ]]; then
     # Find a new suffix number
     local COUNT=2
@@ -181,31 +265,146 @@ fabric_automation() {
   echo "Markdown file: $MD_FILE"
   echo "Pattern name: $ORIGINAL_PATTERN (original directory name)"
 
+  # Start background processes for downloading assets
+
+  # Function to download video
+  download_video() {
+    if [[ $VIDEO_EXISTS -eq 0 ]]; then
+      echo "Background process: Downloading video to: $VIDEO_FILE"
+      yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" \
+        --merge-output-format mp4 \
+        -o "$VIDEO_FILE" \
+        "$VIDEO_URL" 2>"$TEMP_DIR/yt_dlp_download_error.txt"
+
+      if [[ ! -f "$VIDEO_FILE" ]]; then
+        log_message "fabric_automation" "ERROR" "Failed to download video: $(cat "$TEMP_DIR/yt_dlp_download_error.txt")"
+        cat "$TEMP_DIR/yt_dlp_download_error.txt"
+        return 1
+      fi
+      echo "Background process: Video download completed"
+    fi
+    return 0
+  }
+
+  # Function to download transcript
+  download_transcript() {
+    if [[ $SRT_EXISTS -eq 0 && $TRANSCRIPT_MD_EXISTS -eq 0 ]]; then
+      echo "Background process: Downloading transcript to: $TRANSCRIPT_FILE"
+      yt-dlp --write-auto-sub --skip-download --sub-format srt \
+        -o "$OUTPUT_DIR/${VIDEO_BASE}" \
+        "$VIDEO_URL" 2>"$TEMP_DIR/transcript_download_error.txt"
+
+      # yt-dlp may create files with different naming patterns, try to find and rename them
+      local POTENTIAL_SRT=$(find "$OUTPUT_DIR" -name "*${VIDEO_ID}*.srt" -type f | head -1)
+      if [[ -n "$POTENTIAL_SRT" && "$POTENTIAL_SRT" != "$TRANSCRIPT_FILE" ]]; then
+        echo "Background process: Found SRT at $POTENTIAL_SRT, renaming to standardized name"
+        mv "$POTENTIAL_SRT" "$TRANSCRIPT_FILE"
+      fi
+
+      if [[ ! -f "$TRANSCRIPT_FILE" ]]; then
+        log_message "fabric_automation" "ERROR" "Failed to download transcript: $(cat "$TEMP_DIR/transcript_download_error.txt")"
+        cat "$TEMP_DIR/transcript_download_error.txt"
+        return 1
+      fi
+      echo "Background process: Transcript download completed"
+    fi
+    return 0
+  }
+
+  # Start background downloads if needed
+  if [[ $VIDEO_EXISTS -eq 0 ]]; then
+    download_video &
+    VIDEO_PID=$!
+    echo "Background process: Video download started with PID $VIDEO_PID"
+  fi
+
+  if [[ $SRT_EXISTS -eq 0 && $TRANSCRIPT_MD_EXISTS -eq 0 ]]; then
+    download_transcript &
+    TRANSCRIPT_PID=$!
+    echo "Background process: Transcript download started with PID $TRANSCRIPT_PID"
+  fi
+
+  # Wait for transcript download to complete
+  if [[ -n "$TRANSCRIPT_PID" ]]; then
+    echo "Waiting for transcript download to complete..."
+    wait $TRANSCRIPT_PID
+    echo "Transcript download process completed"
+  fi
+
+  # Convert SRT to MD if SRT exists but MD doesn't
+  if [[ -f "$TRANSCRIPT_FILE" && ! -f "$TRANSCRIPT_MD_FILE" ]]; then
+    echo "Converting SRT to Markdown transcript..."
+    srt_to_md "$TRANSCRIPT_FILE" "$TRANSCRIPT_MD_FILE" &
+    CONVERT_PID=$!
+    echo "Background process: SRT to Markdown conversion started with PID $CONVERT_PID"
+  fi
+
+  # Wait for all background processes to complete
+  if [[ -n "$VIDEO_PID" ]]; then
+    echo "Waiting for video download to complete..."
+    wait $VIDEO_PID
+    echo "Video download process completed"
+  fi
+
+  if [[ -n "$CONVERT_PID" ]]; then
+    echo "Waiting for SRT to Markdown conversion to complete..."
+    wait $CONVERT_PID
+    echo "SRT to Markdown conversion completed"
+  fi
+
+  # Clean memory before running fabric
+  clean_memory
+
   # Run fabric with the ORIGINAL pattern name
   echo "Running fabric with pattern: $ORIGINAL_PATTERN"
 
-  if [[ ! -s "$MD_FILE" || $(grep -c "could not get pattern" "$MD_FILE") -gt 0 ]]; then
-    echo "Content of markdown file:"
-    cat "$MD_FILE"
-    log_error "Failed to run fabric with pattern $ORIGINAL_PATTERN: $(cat "$TEMP_DIR/fabric_error.txt")"
+  # Use markdown transcript if available
+  if [[ -f "$TRANSCRIPT_MD_FILE" ]]; then
+    echo "Using Markdown transcript as source for fabric"
+    local FABRIC_INPUT="$TRANSCRIPT_MD_FILE"
+  else
+    echo "Using YouTube API for transcript"
+    local FABRIC_INPUT="-y $VIDEO_URL"
+  fi
+
+  # Run with retries for memory issues
+  local RETRY_COUNT=0
+  local SUCCESS=0
+
+  while [[ $RETRY_COUNT -lt $MAX_RETRIES && $SUCCESS -eq 0 ]]; do
+    clean_memory
+
+    if [[ -f "$TRANSCRIPT_MD_FILE" ]]; then
+      echo "Running fabric with local transcript file"
+      fabric -f "$FABRIC_INPUT" -p "$ORIGINAL_PATTERN" -o "$MD_FILE" 2>"$TEMP_DIR/fabric_error.txt"
+    else
+      echo "Running fabric with YouTube API"
+      fabric -y "$VIDEO_URL" -p "$ORIGINAL_PATTERN" -o "$MD_FILE" 2>"$TEMP_DIR/fabric_error.txt"
+    fi
+
+    if grep -q "llama runner process has terminated: signal: killed" "$TEMP_DIR/fabric_error.txt"; then
+      ((RETRY_COUNT++))
+      echo "Attempt $RETRY_COUNT/$MAX_RETRIES: Llama process ran out of memory. Retrying after cleanup..."
+      sleep 2
+      clean_memory
+    else
+      SUCCESS=1
+    fi
+  done
+
+  if [[ $SUCCESS -eq 0 ]]; then
+    log_message "fabric_automation" "ERROR" "Failed after $MAX_RETRIES attempts due to memory issues"
+    echo "Try reducing input size or increasing system memory"
     rm -rf "$TEMP_DIR"
     return 1
   fi
 
-  # Download video if it doesn't exist
-  if [[ $VIDEO_EXISTS -eq 0 ]]; then
-    echo "Downloading video to: $VIDEO_FILE"
-    yt-dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" \
-      --merge-output-format mp4 \
-      -o "$VIDEO_FILE" \
-      "$VIDEO_URL" 2>"$TEMP_DIR/yt_dlp_download_error.txt"
-
-    if [[ ! -f "$VIDEO_FILE" ]]; then
-      log_error "Failed to download video: $(cat "$TEMP_DIR/yt_dlp_download_error.txt")"
-      cat "$TEMP_DIR/yt_dlp_download_error.txt"
-      rm -rf "$TEMP_DIR"
-      return 1
-    fi
+  if [[ ! -f "$MD_FILE" || ! -s "$MD_FILE" || $(grep -c "could not get pattern" "$MD_FILE") -gt 0 ]]; then
+    echo "Content of markdown file (if exists):"
+    [[ -f "$MD_FILE" ]] && cat "$MD_FILE"
+    log_message "fabric_automation" "ERROR" "Failed to run fabric with pattern $ORIGINAL_PATTERN: $(cat "$TEMP_DIR/fabric_error.txt")"
+    rm -rf "$TEMP_DIR"
+    return 1
   fi
 
   # Clean up
@@ -213,11 +412,11 @@ fabric_automation() {
 
   echo "Process completed successfully."
   echo "Files:"
-  if [[ $TRANSCRIPT_EXISTS -eq 1 ]]; then
-    echo "  Transcript: $TRANSCRIPT_FILE"
-  fi
-  echo "  Markdown: $MD_FILE"
+  echo "  Pattern Markdown: $MD_FILE"
   echo "  Video: $VIDEO_FILE"
+  [[ -f "$TRANSCRIPT_MD_FILE" ]] && echo "  Transcript Markdown: $TRANSCRIPT_MD_FILE"
 
   return 0
 }
+
+fabric_automation "$@"

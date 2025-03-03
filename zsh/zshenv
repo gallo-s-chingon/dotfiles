@@ -17,7 +17,7 @@ export CAPTURE_FOLDER="$HOME/Pictures"
 
 # Tool-specific settings
 export PATH="$HOME/myCommands:$HOME/myCommands/bin:/opt/homebrew/opt/ruby/bin:$HOME/.cargo/bin:$HOME/.local/bin:$RX:$PATH"  # Add $RX to PATH
-export FZF_DEFAULT_OPTS='--height=25% --cycle --info=hidden --tabstop=4 --black'
+export FZF_DEFAULT_OPTS='--height=20% --cycle --info=hidden --tabstop=4 --black'
 export CLICOLOR=1
 export EDITOR='nvim'
 
