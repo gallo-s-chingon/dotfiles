@@ -1,0 +1,79 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "fabric-pattern-processor",
+  "title": "Fabric Pattern Processor",
+  "description": "Process text using fabric patterns",
+  "icon": "fabric-logo.png",
+  "author": "alexmc",
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "fabric-pattern",
+      "title": "Process with Fabric",
+      "description": "Process text using fabric patterns",
+      "mode": "view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.84.3",
+    "@raycast/utils": "^1.17.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.11",
+    "@types/node": "20.8.10",
+    "@types/react": "18.3.3",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "prepublishOnly": "echo \"\\n\\nIt seems like you are trying to publish the Raycast extension to npm.\\n\\nIf you did intend to publish it to npm, remove the \\`prepublishOnly\\` script and rerun \\`npm publish\\` again.\\nIf you wanted to publish it to the Raycast Store instead, use \\`npm run publish\\` instead.\\n\\n\" && exit 1",
+    "publish": "npx @raycast/api@latest publish"
+  },
+  "preferences": [
+    {
+      "name": "fabricPath",
+      "type": "textfield",
+      "required": false,
+      "title": "Fabric Binary Path",
+      "description": "Path to the Fabric binary",
+      "default": "~/go/bin/fabric"
+    },
+    {
+      "name": "savePath",
+      "type": "textfield",
+      "required": false,
+      "title": "Save Binary Path",
+      "description": "Path to the Save binary",
+      "default": "~/.local/bin/save"
+    },
+    {
+      "name": "patternsPath",
+      "type": "textfield",
+      "required": false,
+      "title": "Patterns Directory",
+      "description": "Path to the Fabric patterns directory",
+      "default": "~/.config/fabric/patterns"
+    },
+    {
+      "name": "saveTargetPath",
+      "type": "textfield",
+      "required": false,
+      "title": "Save Target Directory",
+      "description": "Optional: Path where processed files will be saved. If not set, will use the default from your save script configuration.",
+      "default": ""
+    },
+    {
+      "name": "model",
+      "type": "textfield",
+      "required": false,
+      "title": "Model Name",
+      "description": "Optional: Specify the model to use with Fabric",
+      "default": ""
+    }
+  ]
+}

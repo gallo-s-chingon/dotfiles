@@ -27,7 +27,7 @@ usage: slugged [options] source_file ...
 EOF
 }
 
-log_verbose() { 
+log_verbose() {
   [ "${CONFIG["verbose"]}" -eq 1 ] && echo "$1"
 }
 
@@ -42,28 +42,28 @@ read_with_timeout() {
 
 parse_arguments() {
   local files=()
-  
+
   while [ $# -gt 0 ]; do
     case "$1" in
     -h | --help)
       print_usage
       exit 0
       ;;
-    -v | --verbose) 
-      CONFIG["verbose"]=1 
+    -v | --verbose)
+      CONFIG["verbose"]=1
       ;;
     -n | --dry-run)
       CONFIG["dry_run"]=1
       CONFIG["verbose"]=1
       ;;
-    -u | --underscore) 
-      CONFIG["delimiter"]="_" 
+    -u | --underscore)
+      CONFIG["delimiter"]="_"
       ;;
-    -N | --number-duplicates) 
-      CONFIG["number_duplicates"]=1 
+    -N | --number-duplicates)
+      CONFIG["number_duplicates"]=1
       ;;
-    -d | --delete-all) 
-      CONFIG["delete_all"]=1 
+    -d | --delete-all)
+      CONFIG["delete_all"]=1
       ;;
     --)
       shift
@@ -84,22 +84,22 @@ parse_arguments() {
     esac
     shift
   done
-  
+
   if [ ${#files[@]} -eq 0 ]; then
     print_usage
     exit 1
   fi
-  
+
   for file in "${files[@]}"; do
     echo "$file"
   done
 }
 
 slugify_file() {
-  local input="$1" 
-  local delimiter="${CONFIG["delimiter"]}" 
+  local input="$1"
+  local delimiter="${CONFIG["delimiter"]}"
   local dir_name base_name extension result
-  
+
   # Handle paths correctly
   if [[ "$input" == */* ]]; then
     dir_name="$(dirname "$input")"
@@ -108,7 +108,7 @@ slugify_file() {
     dir_name="."
     base_name="$input"
   fi
-  
+
   # Handle extensions
   if [[ "$base_name" =~ \. ]]; then
     extension="${base_name##*.}"
@@ -116,28 +116,28 @@ slugify_file() {
   else
     extension=""
   fi
-  
+
   # Convert to slug format
   result=$(echo "$base_name" | tr '[:upper:]' '[:lower:]' | tr -cs '[:alnum:]' "$delimiter")
   result="${result#$delimiter}"
   result="${result%$delimiter}"
-  
+
   # Add extension back if it exists
   [ -n "$extension" ] && result="$result.$extension"
-  
+
   # Add directory back if it exists and isn't current directory
   if [ "$dir_name" != "." ]; then
     result="$dir_name/$result"
   fi
-  
+
   echo "$result"
 }
 
 check_duplicate() {
-  local target="$1" 
+  local target="$1"
   local target_slug=$(slugify_file "$target")
   shift
-  
+
   for file in "$@"; do
     [ "$file" != "$target" ] && [ "$(slugify_file "$file")" = "$target_slug" ] && return 0
   done
@@ -146,28 +146,28 @@ check_duplicate() {
 
 number_duplicate_files() {
   local -a dups=("$@")
-  
+
   for dup in "${dups[@]}"; do
-    local slug=$(slugify_file "$dup") 
-    local dir_name=$(dirname "$dup") 
+    local slug=$(slugify_file "$dup")
+    local dir_name=$(dirname "$dup")
     local base_slug_no_dir="$(basename "$slug")"
-    local counter=2 
+    local counter=2
     local new_slug
-    
+
     while true; do
       if [ "$dir_name" = "." ]; then
         new_slug="$base_slug_no_dir-$counter"
       else
         new_slug="$dir_name/$base_slug_no_dir-$counter"
       fi
-      
+
       # Check if this new slug is already in use
       if [ -z "${slug_map[$new_slug]}" ] && [ ! -e "$new_slug" ]; then
         break
       fi
       ((counter++))
     done
-    
+
     # Store the original file with its new numbered slug
     slug_map["$new_slug"]="$dup"
     log_verbose "number: $dup -> $new_slug"
@@ -177,11 +177,11 @@ number_duplicate_files() {
 delete_duplicate_files() {
   local -a dups=("$@")
   local answer
-  
+
   echo "Duplicates detected:"
   printf '%s\n' "${dups[@]}" | sed 's/^/  /'
   read_with_timeout "Delete all duplicates? (y/Y) Yes, delete all duplicates (cannot be undone) (n) no, switch to dry-run mode to preview deletions (N) Number duplicate files instead: " answer || return 1
-  
+
   case "$answer" in
   y | Y)
     for dup in "${dups[@]}"; do
@@ -200,7 +200,7 @@ delete_duplicate_files() {
       [ "$dup" != "${slug_map[$slug]}" ] && echo "delete: $dup"
     done
     ;;
-  N) 
+  N)
     number_duplicate_files "${dups[@]}"
     ;;
   *)
@@ -213,7 +213,7 @@ delete_duplicate_files() {
 
 handle_duplicates() {
   [ ${#duplicates[@]} -eq 0 ] && return 0
-  
+
   if [ "${CONFIG["number_duplicates"]}" -eq 1 ]; then
     number_duplicate_files "${duplicates[@]}"
   elif [ "${CONFIG["delete_all"]}" -eq 1 ]; then
@@ -224,7 +224,7 @@ handle_duplicates() {
     local choice
     read_with_timeout "Handle duplicates by (n)umbering or (d)eleting? (n/d): " choice || return 1
     case "$choice" in
-    n | N) 
+    n | N)
       number_duplicate_files "${duplicates[@]}"
       ;;
     d | D)
@@ -257,13 +257,13 @@ handle_duplicates() {
 process_renames() {
   for slug in "${!slug_map[@]}"; do
     local file="${slug_map[$slug]}"
-    
+
     # Skip if file already has desired name
     if [ "$file" = "$slug" ]; then
       log_verbose "ignore: $file (already slugified)"
       continue
     fi
-    
+
     # Ensure target directory exists
     local target_dir=$(dirname "$slug")
     if [ ! -d "$target_dir" ] && [ "$target_dir" != "." ]; then
@@ -273,7 +273,7 @@ process_renames() {
         mkdir -p "$target_dir"
       fi
     fi
-    
+
     # Perform the rename
     if [ "${CONFIG["dry_run"]}" -eq 1 ]; then
       echo "rename: $file -> $slug"
@@ -295,24 +295,24 @@ process_renames() {
 main() {
   local IFS=$'\n'
   local files=()
-  
+
   # Parse arguments and get files list
   readarray -t files < <(parse_arguments "$@")
-  
+
   # Show dry run mode message if enabled
   [ "${CONFIG["dry_run"]}" -eq 1 ] && echo "--- Begin dry run mode ---"
 
   # Global variables to maintain across functions
   declare -A slug_map
   declare -a duplicates=()
-  
+
   # Build the slug map and identify duplicates
   for file in "${files[@]}"; do
     if [ ! -e "$file" ]; then
       echo "not found: $file" >&2
       continue
     fi
-    
+
     local slug=$(slugify_file "$file")
     if [ -n "${slug_map[$slug]}" ] || check_duplicate "$file" "${files[@]}"; then
       duplicates+=("$file")
@@ -328,7 +328,7 @@ main() {
       exit 1
     }
   fi
-  
+
   # Process the renames
   process_renames
 
@@ -338,3 +338,4 @@ main() {
 
 # Call the main function with all arguments
 main "$@"
+
