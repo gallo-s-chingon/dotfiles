@@ -4,6 +4,7 @@
 # ===========================
 
 # Centralized logging configuration
+old_dir="$PWD"
 LOG_DIR="$HOME/log"
 mkdir -p "$LOG_DIR" 2>/dev/null
 
@@ -73,32 +74,46 @@ log_message() {
     fi
 }
 
-# Check dependencies
-check_dependencies() {
-    local deps=("ollama" "bc" "grep" "awk" "sed")
-    local missing=()
+process_youtube_csv() {
+  local csv_file="$1"
+  local success_log="$HOME/youtube_downloads_success.log"
+  local temp_file=$(mktemp)
+
+  # Read the entire file
+  while IFS= read -r line; do
+    # Skip empty lines or comments
+    [[ -z "$line" || "$line" == \#* ]] && continue
     
-    for dep in "${deps[@]}"; do
-        if ! command -v "$dep" >/dev/null 2>&1; then
-            missing+=("$dep")
-        fi
+    # Split line into URL and patterns
+    IFS=',' read -r url patterns_string <<< "$line"
+    
+    # Split patterns into an array
+    IFS=',' read -rA patterns <<< "$patterns_string"
+    
+    # Track successful and failed patterns
+    successful_patterns=()
+    failed_patterns=()
+    
+    # Process each pattern
+    for pattern in "${patterns[@]}"; do
+      [[ -z "$pattern" ]] && continue
+      
+      # Run automation script
+      if fabric_youtube_automation.sh "$url" "$pattern"; then
+        successful_patterns+=("$pattern")
+        # Log successful download
+        printf "%s | %s | %s\n" "$(date '+%Y-%m-%d %H:%M:%S')" "$url" "$pattern" >> "$success_log"
+      else
+        failed_patterns+=("$pattern")
+      fi
     done
     
-    if [[ ${#missing[@]} -gt 0 ]]; then
-        log_message "ERROR" "Missing dependencies: ${missing[*]}"
-        return 1
+    # Rebuild line with only failed patterns
+    if [[ ${#failed_patterns[@]} -gt 0 ]]; then
+      printf "%s,%s\n" "$url" "$(IFS=,; echo "${failed_patterns[*]}")" >> "$temp_file"
     fi
-    
-    return 0
-}
+  done < "$csv_file"
 
-# Extract timestamps from SRT file
-extract_timestamps() {
-    local input_file="$1"
-    local timestamp_file="$TEMP_DIR/timestamps.txt"
-    
-    grep -E '^[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} -->' "$input_file" | 
-        awk '{print $1, $3}' > "$timestamp_file"
-    
-    echo "$timestamp_file"
+  # Replace original file with processed temp file
+  mv "$temp_file" "$csv_file"
 }

@@ -13,3 +13,5 @@ fi
 
 # Initialize Homebrew environment
 eval "$($BREW_PATH shellenv)"
+export PATH="/opt/homebrew/bin:$PATH"
+

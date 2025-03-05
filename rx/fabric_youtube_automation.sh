@@ -45,30 +45,30 @@ fabric_youtube_automation() {
     sleep 1
   }
 
-  # Function to convert SRT to MD
-  srt_to_md() {
+  # Function to convert SRT/VTT to MD
+  subtitle_to_md() {
     local input_file="$1"
     local output_file="$2"
 
-    echo "Converting SRT to Markdown: $input_file → $output_file"
+    echo "Converting subtitle to Markdown: $input_file → $output_file"
 
-    # Use fabric to convert SRT to MD
+    # Use fabric to convert subtitle to MD
     cat "$input_file" | fabric -p "srt-transcript-to-md" -o "$output_file" 2> >(while read line; do
-      log_message "srt_to_md" "ERROR" "fabric: $line"
+      log_message "subtitle_to_md" "ERROR" "fabric: $line"
     done)
 
     local exit_code=$?
     if [[ $exit_code -ne 0 || ! -s "$output_file" ]]; then
-      log_message "srt_to_md" "ERROR" "Failed to convert SRT to Markdown"
+      log_message "subtitle_to_md" "ERROR" "Failed to convert subtitle to Markdown"
       return 1
     fi
 
-    log_message "srt_to_md" "INFO" "Successfully created markdown file: $output_file"
+    log_message "subtitle_to_md" "INFO" "Successfully created markdown file: $output_file"
     echo "Markdown transcript created: $output_file"
 
-    # Delete original SRT file after successful conversion
+    # Delete original subtitle file after successful conversion
     if [[ -f "$input_file" && -s "$output_file" ]]; then
-      echo "Removing original SRT file"
+      echo "Removing original subtitle file"
       rm "$input_file"
     fi
 
@@ -129,8 +129,8 @@ fabric_youtube_automation() {
   local PARENT_DIR
   if [[ -d "/Volumes/armor/didact/YT" ]]; then
     PARENT_DIR="/Volumes/armor/didact/YT"
-  elif [[ -d "/Volumes/Samsung USB/YT" ]]; then
-    PARENT_DIR="/Volumes/Samsung USB/YT"
+  elif [[ -d "/Volumes/Samsung/YT" ]]; then
+    PARENT_DIR="/Volumes/Samsung/YT"
   else
     PARENT_DIR="$PWD"
   fi
@@ -144,7 +144,8 @@ fabric_youtube_automation() {
 
   local VIDEO_FILE="$OUTPUT_DIR/$VIDEO_BASE.mp4"
   local MD_FILE="$OUTPUT_DIR/$MD_BASE.md"
-  local TRANSCRIPT_FILE="$OUTPUT_DIR/${VIDEO_BASE}-transcript.srt"
+  local TRANSCRIPT_SRT_FILE="$OUTPUT_DIR/${VIDEO_BASE}-transcript.srt"
+  local TRANSCRIPT_VTT_FILE="$OUTPUT_DIR/${VIDEO_BASE}-transcript.vtt"
   local TRANSCRIPT_MD_FILE="$OUTPUT_DIR/${VIDEO_BASE}-transcript.md"
 
   # Create output directory if needed
@@ -157,6 +158,7 @@ fabric_youtube_automation() {
   # Check if files exist
   local VIDEO_EXISTS=0
   local SRT_EXISTS=0
+  local VTT_EXISTS=0
   local TRANSCRIPT_MD_EXISTS=0
 
   if [[ -f "$VIDEO_FILE" ]]; then
@@ -164,9 +166,14 @@ fabric_youtube_automation() {
     VIDEO_EXISTS=1
   fi
 
-  if [[ -f "$TRANSCRIPT_FILE" ]]; then
-    echo "SRT transcript file exists: $TRANSCRIPT_FILE"
+  if [[ -f "$TRANSCRIPT_SRT_FILE" ]]; then
+    echo "SRT transcript file exists: $TRANSCRIPT_SRT_FILE"
     SRT_EXISTS=1
+  fi
+
+  if [[ -f "$TRANSCRIPT_VTT_FILE" ]]; then
+    echo "VTT transcript file exists: $TRANSCRIPT_VTT_FILE"
+    VTT_EXISTS=1
   fi
 
   if [[ -f "$TRANSCRIPT_MD_FILE" ]]; then
@@ -211,20 +218,28 @@ fabric_youtube_automation() {
 
   # Function to download transcript
   download_transcript() {
-    if [[ $SRT_EXISTS -eq 0 && $TRANSCRIPT_MD_EXISTS -eq 0 ]]; then
-      echo "Background process: Downloading transcript to: $TRANSCRIPT_FILE"
-      yt-dlp --write-auto-sub --skip-download --sub-format srt \
+    if [[ $SRT_EXISTS -eq 0 && $VTT_EXISTS -eq 0 && $TRANSCRIPT_MD_EXISTS -eq 0 ]]; then
+      echo "Background process: Downloading transcript"
+      # Try downloading both SRT and VTT
+      yt-dlp --write-auto-sub --skip-download --sub-format srt/vtt \
         -o "$OUTPUT_DIR/${VIDEO_BASE}" \
         "$VIDEO_URL" 2>"$TEMP_DIR/transcript_download_error.txt"
 
-      # yt-dlp may create files with different naming patterns, try to find and rename them
+      # Find and rename SRT file
       local POTENTIAL_SRT=$(find "$OUTPUT_DIR" -name "*${VIDEO_ID}*.srt" -type f | head -1)
-      if [[ -n "$POTENTIAL_SRT" && "$POTENTIAL_SRT" != "$TRANSCRIPT_FILE" ]]; then
+      if [[ -n "$POTENTIAL_SRT" && "$POTENTIAL_SRT" != "$TRANSCRIPT_SRT_FILE" ]]; then
         echo "Background process: Found SRT at $POTENTIAL_SRT, renaming to standardized name"
-        mv "$POTENTIAL_SRT" "$TRANSCRIPT_FILE"
+        mv "$POTENTIAL_SRT" "$TRANSCRIPT_SRT_FILE"
       fi
 
-      if [[ ! -f "$TRANSCRIPT_FILE" ]]; then
+      # Find and rename VTT file
+      local POTENTIAL_VTT=$(find "$OUTPUT_DIR" -name "*${VIDEO_ID}*.vtt" -type f | head -1)
+      if [[ -n "$POTENTIAL_VTT" && "$POTENTIAL_VTT" != "$TRANSCRIPT_VTT_FILE" ]]; then
+        echo "Background process: Found VTT at $POTENTIAL_VTT, renaming to standardized name"
+        mv "$POTENTIAL_VTT" "$TRANSCRIPT_VTT_FILE"
+      fi
+
+      if [[ ! -f "$TRANSCRIPT_SRT_FILE" && ! -f "$TRANSCRIPT_VTT_FILE" ]]; then
         log_message "fabric_youtube_automation" "ERROR" "Failed to download transcript: $(cat "$TEMP_DIR/transcript_download_error.txt")"
         cat "$TEMP_DIR/transcript_download_error.txt"
         echo "Background process: Continuing without transcript."
@@ -242,7 +257,7 @@ fabric_youtube_automation() {
     echo "Background process: Video download started with PID $VIDEO_PID"
   fi
 
-  if [[ $SRT_EXISTS -eq 0 && $TRANSCRIPT_MD_EXISTS -eq 0 ]]; then
+  if [[ $SRT_EXISTS -eq 0 && $VTT_EXISTS -eq 0 && $TRANSCRIPT_MD_EXISTS -eq 0 ]]; then
     download_transcript &
     TRANSCRIPT_PID=$!
     echo "Background process: Transcript download started with PID $TRANSCRIPT_PID"
@@ -255,12 +270,16 @@ fabric_youtube_automation() {
     echo "Transcript download process completed"
   fi
 
-  # Convert SRT to MD if SRT exists but MD doesn't
-  if [[ -f "$TRANSCRIPT_FILE" && ! -f "$TRANSCRIPT_MD_FILE" ]]; then
-    echo "Converting SRT to Markdown transcript..."
-    srt_to_md "$TRANSCRIPT_FILE" "$TRANSCRIPT_MD_FILE" &
+  # Convert SRT/VTT to MD if subtitle exists but MD doesn't
+  if [[ (-f "$TRANSCRIPT_SRT_FILE" || -f "$TRANSCRIPT_VTT_FILE") && ! -f "$TRANSCRIPT_MD_FILE" ]]; then
+    echo "Converting subtitle to Markdown transcript..."
+    if [[ -f "$TRANSCRIPT_SRT_FILE" ]]; then
+      subtitle_to_md "$TRANSCRIPT_SRT_FILE" "$TRANSCRIPT_MD_FILE" &
+    elif [[ -f "$TRANSCRIPT_VTT_FILE" ]]; then
+      subtitle_to_md "$TRANSCRIPT_VTT_FILE" "$TRANSCRIPT_MD_FILE" &
+    fi
     CONVERT_PID=$!
-    echo "Background process: SRT to Markdown conversion started with PID $CONVERT_PID"
+    echo "Background process: Subtitle to Markdown conversion started with PID $CONVERT_PID"
   fi
 
   # Wait for all background processes to complete
@@ -271,9 +290,9 @@ fabric_youtube_automation() {
   fi
 
   if [[ -n "$CONVERT_PID" ]]; then
-    echo "Waiting for SRT to Markdown conversion to complete..."
+    echo "Waiting for subtitle to Markdown conversion to complete..."
     wait $CONVERT_PID
-    echo "SRT to Markdown conversion completed"
+    echo "Subtitle to Markdown conversion completed"
   fi
 
   # Clean memory before running fabric
@@ -323,24 +342,4 @@ fabric_youtube_automation() {
     return 1
   fi
 
-  if [[ ! -f "$MD_FILE" || ! -s "$MD_FILE" || $(grep -c "could not get pattern" "$MD_FILE") -gt 0 ]]; then
-    echo "Content of markdown file (if exists):"
-    [[ -f "$MD_FILE" ]] && cat "$MD_FILE"
-    log_message "fabric_youtube_automation" "ERROR" "Failed to run fabric with pattern $ORIGINAL_PATTERN: $(cat "$TEMP_DIR/fabric_error.txt")"
-    rm -rf "$TEMP_DIR"
-    return 1
-  fi
-
-  # Clean up
-  rm -rf "$TEMP_DIR"
-
-  echo "Process completed successfully."
-  echo "Files:"
-  echo "  Pattern Markdown: $MD_FILE"
-  echo "  Video: $VIDEO_FILE"
-  [[ -f "$TRANSCRIPT_MD_FILE" ]] && echo "  Transcript Markdown: $TRANSCRIPT_MD_FILE"
-
-  return 0
-}
-
-fabric_youtube_automation "$@"
+  if [[ ! -f "$MD_FILE" || ! -s "$MD_FILE" || $(grep -c "could not get pattern" "$MD_FILE") -gt

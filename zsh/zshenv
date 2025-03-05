@@ -34,11 +34,13 @@ fi
 
 export FUNCNEST=25000
 
+# Homebrew path
+export PATH="/opt/homebrew/bin:$PATH"
+
 # Golang settings
-# Golang environment variables
-export GOROOT=$(brew --prefix go)/libexec
+export GOROOT="/opt/homebrew/opt/go/libexec"
 export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # Source zprofile
 source "$DOTZ/zprofile"

@@ -19,7 +19,7 @@ update-zwc() {
 open-zshrc() { nvim "$DOTZ/zshrc"; }
 open-zsh-history() { nvim "$HOME/.zsh_history"; }
 open-aliases() { nvim "$DOTZ/modules/aliases.zsh"; }
-open-functions() { cd "$DOTZ/modules/" && nvim "$DOTZ/modules/functions.zsh"; }
+open-functions() { nvim "$DOTZ/modules/functions.zsh"; }
 open-nvim-init() { nvim "$DOTN/init.lua"; }  # Updated to use DOTN
 open-wezterm() { nvim "$HOME/.config/wezterm.lua"; }
 open-ghostty() { nvim "$CF/ghostty/config"; }

@@ -54,7 +54,7 @@ fabric_clipboard_automation() {
   if [[ "$INPUT" == "pbpaste" || "$INPUT" == "clipboard" ]]; then
     USE_CLIPBOARD=1
     echo "Using clipboard data as input"
-    
+
     # If no output file is specified, prompt for one
     if [[ -z "$OUTPUT" ]]; then
       echo "Enter output file path (default: clipboard-output.md):"
@@ -64,7 +64,7 @@ fabric_clipboard_automation() {
   elif [[ -n "$INPUT" && -f "$INPUT" ]]; then
     INPUT_FILE="$INPUT"
     echo "Using file input: $INPUT_FILE"
-    
+
     # If no output file is specified, use input filename with pattern appended
     if [[ -z "$OUTPUT" ]]; then
       local INPUT_BASE="${INPUT_FILE%.*}"
@@ -81,14 +81,14 @@ fabric_clipboard_automation() {
 
   # Set output file
   local MD_FILE="$OUTPUT"
-  
+
   # Auto-enumerate markdown file if needed
   if [[ -f "$MD_FILE" ]]; then
     local OUTPUT_DIR=$(dirname "$MD_FILE")
     local OUTPUT_BASE=$(basename "$MD_FILE")
     local OUTPUT_NAME="${OUTPUT_BASE%.*}"
     local OUTPUT_EXT="${OUTPUT_BASE##*.}"
-    
+
     # Find a new suffix number
     local COUNT=2
     while [[ -f "$OUTPUT_DIR/${OUTPUT_NAME}-${COUNT}.${OUTPUT_EXT}" ]]; do
@@ -98,7 +98,7 @@ fabric_clipboard_automation() {
     echo "Found matching markdown filename, using numbered suffix: $COUNT"
     MD_FILE="$OUTPUT_DIR/${OUTPUT_NAME}-${COUNT}.${OUTPUT_EXT}"
   fi
-  
+
   echo "Output file: $MD_FILE"
 
   # Select pattern if not provided
@@ -126,14 +126,14 @@ fabric_clipboard_automation() {
   clean_memory
 
   echo "Running fabric with pattern: $PATTERN_NAME"
-  
+
   # Run with retries for memory issues
   local RETRY_COUNT=0
   local SUCCESS=0
 
   while [[ $RETRY_COUNT -lt $MAX_RETRIES && $SUCCESS -eq 0 ]]; do
     clean_memory
-    
+
     if [[ $USE_CLIPBOARD -eq 1 ]]; then
       echo "Processing clipboard content"
       pbpaste | ifne fabric -p "$PATTERN_NAME" -o "$MD_FILE" 2>"$TEMP_DIR/fabric_error.txt"
