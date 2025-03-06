@@ -1,7 +1,6 @@
 #!/bin/bash
-
-srt_to_md() {
-  local func_name="srt_to_md"
+subtitle_to_md() {
+  local func_name="subtitle_to_md"
   local input_file=""
   local output_file=""
   local from_clipboard=false
@@ -14,11 +13,21 @@ srt_to_md() {
     log_message "$func_name" "INFO" "Using clipboard input, output to $output_file"
   elif [[ -n "$1" && -f "$1" ]]; then
     input_file="$1"
-    output_file="${2:-${input_file%.srt}.md}"
+    # Determine file extension
+    local file_ext="${input_file##*.}"
+
+    # Validate file extension
+    if [[ "$file_ext" != "srt" && "$file_ext" != "vtt" ]]; then
+      log_message "$func_name" "ERROR" "Unsupported file type. Must be .srt or .vtt"
+      echo "Error: Input file must be .srt or .vtt"
+      return 1
+    fi
+
+    output_file="${2:-${input_file%.*}.md}"
     log_message "$func_name" "INFO" "Using file input $input_file, output to $output_file"
   else
-    log_message "$func_name" "ERROR" "Usage: srt_to_md <input.srt> [output.md] or srt_to_md pbpaste [output.md]"
-    echo "Usage: srt_to_md <input.srt> [output.md] or srt_to_md pbpaste [output.md]"
+    log_message "$func_name" "ERROR" "Usage: subtitle_to_md <input.srt|input.vtt> [output.md] or subtitle_to_md pbpaste [output.md]"
+    echo "Usage: subtitle_to_md <input.srt|input.vtt> [output.md] or subtitle_to_md pbpaste [output.md]"
     return 1
   fi
 
@@ -29,7 +38,6 @@ srt_to_md() {
     pbpaste | fabric -p "$pattern_name" -o "$output_file" 2> >(while read line; do
       log_message "$func_name" "ERROR" "fabric: $line"
     done)
-
     if [[ $? -ne 0 || ! -s "$output_file" ]]; then
       log_message "$func_name" "ERROR" "Failed to process clipboard content with fabric"
       return 1
@@ -37,11 +45,6 @@ srt_to_md() {
   else
     # Handle file input
     log_message "$func_name" "INFO" "Processing file $input_file with fabric"
-
-    # Check if file has .srt extension
-    if [[ "${input_file##*.}" != "srt" ]]; then
-      log_message "$func_name" "WARNING" "Input file doesn't have .srt extension"
-    fi
 
     # Check if file exists and is readable
     if [[ ! -r "$input_file" ]]; then
@@ -53,7 +56,6 @@ srt_to_md() {
     cat "$input_file" | fabric -p "$pattern_name" -o "$output_file" 2> >(while read line; do
       log_message "$func_name" "ERROR" "fabric: $line"
     done)
-
     if [[ $? -ne 0 || ! -s "$output_file" ]]; then
       log_message "$func_name" "ERROR" "Failed to process file with fabric"
       return 1

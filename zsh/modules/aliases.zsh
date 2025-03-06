@@ -67,12 +67,14 @@ alias epi='$RX/blog.sh epi'              # Run blog script with 'epi' arg
 alias feat='$RX/blog.sh feat'            # Run blog script with 'feat' arg
 
 # ===== Scripts =====
-alias fby='$RX/fabric_automation.sh'
+alias fby='$RX/fabric_youtube_automation.sh'
+alias fbc='$RX/fabric_clipboard_automation.sh'
 alias slug='$RX/slugged.sh'
 alias stm='$RX/srt_to_md.sh'
 alias videdit='node $RX/processVideo.js'
 alias orgf='$RX/sort-file-by-date'       # Alias for sorting file.wqs by date
 alias bydate='$RX/sort-file-by-date.sh'  # Sort files by date (custom script)
+alias pyc='process_youtube_csv'
 
 # ===== Image Management Aliases =====
 alias 50p='imagemagick-resize-50'        # Resize image to 50%
