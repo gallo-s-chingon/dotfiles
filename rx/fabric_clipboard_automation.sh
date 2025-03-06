@@ -1,31 +1,49 @@
 #!/bin/bash
 # ==========
-# script to run `pbpaste | fabric -p $PATTERN_NAME -o $OUTPUT_FILE` or `cat $INPUT_FILE | fabric -p $PATTERN_NAME -o $OUTPUT_FILE`
+# Script to process a CSV file with URLs and Fabric patterns
 # ==========
-
-fabric_clipboard_automation() {
-  local INPUT="$1"
-  local OUTPUT="$2"
-  local PATTERN_NAME="$3"
+fabric_csv_automation() {
+  local CSV_FILE="$1"
   local LOG_DIR="$HOME/log"
-  local ERROR_LOG="$LOG_DIR/fabric_automation.log"
-  local TEMP_DIR="/tmp/fabric_automation_$(date +%s)"
+  local SUCCESS_LOG="$LOG_DIR/fabric_clipboard_automation.log"
+  local ERROR_LOG="$LOG_DIR/fabric_clipboard_automation_STDERR.log"
+  local TEMP_DIR="/tmp/fabric_csv_automation_$(date +%s)"
   local MAX_RETRIES=3
-  local USE_CLIPBOARD=0
-  local INPUT_FILE=""
 
-  # Create log directories if they don't exist
+  # Create log directories
   mkdir -p "$LOG_DIR"
-  touch "$ERROR_LOG"
+  touch "$SUCCESS_LOG" "$ERROR_LOG"
 
-  # Function to log errors
-  log_message() {
-    local func_name="$1"
-    local level="$2"
-    local message="$3"
-    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    echo "$timestamp - $func_name [$level]: $message" >>"$ERROR_LOG"
-    echo "$level: $message" >&2
+  # Function to find closest pattern match
+  find_closest_pattern() {
+    local input_pattern="$1"
+    local pattern_dir="$HOME/.config/fabric/patterns"
+    local closest_match=""
+    local lowest_distance=999
+
+    # Use fuzzy matching to find closest pattern
+    for pattern in "$pattern_dir"/*"$input_pattern"*; do
+      if [[ -d "$pattern" ]]; then
+        local basename_pattern=$(basename "$pattern")
+        # Compute Levenshtein distance (could replace with more sophisticated fuzzy matching)
+        local distance=$(echo "$basename_pattern" | awk -v pattern="$input_pattern" 'BEGIN{min=length(pattern)} 
+          {
+            a=length(); b=length(pattern)
+            for(i=1;i<=a;i++) 
+              for(j=1;j<=b;j++) 
+                d[i,j]=min(d[i-1,j]+1, d[i,j-1]+1, d[i-1,j-1]+(substr($0,i,1)!=substr(pattern,j,1)))
+            min=d[a,b]
+          } 
+          END{print min}')
+
+        if [[ $distance -lt $lowest_distance ]]; then
+          lowest_distance=$distance
+          closest_match="$basename_pattern"
+        fi
+      fi
+    done
+
+    echo "$closest_match"
   }
 
   # Function to slugify string
@@ -33,156 +51,70 @@ fabric_clipboard_automation() {
     echo "$1" | iconv -t ascii//TRANSLIT | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr '[:upper:]' '[:lower:]'
   }
 
-  # Function to clean memory
-  clean_memory() {
-    echo "Freeing up system memory..."
-    if command -v purge &>/dev/null && [[ "$(uname)" == "Darwin" ]]; then
-      sudo purge
-    elif [[ "$(uname)" == "Linux" ]]; then
-      echo 3 | sudo tee /proc/sys/vm/drop_caches &>/dev/null
-    fi
-    sleep 1
-  }
+  # Validate CSV file
+  if [[ ! -f "$CSV_FILE" ]]; then
+    echo "Error: CSV file not found" >&2
+    return 1
+  fi
 
   # Create temporary directory
-  mkdir -p "$TEMP_DIR" || {
-    log_message "fabric_clipboard_automation" "ERROR" "Failed to create temporary directory"
-    return 1
-  }
+  mkdir -p "$TEMP_DIR" || return 1
 
-  # Check if input is "pbpaste" or a file path
-  if [[ "$INPUT" == "pbpaste" || "$INPUT" == "clipboard" ]]; then
-    USE_CLIPBOARD=1
-    echo "Using clipboard data as input"
+  # Process each line in CSV
+  while IFS=',' read -r url patterns; do
+    # Trim whitespace from URL and patterns
+    url=$(echo "$url" | xargs)
+    patterns=$(echo "$patterns" | xargs)
 
-    # If no output file is specified, prompt for one
-    if [[ -z "$OUTPUT" ]]; then
-      echo "Enter output file path (default: clipboard-output.md):"
-      read -r OUTPUT
-      OUTPUT="${OUTPUT:-clipboard-output.md}"
+    # Validate URL
+    if [[ -z "$url" ]]; then
+      echo "Skipping empty URL" >>"$ERROR_LOG"
+      continue
     fi
-  elif [[ -n "$INPUT" && -f "$INPUT" ]]; then
-    INPUT_FILE="$INPUT"
-    echo "Using file input: $INPUT_FILE"
 
-    # If no output file is specified, use input filename with pattern appended
-    if [[ -z "$OUTPUT" ]]; then
-      local INPUT_BASE="${INPUT_FILE%.*}"
-      OUTPUT="${INPUT_BASE}-output.md"
-    fi
-  else
-    log_message "fabric_clipboard_automation" "ERROR" "Invalid input. Use 'pbpaste' or provide a valid file path."
-    echo "Usage:"
-    echo "  $0 pbpaste [output_file] [pattern_name]"
-    echo "  $0 input_file [output_file] [pattern_name]"
-    rm -rf "$TEMP_DIR"
-    return 1
-  fi
+    # Process each pattern for the URL
+    IFS=',' read -ra PATTERN_ARRAY <<<"$patterns"
+    for raw_pattern in "${PATTERN_ARRAY[@]}"; do
+      pattern=$(echo "$raw_pattern" | xargs)
 
-  # Set output file
-  local MD_FILE="$OUTPUT"
+      # Find closest pattern match
+      matched_pattern=$(find_closest_pattern "$pattern")
 
-  # Auto-enumerate markdown file if needed
-  if [[ -f "$MD_FILE" ]]; then
-    local OUTPUT_DIR=$(dirname "$MD_FILE")
-    local OUTPUT_BASE=$(basename "$MD_FILE")
-    local OUTPUT_NAME="${OUTPUT_BASE%.*}"
-    local OUTPUT_EXT="${OUTPUT_BASE##*.}"
+      if [[ -z "$matched_pattern" ]]; then
+        echo "No matching pattern found for: $pattern" >>"$ERROR_LOG"
+        continue
+      fi
 
-    # Find a new suffix number
-    local COUNT=2
-    while [[ -f "$OUTPUT_DIR/${OUTPUT_NAME}-${COUNT}.${OUTPUT_EXT}" ]]; do
-      ((COUNT++))
+      # Create output filename
+      slug_url=$(slugify "$url")
+      slug_pattern=$(slugify "$matched_pattern")
+      output_file="$HOME/output/${slug_url}-${slug_pattern}.md"
+
+      # Ensure output directory exists
+      mkdir -p "$(dirname "$output_file")"
+
+      # Process URL with matched pattern
+      echo "$url" | fabric -p "$matched_pattern" -o "$output_file" 2>"$TEMP_DIR/fabric_error.txt"
+
+      # Check for successful processing
+      if [[ $? -eq 0 && -s "$output_file" && ! -s "$TEMP_DIR/fabric_error.txt" ]]; then
+        echo "Successfully processed $url with pattern $matched_pattern" >>"$SUCCESS_LOG"
+      else
+        echo "Failed to process $url with pattern $matched_pattern: $(cat "$TEMP_DIR/fabric_error.txt")" >>"$ERROR_LOG"
+      fi
     done
-
-    echo "Found matching markdown filename, using numbered suffix: $COUNT"
-    MD_FILE="$OUTPUT_DIR/${OUTPUT_NAME}-${COUNT}.${OUTPUT_EXT}"
-  fi
-
-  echo "Output file: $MD_FILE"
-
-  # Select pattern if not provided
-  if [[ -z "$PATTERN_NAME" ]]; then
-    echo "Select a pattern:"
-    # Only list the directory names, not their contents
-    PATTERN_DIRS=$(find "$HOME/.config/fabric/patterns" -maxdepth 1 -mindepth 1 -type d -exec basename {} \;)
-    PATTERN_NAME=$(echo "$PATTERN_DIRS" | fzf)
-
-    if [[ -z "$PATTERN_NAME" ]]; then
-      log_message "fabric_clipboard_automation" "ERROR" "No pattern selected"
-      rm -rf "$TEMP_DIR"
-      return 1
-    fi
-  fi
-
-  # Ensure output directory exists
-  mkdir -p "$(dirname "$MD_FILE")" || {
-    log_message "fabric_clipboard_automation" "ERROR" "Failed to create output directory: $(dirname "$MD_FILE")"
-    rm -rf "$TEMP_DIR"
-    return 1
-  }
-
-  # Clean memory before processing
-  clean_memory
-
-  echo "Running fabric with pattern: $PATTERN_NAME"
-
-  # Run with retries for memory issues
-  local RETRY_COUNT=0
-  local SUCCESS=0
-
-  while [[ $RETRY_COUNT -lt $MAX_RETRIES && $SUCCESS -eq 0 ]]; do
-    clean_memory
-
-    if [[ $USE_CLIPBOARD -eq 1 ]]; then
-      echo "Processing clipboard content"
-      pbpaste | ifne fabric -p "$PATTERN_NAME" -o "$MD_FILE" 2>"$TEMP_DIR/fabric_error.txt"
-    else
-      echo "Processing file: $INPUT_FILE"
-      cat "$INPUT_FILE" | fabric -p "$PATTERN_NAME" -o "$MD_FILE" 2>"$TEMP_DIR/fabric_error.txt"
-    fi
-
-    if grep -q "llama runner process has terminated: signal: killed" "$TEMP_DIR/fabric_error.txt"; then
-      ((RETRY_COUNT++))
-      echo "Attempt $RETRY_COUNT/$MAX_RETRIES: Llama process ran out of memory. Retrying after cleanup..."
-      sleep 2
-      clean_memory
-    else
-      SUCCESS=1
-    fi
-  done
-
-  if [[ $SUCCESS -eq 0 ]]; then
-    log_message "fabric_clipboard_automation" "ERROR" "Failed after $MAX_RETRIES attempts due to memory issues"
-    echo "Try reducing input size or increasing system memory"
-    rm -rf "$TEMP_DIR"
-    return 1
-  fi
-
-  if [[ ! -s "$MD_FILE" || $(grep -c "could not get pattern" "$MD_FILE") -gt 0 ]]; then
-    echo "Content of markdown file:"
-    cat "$MD_FILE"
-    log_message "fabric_clipboard_automation" "ERROR" "Failed to run fabric with pattern $PATTERN_NAME: $(cat "$TEMP_DIR/fabric_error.txt")"
-    rm -rf "$TEMP_DIR"
-    return 1
-  fi
+  done <"$CSV_FILE"
 
   # Clean up
   rm -rf "$TEMP_DIR"
-
-  echo "Process completed successfully."
-  echo "Output file: $MD_FILE"
-
-  return 0
 }
 
-# Check if being called with expected parameters
-if [[ "$1" == "pbpaste" || -f "$1" ]]; then
-  fabric_clipboard_automation "$@"
-else
-  echo "Did you mean to use fabric_youtube_automation.sh instead?"
-  echo "Usage:"
-  echo "  $0 pbpaste [output_file] [pattern_name]"
-  echo "  $0 input_file [output_file] [pattern_name]"
+# Check parameters
+if [[ $# -ne 1 || ! -f "$1" ]]; then
+  echo "Usage: $0 <csv_file>"
+  echo "CSV file should contain: URL,pattern1,pattern2,..."
   exit 1
 fi
+
+fabric_csv_automation "$1"
+
