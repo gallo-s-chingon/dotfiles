@@ -65,6 +65,10 @@ slugify() {
   echo "$1" | iconv -t ascii//TRANSLIT | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr '[:upper:]' '[:lower:]'
 }
 
+# slugu() {
+#   echo "$1" | iconv -t ascii//TRANSLIT | sed -E 's/[^a-zA-Z0-9]+/_/g' | sed -E 's/^_+|_+$//g' | tr '[:upper:]' '[:lower:]'
+# }
+
 # run sudo purge to clear memory to continue a bit faster
 clean_memory() {
   echo "Freeing up system memory..."
@@ -76,4 +80,45 @@ clean_memory() {
     echo "Warning: Memory cleanup not supported on this OS" >&2
   fi
   sleep 1
+}
+
+srt_to_md() {
+  local input_file="$1"
+
+  # Check input file
+  [[ -z "$input_file" ]] && { log_message "srt_to_md" "ERROR" "No input file provided"; return 1; }
+  [[ ! -f "$input_file" ]] && { log_message "srt_to_md" "ERROR" "Input file $input_file not found"; return 1; }
+
+  # Determine output file based on extension and naming
+  local base_name="${input_file:r}"  # Zsh syntax to strip extension
+  local output_file
+
+  if [[ "$input_file" =~ "\.srt$" ]]; then
+    output_file="${base_name}.md"
+  elif [[ "$input_file" =~ "\.[a-z]{2}\.vtt$" ]]; then
+    # Strip language code (e.g., .en.vtt) and append -transcript
+    base_name="${input_file%.??\.vtt}"  # Remove .??.vtt
+    output_file="${base_name}-transcript.md"
+  elif [[ "$input_file" =~ "-transcript\.vtt$" ]]; then
+    output_file="${base_name}.md"
+  else
+    output_file="${base_name}.md"  # Default for unrecognized extensions
+  fi
+
+  # Create a temporary copy
+  local temp_file="/tmp/srt_to_md_$$_${input_file:t}"  # $$ is PID, :t is basename
+  cp "$input_file" "$temp_file" || { log_message "srt_to_md" "ERROR" "Failed to create temp copy $temp_file"; return 1; }
+
+  echo "Converting to Markdown: $input_file → $output_file (via temp $temp_file)"
+  nvim --headless -u NONE -c "luafile /Users/gchingon/il-diab/scripts/srt_to_md.lua" "$temp_file" -- "$output_file" 2>/dev/null
+
+  if [[ ! -f "$output_file" || ! -s "$output_file" ]]; then
+    log_message "srt_to_md" "ERROR" "Failed to convert $temp_file to $output_file"
+    rm -f "$temp_file"  # Clean up temp file on failure
+    return 1
+  fi
+
+  log_message "srt_to_md" "INFO" "Successfully converted $input_file to $output_file"
+  rm -f "$temp_file"  # Clean up temp file on success
+  return 0
 }

@@ -15,9 +15,6 @@ source "$ZINIT_HOME/zinit.zsh"
 # Load plugins
 zinit ice depth=1; zinit light romkatv/powerlevel10k  # Powerlevel10k theme
 zinit light Aloxaf/fzf-tab                           # fzf tab completion
-
-# Initialize completions
-autoload -U compinit && compinit
 zinit cdreplay -q
 
 # Additional enhancements

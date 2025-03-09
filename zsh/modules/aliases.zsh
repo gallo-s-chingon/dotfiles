@@ -106,7 +106,6 @@ alias lsf='ls -f'                        # List files only
 alias lt='ls --tree --level=2'           # Tree view, 2 levels
 alias lta='ls --tree --level=3 --long --git'  # Detailed tree, 3 levels
 alias lx='ls -lbhHgUmuSa@'               # Detailed list with all options
-alias tree='tree-with-exclusions'        # Custom tree view (assumes function)
 
 # ===== Directory Navigation Aliases =====
 alias ...='../..'                        # Go up 2 directories
