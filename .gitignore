@@ -2,14 +2,10 @@
 *.zcompdump
 *.DS_Store
 *.zwc
-*.mono/
-.mono/
 deluge/
 gtk*
 nvim
 nvim/
-Sonarr/
 nushell/history.txt
 history.txt
-tanim.txt
 *.bak
