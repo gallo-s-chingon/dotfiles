@@ -4,14 +4,18 @@
 # Base directories
 export XDG_CONFIG_HOME="$HOME/.config"  # Symlinked from ~/.config where possible
 export CF="$XDG_CONFIG_HOME"
-export DOTZ="$HOME/.config/zsh"           # Real files in ~/.config/zsh
+export DZ="$HOME/.config/zsh"           # Real files in ~/.config/zsh
 export RX="$HOME/.config/rx"              # Real files in ~/.config/rx
+<<<<<<< HEAD
 export NV="$HOME/il-diab"
 export NTS="$HOME/notes"
+=======
+export NV="$HOME/il-diab"            # Real Neovim repo
+export NT="$HOME/notes"
+>>>>>>> 360703050f0fae8db08232b8786261d6072dc192
 export DX="$HOME/Documents"
 export DN="$HOME/Downloads"
 export SCS="$DX/webpage"
-export SUSO="$HOME/sucias-social"
 export CAPTURE_FOLDER="$HOME/Pictures"
 
 # Tool-specific settings
@@ -42,5 +46,5 @@ export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # Source zprofile
-source "$DOTZ/zprofile"
+source "$DZ/zprofile"
 source <(carapace _carapace zsh)
