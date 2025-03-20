@@ -22,8 +22,8 @@ fabric_youtube_automation() {
 
   if [[ -d "/Volumes/armor/didact/YT" ]]; then
     PARENT_DIR="/Volumes/armor/didact/YT"
-  elif [[ -d "/Volumes/Samsung/YT" ]]; then
-    PARENT_DIR="/Volumes/Samsung/YT"
+  elif [[ -d "/Volumes/Samsung/videos/yt" ]]; then
+    PARENT_DIR="/Volumes/Samsung/videos/yt"
   else
     PARENT_DIR="$HOME/jactpot"
   fi
@@ -49,9 +49,9 @@ fabric_youtube_automation() {
   # Run fabric with available transcript
   clean_memory
   if [[ -f "$TRANSCRIPT_SRT" ]]; then
-    fabric -f "$TRANSCRIPT_SRT" -p "$ORIGINAL_PATTERN" -o "$MD_FILE" 2>/dev/null
+    fabric "$TRANSCRIPT_SRT" -p "$ORIGINAL_PATTERN" -o "$MD_FILE" 2>/dev/null
   elif [[ -f "$TRANSCRIPT_VTT" ]]; then
-    fabric -f "$TRANSCRIPT_VTT" -p "$ORIGINAL_PATTERN" -o "$MD_FILE" 2>/dev/null
+    fabric "$TRANSCRIPT_VTT" -p "$ORIGINAL_PATTERN" -o "$MD_FILE" 2>/dev/null
   else
     fabric -y "$VIDEO_URL" -p "$ORIGINAL_PATTERN" -o "$MD_FILE" 2>/dev/null
   fi

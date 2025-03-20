@@ -11,15 +11,15 @@ source-zshrc() {
 # `zcompile` creates .zwc files to speed up sourcing
 update-zwc() {
   compile-zdot() { [ -f "$1" ] && zcompile "$1" && echo "Compiled $1"; }
-  compile-zdot "$DOTZ/modules/*.zsh"
-  compile-zdot "$DOTZ/z*"
+  compile-zdot "$DZ/modules/*.zsh"
+  compile-zdot "$DZ/z*"
 }
 
 # Open config files in Neovim
-open-zshrc() { nvim "$DOTZ/zshrc"; }
+open-zshrc() { nvim "$DZ/zshrc"; }
 open-zsh-history() { nvim "$HOME/.zsh_history"; }
-open-aliases() { nvim "$DOTZ/modules/aliases.zsh"; }
-open-functions() { nvim "$DOTZ/modules/functions.zsh"; }
+open-aliases() { nvim "$DZ/modules/aliases.zsh"; }
+open-functions() { nvim "$DZ/modules/functions.zsh"; }
 open-nvim-init() { nvim "$DOTN/init.lua"; }  # Updated to use DOTN
 open-wezterm() { nvim "$HOME/.config/wezterm.lua"; }
 open-ghostty() { nvim "$CF/ghostty/config"; }
