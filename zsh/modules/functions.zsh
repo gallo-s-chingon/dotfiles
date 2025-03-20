@@ -54,7 +54,6 @@ open-ghostty() {
 
 # Config
 LOG_FILE="${HOME}/log/srt-to-md.log"
-OLLAMA_MODEL="llama3.3"
 TEMP_DIR="/tmp/srt-to-md"
 
 # Ensure log directory exists

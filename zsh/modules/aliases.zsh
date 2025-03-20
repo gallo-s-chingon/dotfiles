@@ -32,6 +32,7 @@ alias gpl='git-pull'                     # Pull changes from remote
 alias gla='git-pull-all'                 # Pull all repos in specified dirs
 alias gph='git-push'                     # Push changes to remote
 alias gst='git status'                   # Show git status
+alias headpat='pattern_header_fabric_file'
 
 # ===== File Management Aliases =====
 alias d='fd -H -t f .DS_Store -X rm -frv'  # Remove .DS_Store files (macOS)

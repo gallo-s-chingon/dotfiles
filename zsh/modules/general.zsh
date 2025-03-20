@@ -32,34 +32,6 @@ select-pattern() {
   fi
 }
 
-# function to log function errs and output
-
-log_message() {
-  local func_name="$1"
-  local level="$2"
-  local message="$3"
-  local log_dir="${4:-$HOME/log}"
-  local error_log="$log_dir/fabric_errors.log"
-  local output_log="$log_dir/fabric_output.log"
-  local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-
-  mkdir -p "$log_dir"
-
-  case "$level" in
-    "ERROR")
-      echo "$timestamp - $func_name [$level]: $message" >>"$error_log"
-      echo "$level: $message" >&2
-      ;;
-    "INFO")
-      echo "$timestamp - $func_name [$level]: $message" >>"$output_log"
-      echo "$message"
-      ;;
-    *)
-      echo "$timestamp - $func_name [UNKNOWN]: $message" >>"$error_log"
-      echo "UNKNOWN: $message" >&2
-      ;;
-  esac
-}
 
 slugify() {
   echo "$1" | iconv -t ascii//TRANSLIT | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr '[:upper:]' '[:lower:]'
@@ -83,42 +55,56 @@ clean_memory() {
 }
 
 srt_to_md() {
-  local input_file="$1"
+    local input_file="$1"
+    [[ -z "$input_file" ]] && { echo "ERROR: No input file provided"; return 1; }
+    [[ ! -f "$input_file" ]] && { echo "ERROR: Input file $input_file not found"; return 1; }
 
-  # Check input file
-  [[ -z "$input_file" ]] && { log_message "srt_to_md" "ERROR" "No input file provided"; return 1; }
-  [[ ! -f "$input_file" ]] && { log_message "srt_to_md" "ERROR" "Input file $input_file not found"; return 1; }
+    local base_name="$(basename "${input_file%.*}")"
+    local output_file="${base_name}.md"
 
-  # Determine output file based on extension and naming
-  local base_name="${input_file:r}"  # Zsh syntax to strip extension
-  local output_file
+    echo "Converting to Markdown: $input_file → $output_file"
 
-  if [[ "$input_file" =~ "\.srt$" ]]; then
-    output_file="${base_name}.md"
-  elif [[ "$input_file" =~ "\.[a-z]{2}\.vtt$" ]]; then
-    # Strip language code (e.g., .en.vtt) and append -transcript
-    base_name="${input_file%.??\.vtt}"  # Remove .??.vtt
-    output_file="${base_name}-transcript.md"
-  elif [[ "$input_file" =~ "-transcript\.vtt$" ]]; then
-    output_file="${base_name}.md"
-  else
-    output_file="${base_name}.md"  # Default for unrecognized extensions
-  fi
+    # Add CRLF handling and whitespace normalization
+    grep -v -E '^[0-9]+$|-->|^[[:space:]]*$' "$input_file" |
+    tr -d '\r' |                         # Remove carriage returns
+    awk '{$1=$1; sub(/ $/, "")} 1' |     # Normalize whitespace
+    awk '!seen[$0]++' > "$output_file"   # Remove all duplicates
 
-  # Create a temporary copy
-  local temp_file="/tmp/srt_to_md_$$_${input_file:t}"  # $$ is PID, :t is basename
-  cp "$input_file" "$temp_file" || { log_message "srt_to_md" "ERROR" "Failed to create temp copy $temp_file"; return 1; }
+    # Verification with accurate counts
+    if [[ -f "$output_file" && -s "$output_file" ]]; then
+        wc_before=$(grep -v -E '^[0-9]+$|-->|^[[:space:]]*$' "$input_file" | tr -d '\r' | wc -l)
+        wc_after=$(wc -l < "$output_file")
+        echo "SUCCESS: Created $output_file (Reduced from $wc_before to $wc_after lines)"
+        return 0
+    else
+        echo "ERROR: Failed to create $output_file"
+        return 1
+    fi
+}
 
-  echo "Converting to Markdown: $input_file → $output_file (via temp $temp_file)"
-  nvim --headless -u NONE -c "luafile /Users/gchingon/il-diab/scripts/srt_to_md.lua" "$temp_file" -- "$output_file" 2>/dev/null
+pattern_header_fabric_file() {
+    # Check for required arguments
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        echo "Usage: pattern_header_fabric_file <input_file> <pattern_name>"
+        return 1
+    fi
 
-  if [[ ! -f "$output_file" || ! -s "$output_file" ]]; then
-    log_message "srt_to_md" "ERROR" "Failed to convert $temp_file to $output_file"
-    rm -f "$temp_file"  # Clean up temp file on failure
-    return 1
-  fi
+    local input_file="$1"
+    local pattern_name="$2"
+    
+    # Create slugged filename (lowercase, spaces to hyphens)
+    local slugged_pattern=$(echo "$pattern_name" | tr '[:upper:]' '[:lower:]' | tr '_' '-' | tr ' ' '-')
+    local output_file="${input_file%.*}-${slugged_pattern}.${input_file##*.}"
 
-  log_message "srt_to_md" "INFO" "Successfully converted $input_file to $output_file"
-  rm -f "$temp_file"  # Clean up temp file on success
-  return 0
+    # Process with Fabric and capture output
+    local fabric_output=$(fabric -p "$pattern_name" -o "$output_file" < "$input_file")
+
+    # Create output file with original content + header + Fabric output
+    {
+        cat "$input_file"
+        echo -e "\n\n# ${pattern_name//_/ } of $(basename "$input_file") via fabric"
+        echo "$fabric_output"
+    } > "$output_file"
+
+    echo "Created processed file: $output_file"
 }
