@@ -6,13 +6,8 @@ export XDG_CONFIG_HOME="$HOME/.config"  # Symlinked from ~/.config where possibl
 export CF="$XDG_CONFIG_HOME"
 export DZ="$HOME/.config/zsh"           # Real files in ~/.config/zsh
 export RX="$HOME/.config/rx"              # Real files in ~/.config/rx
-<<<<<<< HEAD
-export NV="$HOME/il-diab"
-export NTS="$HOME/notes"
-=======
 export NV="$HOME/il-diab"            # Real Neovim repo
 export NT="$HOME/notes"
->>>>>>> 360703050f0fae8db08232b8786261d6072dc192
 export DX="$HOME/Documents"
 export DN="$HOME/Downloads"
 export SCS="$DX/webpage"
