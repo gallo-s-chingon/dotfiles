@@ -108,3 +108,35 @@ pattern_header_fabric_file() {
 
     echo "Created processed file: $output_file"
 }
+
+vtt_to_md() {
+    local input_file="$1"
+    [[ -z "$input_file" ]] && { echo "ERROR: No input file provided"; return 1; }
+    [[ ! -f "$input_file" ]] && { echo "ERROR: Input file $input_file not found"; return 1; }
+    local base_name="$(basename "${input_file%.*}")"
+    local output_file="${base_name}.md"
+    echo "Converting to Markdown: $input_file → $output_file"
+    
+    # Process VTT file
+    sed '1,/^$/d' "$input_file" | # Remove header
+    sed -E 's/<[^>]*>//g' | # Remove HTML-like tags
+    # More aggressive timestamp removal - catches all timestamp formats
+    sed -E '/^[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3} -->/d' |
+    sed -E '/^[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3} align:/d' |
+    sed -E 's/^[0-9:.]+( align:.*position:[0-9]+%)?$//g' | # Remove complex timestamp lines
+    sed -E 's/^[0-9]+$//g' | # Remove numbering
+    sed -E 's/[[:space:]]*$//g' | # Trim trailing whitespace
+    grep -v "^$" | # Remove empty lines
+    awk '!seen[$0]++' > "$output_file" # Remove duplicates
+    
+    # Results verification
+    if [[ -f "$output_file" && -s "$output_file" ]]; then
+        wc_before=$(sed '1,/^$/d' "$input_file" | wc -l)
+        wc_after=$(wc -l < "$output_file")
+        echo "SUCCESS: Created $output_file (Reduced from $wc_before to $wc_after lines)"
+        return 0
+    else
+        echo "ERROR: Failed to create $output_file"
+        return 1
+    fi
+}
