@@ -4,13 +4,11 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Map Tab to Hyper when held",
+                        "description": "Tab as Hyper Key",
                         "manipulators": [
                             {
-                                "from": {
-                                    "key_code": "tab",
-                                    "modifiers": { "optional": ["any"] }
-                                },
+                                "from": { "key_code": "tab" },
+                                "parameters": { "basic.to_if_held_down_threshold_milliseconds": 120 },
                                 "to_if_alone": [{ "key_code": "tab" }],
                                 "to_if_held_down": [
                                     {

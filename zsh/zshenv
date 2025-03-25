@@ -2,16 +2,17 @@
 # Defines global environment variables for all Zsh sessions
 
 # Base directories
-export XDG_CONFIG_HOME="$HOME/.config"  # Symlinked from ~/.config where possible
+export XDG_CONFIG_HOME="$HOME/.config"
 export CF="$XDG_CONFIG_HOME"
-export DZ="$HOME/.config/zsh"           # Real files in ~/.config/zsh
-export RX="$HOME/.config/rx"              # Real files in ~/.config/rx
-export NV="$HOME/il-diab"            # Real Neovim repo
-export NT="$HOME/notes"
-export DX="$HOME/Documents"
-export DN="$HOME/Downloads"
-export SCS="$DX/webpage"
 export CAPTURE_FOLDER="$HOME/Pictures"
+export DN="$HOME/Downloads"
+export DX="$HOME/Documents"
+export DZ="$HOME/.config/zsh"         # zsh config stuff
+export NV="$HOME/il-diab"             # Real Neovim repo
+export NT="$HOME/notes"               # git repo for notes
+export PD="$HOME/podcast/"            # podcast ideas, topics & published content
+export RX="$HOME/.config/rx"          # shortcut to global scripts
+export SCS="$DX/webpage"
 
 # Tool-specific settings
 export PATH="$HOME/myCommands:$HOME/myCommands/bin:/opt/homebrew/opt/ruby/bin:$HOME/.cargo/bin:$HOME/.local/bin:$RX:$PATH"  # Add $RX to PATH
