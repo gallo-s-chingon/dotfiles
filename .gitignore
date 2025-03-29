@@ -2,10 +2,6 @@
 *.zcompdump
 *.DS_Store
 *.zwc
-deluge/
-gtk*
-nvim
-nvim/
-nushell/history.txt
+deluge//history.txt
 history.txt
 *.bak

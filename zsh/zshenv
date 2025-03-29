@@ -7,12 +7,13 @@ export CF="$XDG_CONFIG_HOME"
 export CAPTURE_FOLDER="$HOME/Pictures"
 export DN="$HOME/Downloads"
 export DX="$HOME/Documents"
-export DZ="$HOME/.config/zsh"         # zsh config stuff
-export NV="$HOME/il-diab"             # Real Neovim repo
-export NT="$HOME/notes"               # git repo for notes
-export PD="$HOME/podcast/"            # podcast ideas, topics & published content
-export RX="$HOME/.config/rx"          # shortcut to global scripts
-export SCS="$DX/webpage"
+export NT="$HOME/notes"     # git repo for notes
+export DZ="$CF/zsh"         # zsh config stuff
+export NV="$CF/nvim"        # Real Neovim repo
+export RX="$CF/rx"          # shortcut to global scripts
+export PD="$DX/podcast/"    # podcast ideas, topics & published content
+export WP="$DX/webpage"
+export WC="$DX/widows-club"
 
 # Tool-specific settings
 export PATH="$HOME/myCommands:$HOME/myCommands/bin:/opt/homebrew/opt/ruby/bin:$HOME/.cargo/bin:$HOME/.local/bin:$RX:$PATH"  # Add $RX to PATH

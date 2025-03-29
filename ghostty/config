@@ -1,5 +1,5 @@
-font-family = Hack
-font-size = 12
+font-family = Menlo
+font-size = 18
 background-blur-radius = 14
 macos-option-as-alt = true
 background-opacity = .9
@@ -9,7 +9,7 @@ window-decoration = true
 background = #0D1116
 foreground = #ebfafa
 
-cursor-color = #f94dff
+cursor-color = #f94ddd
 
 # black
 palette = 0=#0D1116
