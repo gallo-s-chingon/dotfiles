@@ -137,8 +137,7 @@ ListViewColumnState
 p31
 (dp32
 g4
-I9
-sg5
+Nsg5
 S'Progress'
 p33
 sg7
@@ -154,11 +153,12 @@ ListViewColumnState
 p34
 (dp35
 g4
-Nsg5
+I26
+sg5
 S'Save Path'
 p36
 sg7
-I279
+I197
 sg8
 I01
 sg9
@@ -357,4 +357,20 @@ sg9
 I0
 sg10
 I21
+sba(ideluge.ui.gtkui.listview
+ListViewColumnState
+p73
+(dp74
+g4
+Nsg5
+S'Label'
+p75
+sg7
+I87
+sg8
+I01
+sg9
+I0
+sg10
+I22
 sba.
