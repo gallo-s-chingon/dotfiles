@@ -46,5 +46,3 @@ export NODE_PATH="/opt/homebrew/lib/node_modules:$NODE_PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-source /Users/gchingon/.config/broot/launcher/bash/br

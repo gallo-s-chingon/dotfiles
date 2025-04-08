@@ -6,15 +6,15 @@ ffmpeg-remux-audio-video() {
 }
 
 wmv-to-mp4() {
-  find . -maxdepth 2 -type f -name "*.wmv" | while read -r f; do
+  fd -tf -e mkv | while read -r f; do
     ffmpeg -i "$f" -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k "${f%.wmv}.mp4"
   done
   echo "Conversion complete!"
 }
 
 mkv-to-mp4() {
-  find . -maxdepth 2 -type f -name "*.mkv" | while read -r f; do
-    ffmpeg -i "$f" -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k "${f%.mkv}.mp4"
+  fd -tf -e mkv | while read -r f; do
+        ffmpeg -i "$f" -c:v libx265 -tag:v hvc1 -crf 23 -preset medium -c:a aac -b:a 128k "${f%.mkv}.mp4"
   done
   echo "Conversion complete!"
 }

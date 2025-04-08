@@ -4,7 +4,7 @@
 }{
   "close_to_tray": true, 
   "ntf_sound_path": "/Users/gchingon/Downloads", 
-  "window_width": 1504, 
+  "window_width": 1503, 
   "default_load_path": "/Users/gallochingon/Downloads", 
   "window_y_pos": 0, 
   "ntf_email": false, 
@@ -50,7 +50,7 @@
   "ntf_username": "", 
   "interactive_add": true, 
   "sidebar_show_zero": false, 
-  "window_x_pos": 1504, 
+  "window_x_pos": 1505, 
   "window_height": 1664, 
   "ntf_security": null, 
   "connection_limit_list": [
