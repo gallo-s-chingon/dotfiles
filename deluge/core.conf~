@@ -14,7 +14,7 @@
   "natpmp": true, 
   "max_active_limit": -1, 
   "utpex": true, 
-  "max_active_downloading": 3, 
+  "max_active_downloading": 4, 
   "max_active_seeding": -1, 
   "allow_remote": false, 
   "max_half_open_connections": 50, 
@@ -47,7 +47,10 @@
   "upnp": true, 
   "max_download_speed_per_torrent": -1, 
   "max_upload_slots_global": 4, 
-  "enabled_plugins": [], 
+  "enabled_plugins": [
+    "Label", 
+    "AutoAdd"
+  ], 
   "random_port": true, 
   "autoadd_enable": false, 
   "max_connections_global": 200, 
