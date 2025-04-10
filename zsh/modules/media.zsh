@@ -14,7 +14,7 @@ wmv-to-mp4() {
 
 mkv-to-mp4() {
   fd -tf -e mkv | while read -r f; do
-        ffmpeg -i "$f" -c:v libx265 -tag:v hvc1 -crf 23 -preset medium -c:a aac -b:a 128k "${f%.mkv}.mp4"
+        ffmpeg -i "$f" -c:v libx265 -tag:v hvc1 -crf 23 -preset ultrafast -c:a aac -b:a 128k "${f%.mkv}.mp4"
   done
   echo "Conversion complete!"
 }
