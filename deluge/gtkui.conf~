@@ -6,7 +6,7 @@
   "ntf_sound_path": "/Users/gchingon/Downloads", 
   "window_width": 1503, 
   "default_load_path": "/Users/gallochingon/Downloads", 
-  "window_y_pos": 0, 
+  "window_y_pos": 40, 
   "ntf_email": false, 
   "tray_upload_speed_list": [
     5.0, 
@@ -50,7 +50,7 @@
   "ntf_username": "", 
   "interactive_add": true, 
   "sidebar_show_zero": false, 
-  "window_x_pos": 1505, 
+  "window_x_pos": 414, 
   "window_height": 1664, 
   "ntf_security": null, 
   "connection_limit_list": [
