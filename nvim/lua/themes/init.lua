@@ -141,6 +141,31 @@ local function apply_highlight_groups(groups)
   end
 end
 
+local function merge_lualine_statusline(def, palette)
+  local ll = palette.extras and palette.extras.lualine
+  if not ll then return def end
+
+  def.base_palette = def.base_palette or {}
+
+  local function set_group(name, section, bold)
+    if section and section.fg and section.bg then
+      def.base_palette[name] = { fg = section.fg, bg = section.bg, bold = bold or nil }
+    end
+  end
+
+  set_group("MiniStatuslineModeNormal",  ll.normal and ll.normal.a, true)
+  set_group("MiniStatuslineModeInsert",  ll.insert and ll.insert.a, true)
+  set_group("MiniStatuslineModeVisual",  ll.visual and ll.visual.a, true)
+  set_group("MiniStatuslineModeReplace", ll.replace and ll.replace.a, true)
+  set_group("MiniStatuslineModeCommand", ll.command and ll.command.a, true)
+  set_group("MiniStatuslineDevinfo",     ll.normal and ll.normal.b)
+  set_group("MiniStatuslineFilename",    ll.normal and ll.normal.c)
+  set_group("MiniStatuslineFileinfo",    ll.normal and ll.normal.b)
+  set_group("MiniStatuslineInactive",    ll.inactive and (ll.inactive.c or ll.inactive.a))
+
+  return def
+end
+
 local function merge_markdown_headers(def, palette)
   local md = palette.extras and palette.extras.render_markdown
   if not md then return def end
@@ -180,6 +205,7 @@ local function apply_theme_module(module_name, palette)
     return
   end
   local def = mod.build(palette)
+  def = merge_lualine_statusline(def, palette)
   def = merge_markdown_headers(def, palette)
   def = resolve_placeholders(def, palette.base)
   local order = {

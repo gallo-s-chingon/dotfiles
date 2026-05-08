@@ -69,21 +69,39 @@ apply_yazi() {
   local theme="$1"
   local yazi_theme="$(jq -r --arg t "$theme" '.themes[$t].yazi.theme // empty' "$THEME_JSON")"
   [[ -z "$yazi_theme" || ! -f "$YAZI_THEME" ]] && return 0
-  
-  if grep -qE '^[[:space:]]*theme[[:space:]]*=' "$YAZI_THEME"; then
-    sed -i.bak -E "s|theme = .*$|theme = "$yazi_theme"|" "$YAZI_THEME"
-    rm -f "${YAZI_THEME}.bak"
-  else
-    echo "theme = "$yazi_theme"" >> "$YAZI_THEME"
-  fi
+
+  local tmp="${YAZI_THEME}.tmp"
+  awk -v theme="$yazi_theme" '
+    BEGIN { in_root = 1; wrote = 0 }
+    /^\[/ {
+      if (in_root && !wrote) {
+        print "theme = \"" theme "\""
+        wrote = 1
+      }
+      in_root = 0
+    }
+    in_root && /^[[:space:]]*theme[[:space:]]*=/ {
+      if (!wrote) {
+        print "theme = \"" theme "\""
+        wrote = 1
+      }
+      next
+    }
+    { print }
+    END {
+      if (!wrote) {
+        print "theme = \"" theme "\""
+      }
+    }
+  ' "$YAZI_THEME" > "$tmp" && mv "$tmp" "$YAZI_THEME"
 }
 
 # Nudge nvim to reload
 nudge_nvim() {
   if [[ -n "${NVIM:-}" && -S "${NVIM}" ]]; then
-    nvim --server "$NVIM" --remote-send ":lua require('core.theme').setup()<CR>" 2>/dev/null || true
+    nvim --server "$NVIM" --remote-send ":lua require('themes.init').setup()<CR>" 2>/dev/null || true
   elif [[ -S "/tmp/nvim.sock" ]]; then
-    nvim --server "/tmp/nvim.sock" --remote-send ":lua require('core.theme').setup()<CR>" 2>/dev/null || true
+    nvim --server "/tmp/nvim.sock" --remote-send ":lua require('themes.init').setup()<CR>" 2>/dev/null || true
   fi
 }
 

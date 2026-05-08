@@ -1,4 +1,4 @@
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; kanata.kbd — Cross-platform Kanata config
 ;; Dvorak keyboard layout on physical QWERTY positions
 ;; Runs as LaunchDaemon (macOS) or systemd unit (Linux)
@@ -9,7 +9,7 @@
 ;;   raycast — raycast + system      (caps+u chord, one-shot 3s)
 ;;   yabai   — window placement      (caps+m chord, one-shot 3s)
 ;;   emoji   — quick emoji           (double-tap Esc)
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 
 (defcfg
   process-unmapped-keys yes
@@ -18,9 +18,9 @@
   chords-v2-min-idle    80
 )
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; Variables
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 (defvar
   tap-higher 400
   tt 300
@@ -36,9 +36,9 @@
   LB (concat $UH /.local/bin)
 )
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; Includes — alias files with platform blocks inside
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 (include aliases-shared.kbd)
 (include aliases-apps.kbd)
 (include aliases-kitty.kbd)
@@ -46,32 +46,32 @@
 (include aliases-raycast.kbd)
 (include aliases-emoji.kbd)
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; Sublayer entry — chords activate layers
 ;; caps+j → apps (one-shot 3s)
 ;; caps+u → raycast (one-shot 3s)
-;; caps+m → yabai (one-shot 3s)
-;; Chord timeout $kord-t = 500ms; release condition = all-released
-;;----------------------------------------------------
+;; caps+m → yabai while either chord key remains held
+;; Chord timeout $kord-t = 500ms
+;;────────────────────────────────────────────
 (defchordsv2
   (caps j) (one-shot 3000 (layer-while-held apps))    $kord-t all-released ()
   (caps u) (one-shot 3000 (layer-while-held raycast)) $kord-t all-released ()
-  (caps m) (one-shot 3000 (layer-while-held yabai))   $kord-t all-released ()
+  (caps m) (layer-while-held yabai)                   $kord-t first-release ()
 )
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; Return: tap = ret, double-tap = kitty
 ;; (defined after includes so @a-term is available)
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 (defalias
   retkt (tap-dance 200 (ret @a-term))
 )
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; defsrc — 77-key MacBook physical layout
 ;; Order MUST match all deflayer declarations exactly.
 ;; These are hardware key positions, not Dvorak chars.
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 (defsrc
   esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
@@ -81,16 +81,16 @@
   fn   lctl lalt lmet           spc            rmet ralt left down rght
 )
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; MAIN layer — daily typing, home row mods
 ;; Physical positions → Dvorak output via process-unmapped-keys
 ;;
 ;; caps+j chord → apps layer (one-shot 3s)
 ;; caps+u chord → raycast layer (one-shot 3s)
-;; caps+m chord → yabai layer (one-shot 3s)
+;; caps+m chord → yabai layer while either chord key remains held
 ;; Esc = tap esc / double-tap → emoji layer (one-shot)
 ;; Return = tap ret / double-tap → open kitty
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 (deflayer main
   @escem brdn    brup    f3      f4      f5      f6      prev    pp      next    mute    vold    volu          ;; Fn row
   @grasc 1       2       3       4       5       6       7       8       9       0       _       _       _     ;; NUM
@@ -100,7 +100,7 @@
   fn     @caltb  @shalt  @suXMS            spc           @hyper  @trams  _       _       _                     ;; MOD
 )
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; APPS layer — app switching
 ;; Activated by: caps+j chord (one-shot 3s)
 ;;
@@ -109,7 +109,7 @@
 ;;           u=Affinity   i=Calendar   o=DaVinci
 ;;   HOME:   a=Claude  s=Codex  f=Finder  j=Comet  k=Safari  l=Notes  ;=Spotify
 ;;   BOTTOM: m=Messages  ,=WhatsApp
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 (deflayer apps
   _      _       _       _       _       _       _       _       _       _       _       _       _             ;; Fn
   _      1       2       3       4       5       6       7       8       9       0       _       _       _     ;; NUM
@@ -119,7 +119,7 @@
   _      _       _       _                 _             _       _       _       _       _                     ;; MOD
 )
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; RAYCAST layer — Raycast utilities + kitty jumps + system utilities
 ;; Activated by: caps+u chord (one-shot 3s)
 ;;
@@ -127,7 +127,7 @@
 ;;   e=dotfiles  r=nvim  t=docker  y=podcast  u=home  i=ssh2  o=ssh4
 ;; Raycast: a=AI d=Files f=Emoji g=Spotify h=YouTube
 ;; System: p=Screenshot z/x/c=Audio/Wifi/Bluetooth j=AirDrop k=Mic n=Meeting m=Dots ,=Theme .=SketchyBar
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 (deflayer raycast
   _       XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX           ;; Fn
   grv     1       2       3       4       5       6       7       8       9       0       _       _      _     ;; NUM
@@ -137,47 +137,51 @@
   _       _       _       _              _                _       _       _       _       _                     ;; MOD
 )
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; YABAI layer — window placement
-;; Activated by: caps+m chord (one-shot 3s)
+;; Activated by: caps+m chord, then release m and hold caps
 ;;
-;; j/l = left/right half
+;; j/p = cycle left/right widths
 ;; i/o = top-left/top-right
 ;; ,/. = bottom-left/bottom-right
 ;; 1/2/3 = thirds
 ;; q/w/e = ultrawide top sixths, a/s/d = ultrawide bottom sixths
-;; u/p = 60/40 split, f = fullscreen
-;;----------------------------------------------------
+;; m = fullscreen
+;; r = top half/top quarter/second quarter
+;; f = bottom half/third quarter/bottom quarter
+;; v = top/middle/bottom third
+;;────────────────────────────────────────────
 (deflayer yabai
   _      XX      XX      XX      XX      XX      XX       XX       XX       XX       XX       XX     XX           ;; Fn
-  grv    @y-3l   @y-3c   @y-3r   XX      XX      XX       XX       XX       XX       XX       _      _      _     ;; NUM
-  _      @y-6tl  @y-6tc  @y-6tr  XX      XX      XX       @y-l60   @y-tl    @y-tr    @y-r40   _      _      _     ;; QWERTY
-  _      @y-6bl  @y-6bc  @y-6br  @y-full XX      XX       @y-left  XX       @y-right XX       _      _             ;; HOME
-  _      XX      XX      XX      XX      XX      XX       XX       @y-bl    @y-br    XX       _      _             ;; BOTTOM
+  grv    @y-3l   @y-3c   @y-3r   XX      5       6        7        8        9        0        _      _      _     ;; NUM
+  _      @y-6tl  @y-6tc  @y-6tr  @y-ctop XX      XX       XX       @y-tl    @y-tr    @y-right _      _      _     ;; QWERTY
+  _      @y-6bl  @y-6bc  @y-6br  @y-cbot XX      XX       @y-left  XX       XX       XX       _      _             ;; HOME
+  _      XX      XX      XX      @y-c3rd XX      XX       @y-full  @y-bl    @y-br    XX       _      _             ;; BOTTOM
   _      _       _       _              _                _        _        _        _        _                    ;; MOD
 )
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; EMOJI layer — quick emoji output
 ;; Activated by: double-tap Esc (one-shot)
 ;; Single tap esc = esc, double-tap = emoji one-shot
 ;;
 ;; Physical key → emoji (see aliases-emoji.kbd for codepoints):
-;;   1 = 💯
-;;   q = 🤯  w = 🤞  e = 🙄  r = 🤘  t = 🥂  y = 🖕  o = 👌
-;;   a = 💪  s = 😄  d = 🤤  f = 🙏  h = ❤️  j = 😂  k = 😘  l = 😍
-;;   c = 🎉  n = 👎  m = 💰
-;;----------------------------------------------------
+;;   1 = 💯  2 = 💀
+;;   q = 🤯  w = 🤞  e = 🙄  r = 🤘  t = 🤐  y = 🖕  i = 😒  o = 👌
+;;   a = 🙌🏼  s = 😈  d = 😏  f = 🙏  h = ❤️  j = 🤣  k = 😘  l = 😍
+;;   z = 🫖  x = 🤷🏼‍♂️  c = 🎉  v = 🤨  n = 👎  m = 💰 , = 🤢 . = 😳
+;;   rarrow = → larrow = ← uarrow = ↑ darrow = ↓
+;;────────────────────────────────────────────
 (deflayer emoji
   _      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX           ;; Fn
-  _      @em-100 _       _       _       _       _       _       _       _       _       _       _       _    ;; NUM
-  _      @em-blo @em-wsh @em-eye @em-rck @em-tst @em-flp XX      XX      @em-ok  XX      XX      XX      XX    ;; QWERTY
-  _      @em-flx @em-sml @em-drl @em-pry XX      @em-hrt @em-cry @em-kis @em-lov XX      XX      XX            ;; HOME
-  _      XX      XX      @em-cel XX      XX      @em-no  @em-mny XX      XX      XX      XX      XX            ;; BOTTOM
-  _      _       _       _              _               _       _       _       _       _                     ;; MOD
+  _      @em-100 @em-skl 3       4       5       6       7       8       9       0       _       _       _    ;; NUM
+  _      @em-blo @em-wsh @em-eye @em-rck @em-zip @em-flp XX      @em-unm @em-ok  XX      XX      XX      XX    ;; QWERTY
+  _      @em-hnd @em-dev @em-smr @em-pry XX      @em-hrt @em-cry @em-kis @em-lov XX      XX      XX            ;; HOME
+  _      @em-tea @em-shr @em-cel @em-sus XX      @em-no  @em-mny @em-sck @em-flu @em-uar XX      XX            ;; BOTTOM
+  _      _       _       _              _               _       _       @em-lar @em-dar @em-rar              ;; MOD
 )
 
-;;----------------------------------------------------
+;;────────────────────────────────────────────
 ;; TEMPLATE — copy this to add new layers
 ;; (deflayer template
 ;;   _    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX               ;; Fn
@@ -187,4 +191,4 @@
 ;;   XX   XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX               ;; BOTTOM
 ;;   fn   lctl  lalt  lmet        spc        rmet  ralt  left  down  rght                   ;; MOD
 ;; )
-;;----------------------------------------------------
+;;────────────────────────────────────────────

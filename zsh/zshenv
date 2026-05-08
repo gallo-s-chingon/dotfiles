@@ -26,11 +26,11 @@ case "$(hostname)" in
     export RP="$DX/repos"
     ;;
   mbp*|Mac*)
-    export RP="$DX"
+    export RP="$HOME/repos"
     ;;
 esac
 
-export SITES="$RP/sites"
+export URL="$RP/sites"
 export SCS="$RP/sucias"
 export WC="$RP/widows-club"
 export POD="$RP/pod-content"   # podcast stuff

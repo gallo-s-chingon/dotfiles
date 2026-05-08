@@ -10,7 +10,7 @@
   em-sml (unicode U+1F604)  ;; 😄 smile
   em-cry (unicode U+1F602)  ;; 😂 cry/laugh
   em-lov (unicode U+1F60D)  ;; 😍 love
-  em-hrt (unicode U+2764)   ;; ❤  heart  (U+2764 — base char, no VS16)
+  em-hrt (macro (unicode U+2764) (unicode U+FE0F))   ;; ❤️ heart
   em-yes (unicode U+1F44D)  ;; 👍 yes / thumbs up
   em-no  (unicode U+1F44E)  ;; 👎 no  / thumbs down
   em-flp (unicode U+1F595)  ;; 🖕 middle finger
@@ -29,4 +29,19 @@
   em-tst (unicode U+1F942)  ;; 🥂 toast / clinking glasses
   em-blo (unicode U+1F92F)  ;; 🤯 mind blown
   em-vic (unicode U+270C)   ;; ✌  victory  (U+270C — base char, no VS16)
+  em-skl (unicode U+1F480)  ;; 💀 skull
+  em-zip (unicode U+1F910)  ;; 🤐 zipper mouth
+  em-unm (unicode U+1F612)  ;; 😒 unamused
+  em-hnd (macro (unicode U+1F64C) (unicode U+1F3FC))  ;; 🙌🏼 raised hands
+  em-dev (unicode U+1F608)  ;; 😈 devil
+  em-smr (unicode U+1F60F)  ;; 😏 smirk
+  em-tea (unicode U+1FAD6)  ;; 🫖 teapot
+  em-shr (macro (unicode U+1F937) (unicode U+1F3FC) (unicode U+200D) (unicode U+2642) (unicode U+FE0F))  ;; 🤷🏼‍♂️ shrug
+  em-sus (unicode U+1F928)  ;; 🤨 skeptical
+  em-sck (unicode U+1F922)  ;; 🤢 nauseated
+  em-flu (unicode U+1F633)  ;; 😳 flushed
+  em-rar (unicode U+2192)   ;; → right arrow
+  em-lar (unicode U+2190)   ;; ← left arrow
+  em-uar (unicode U+2191)   ;; ↑ up arrow
+  em-dar (unicode U+2193)   ;; ↓ down arrow
 )
