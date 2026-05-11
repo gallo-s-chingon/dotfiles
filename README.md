@@ -27,6 +27,10 @@ folder for custom shell scripts which are then hardlinked to `~/.local/bin/short
 
 the impetus to make dotfiles after customizing `.zshrc` ~eventually switching over to nushell~ Changed my mind, nushell too much work to try to configure and I don't mess with "data" in the terminal enough to be worthwhile.
 
-## everything else
 
+#### level 4
+##### level 5
+######  level 6
+
+## everything else
 ~all~ most other configs in `dotfiles` are defaults, I only really use nvim

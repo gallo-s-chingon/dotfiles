@@ -5,17 +5,24 @@ set -euo pipefail
 show_usage() {
   cat <<'EOF'
 Usage: daily [title...]
+       daily --list [YYYYMMDD|YYYY-MM-DD]
 
 Create or open today's note in the machine-specific notes directory.
 
 Behavior:
   - No title: open an existing YYYYMMDD-*.md note for today if one exists.
   - With title: open YYYYMMDD-slugged-title.md if it exists, otherwise create it.
+  - --list: show dated notes, number them, and open the selected note in nvim.
+    Pass a date to filter to notes with that YYYYMMDD- or YYYY-MM-DD- prefix.
 
 Examples:
   daily
   daily Project kickoff
   daily "Ideas / wins & next steps"
+  daily --list
+  daily --list 20260508
+  daily -l 2026-05-08
+  daily --date 2026-05-08
 EOF
 }
 
@@ -117,22 +124,120 @@ find_existing_daily() {
   return 1
 }
 
-main() {
-  local today daily_stamp notes_dir suffix file_path
+is_date_arg() {
+  [[ "$1" =~ ^[0-9]{8}$ || "$1" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
+}
 
-  case "${1:-}" in
-    -h|--help)
-      show_usage
-      exit 0
-      ;;
-  esac
+list_dated_notes() {
+  local notes_dir="$1" date_filter="${2:-}"
+  local path basename compact_prefix legacy_prefix
+
+  if [[ -n "$date_filter" ]]; then
+    if [[ "$date_filter" =~ ^[0-9]{8}$ ]]; then
+      compact_prefix="$date_filter"
+      legacy_prefix="${date_filter:0:4}-${date_filter:4:2}-${date_filter:6:2}"
+    else
+      compact_prefix="${date_filter//-/}"
+      legacy_prefix="$date_filter"
+    fi
+  fi
+
+  shopt -s nullglob
+  for path in "${notes_dir}"/*.md; do
+    basename="${path##*/}"
+    if [[ -n "$date_filter" ]]; then
+      [[ "$basename" == "${compact_prefix}-"* || "$basename" == "${legacy_prefix}-"* ]] || continue
+    else
+      [[ "$basename" =~ ^[0-9]{8}-.*\.md$ || "$basename" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}-.*\.md$ ]] || continue
+    fi
+    printf '%s\n' "$path"
+  done | sort
+  shopt -u nullglob
+}
+
+pick_dated_note() {
+  local notes_dir="$1" date_filter="${2:-}"
+  local selection index file_path
+  local -a notes
+
+  while IFS= read -r file_path; do
+    notes+=("$file_path")
+  done < <(list_dated_notes "$notes_dir" "$date_filter")
+
+  if [[ ${#notes[@]} -eq 0 ]]; then
+    if [[ -n "$date_filter" ]]; then
+      echo "No dated notes found for ${date_filter} in ${notes_dir}" >&2
+    else
+      echo "No dated notes found in ${notes_dir}" >&2
+    fi
+    exit 1
+  fi
+
+  for index in "${!notes[@]}"; do
+    printf '%3d  %s\n' "$((index + 1))" "${notes[$index]##*/}"
+  done
+
+  read -r -p "Open note number: " selection
+  [[ "$selection" =~ ^[0-9]+$ ]] || { echo "Selection must be a number" >&2; exit 1; }
+  (( selection >= 1 && selection <= ${#notes[@]} )) || { echo "Selection out of range" >&2; exit 1; }
+
+  file_path="${notes[$((selection - 1))]}"
+  exec nvim "$file_path"
+}
+
+main() {
+  local today daily_stamp notes_dir suffix file_path list_mode=0 date_filter=""
+  local -a title_parts=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -h|--help)
+        show_usage
+        exit 0
+        ;;
+      -l|--list|--pick)
+        list_mode=1
+        ;;
+      --date)
+        list_mode=1
+        shift
+        [[ $# -gt 0 ]] || { echo "Missing value for --date" >&2; exit 1; }
+        is_date_arg "$1" || { echo "Invalid date: $1" >&2; exit 1; }
+        date_filter="$1"
+        ;;
+      --date=*)
+        list_mode=1
+        date_filter="${1#*=}"
+        is_date_arg "$date_filter" || { echo "Invalid date: $date_filter" >&2; exit 1; }
+        ;;
+      *)
+        title_parts+=("$1")
+        ;;
+    esac
+    shift
+  done
 
   today="$(date +%F)"
   daily_stamp="$(date +%Y%m%d)"
   notes_dir="$(resolve_notes_dir)"
 
-  if [[ $# -gt 0 ]]; then
-    suffix="$(slugify "$*")"
+  if [[ "$list_mode" -eq 1 ]]; then
+    if [[ ${#title_parts[@]} -gt 0 ]]; then
+      if [[ ${#title_parts[@]} -eq 1 && -z "$date_filter" ]] && is_date_arg "${title_parts[0]}"; then
+        date_filter="${title_parts[0]}"
+      else
+        echo "Unexpected title arguments in --list mode" >&2
+        echo "Use: daily --list [YYYYMMDD|YYYY-MM-DD]" >&2
+        exit 1
+      fi
+    fi
+
+    mkdir -p "$notes_dir"
+    pick_dated_note "$notes_dir" "$date_filter"
+  fi
+
+  if [[ ${#title_parts[@]} -gt 0 ]]; then
+    suffix="$(slugify "${title_parts[@]}")"
     file_path="${notes_dir}/${daily_stamp}-${suffix}.md"
     mkdir -p "$notes_dir"
     [[ -e "$file_path" ]] || : > "$file_path"

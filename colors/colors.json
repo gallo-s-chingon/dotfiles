@@ -1,51 +1,55 @@
 {
   "themes": {
-    "niteblossom": {
-      "name": "Niteblossom",
+    "tokyo-vibe": {
+      "name": "Tokyo Vibe",
       "terminal": {
         "background": "#00041F",
         "foreground": "#FFEBF7",
         "cursor": "#FFB3FF",
-        "color0": "#00041F",
-        "color1": "#E8336C",
-        "color2": "#22DA6E",
-        "color3": "#FFB46E",
-        "color4": "#A99CFF",
-        "color5": "#EB73BF",
-        "color6": "#6ADCEA",
-        "color7": "#EACFE3",
-        "color8": "#303f9f",
-        "color9": "#FF7596",
-        "color10": "#22DA6E",
-        "color11": "#FFBAB8",
-        "color12": "#A99CFF",
+        "color0": "#0D1130",
+        "color1": "#FF4D9D",
+        "color2": "#3BEE8A",
+        "color3": "#FFC07A",
+        "color4": "#B79CFF",
+        "color5": "#FF82E6",
+        "color6": "#57E6FF",
+        "color7": "#FFEBF7",
+        "color8": "#2C3F90",
+        "color9": "#FF75B5",
+        "color10": "#67F5A4",
+        "color11": "#FFD0A0",
+        "color12": "#C8B3FF",
         "color13": "#FFB3FF",
-        "color14": "#6ADCEA",
-        "color15": "#FFEBF7" },
+        "color14": "#84F0FF",
+        "color15": "#FFFFFF"
+      },
       "neovim": {
-        "theme": "niteblossom",
-        "style": "niteblossom" },
+        "theme": "tokyo-vibe",
+        "style": "tokyo-vibe"
+      },
       "yazi": {
-        "theme": "nightblossom" },
+        "theme": "tokyo-vibe"
+      },
       "palette": {
         "render_markdown": {
-          "color1_bg": "#9966CC",
-          "color2_bg": "#22DA6E",
-          "color3_bg": "#6ADCEA",
-          "color4_bg": "#A99CFF",
-          "color5_bg": "#FFB46E",
-          "color6_bg": "#EB73BF",
-          "colorInline_bg": "#FFB3FF",
-          "color_fg": "#0D1116" },
+          "color1_bg": "#B79CFF",
+          "color2_bg": "#3BEE8A",
+          "color3_bg": "#57E6FF",
+          "color4_bg": "#FF82E6",
+          "color5_bg": "#FFC07A",
+          "color6_bg": "#635D97",
+          "colorInline_bg": "#B79CFF",
+          "color_fg": "#00041F"
+        },
         "lualine": {
           "normal": {
             "a": {
               "fg": "#00041F",
-              "bg": "#A99CFF"
+              "bg": "#B79CFF"
             },
             "b": {
               "fg": "#FFEBF7",
-              "bg": "#1D1D38"
+              "bg": "#1A1F45"
             },
             "c": {
               "fg": "#FFEBF7",
@@ -55,719 +59,799 @@
           "insert": {
             "a": {
               "fg": "#00041F",
-              "bg": "#22DA6E"
+              "bg": "#3BEE8A"
             }
           },
           "visual": {
             "a": {
               "fg": "#00041F",
-              "bg": "#EB73BF"
+              "bg": "#B79CFF"
             }
           },
           "replace": {
             "a": {
               "fg": "#00041F",
-              "bg": "#E8336C"
+              "bg": "#FF4D9D"
             }
           },
           "command": {
             "a": {
               "fg": "#00041F",
-              "bg": "#FFB46E"
+              "bg": "#FFC07A"
             }
           },
           "inactive": {
             "a": {
-              "fg": "#1D1D38",
+              "fg": "#635D97",
               "bg": "#00041F"
             },
             "b": {
-              "fg": "#1D1D38",
+              "fg": "#635D97",
               "bg": "#00041F"
             },
             "c": {
-              "fg": "#1D1D38",
+              "fg": "#635D97",
               "bg": "#00041F"
             }
           }
         }
+      },
+      "dracula_base": {
+        "fg": "#FFEBF7",
+        "bglighter": "#2C3F90",
+        "bglight": "#2A2F58",
+        "bg": "#00041F",
+        "bgdark": "#1A1F45",
+        "bgdarker": "#0D1130",
+        "comment": "#635D97",
+        "selection": "#2A2F58",
+        "subtle": "#1A1F45",
+        "cyan": "#57E6FF",
+        "green": "#3BEE8A",
+        "orange": "#FFC07A",
+        "pink": "#FF82E6",
+        "purple": "#B79CFF",
+        "red": "#FF4D9D",
+        "yellow": "#FFD0A0"
+      },
+      "semantic": {
+        "accent": "#B79CFF",
+        "error": "#FF4D9D",
+        "warn": "#FFC07A",
+        "info": "#57E6FF",
+        "hint": "#3BEE8A"
       }
     },
-
-    "minty-lemon": {
-      "name": "Minty Lemon",
+    "tokyo-lofi": {
+      "name": "Tokyo Lofi",
       "terminal": {
-        "background": "#005050",
-        "foreground": "#ebfafa",
-        "cursor": "#06943f",
-        "color0": "#000000",
-        "color1": "#026072",
-        "color2": "#04d1f9",
-        "color3": "#04F9F8",
-        "color4": "#37f499",
-        "color5": "#4fe0fc",
-        "color6": "#81f8bf",
-        "color7": "#ebfafa",
-        "color8": "#4ffced",
-        "color9": "#026072",
-        "color10": "#04d1f9",
-        "color11": "#04F9F8",
-        "color12": "#37f499",
-        "color13": "#4fe0fc",
-        "color14": "#81f8bf",
-        "color15": "#ebfafa" },
+        "background": "#0A0D24",
+        "foreground": "#EFE4F3",
+        "cursor": "#D8A1D1",
+        "color0": "#161A32",
+        "color1": "#D06F9C",
+        "color2": "#74BE95",
+        "color3": "#DDB48D",
+        "color4": "#AFA3D8",
+        "color5": "#D8A1D1",
+        "color6": "#77C4D3",
+        "color7": "#EFE4F3",
+        "color8": "#464D7A",
+        "color9": "#D98AAA",
+        "color10": "#8DCCA8",
+        "color11": "#E2C3A2",
+        "color12": "#BBB1E3",
+        "color13": "#E3BADC",
+        "color14": "#92D1DE",
+        "color15": "#FCFBFE"
+      },
       "neovim": {
-        "theme": "minty-lemon",
-        "style": "minty-lemon" },
+        "theme": "tokyo-lofi",
+        "style": "tokyo-lofi"
+      },
       "yazi": {
-        "theme": "material" },
+        "theme": "tokyo-lofi"
+      },
       "palette": {
+        "render_markdown": {
+          "color1_bg": "#AFA3D8",
+          "color2_bg": "#74BE95",
+          "color3_bg": "#77C4D3",
+          "color4_bg": "#D8A1D1",
+          "color5_bg": "#DDB48D",
+          "color6_bg": "#6E6993",
+          "colorInline_bg": "#AFA3D8",
+          "color_fg": "#0A0D24"
+        },
         "lualine": {
           "normal": {
             "a": {
-              "fg": "#000000",
-              "bg": "#37f499"
+              "fg": "#0A0D24",
+              "bg": "#AFA3D8"
             },
             "b": {
-              "fg": "#ebfafa",
-              "bg": "#141b22"
+              "fg": "#EFE4F3",
+              "bg": "#1C2140"
             },
             "c": {
-              "fg": "#ebfafa",
-              "bg": "#000000"
+              "fg": "#EFE4F3",
+              "bg": "#0A0D24"
             }
           },
           "insert": {
             "a": {
-              "fg": "#000000",
-              "bg": "#04d1f9"
+              "fg": "#0A0D24",
+              "bg": "#74BE95"
             }
           },
           "visual": {
             "a": {
-              "fg": "#000000",
-              "bg": "#4fe0fc"
+              "fg": "#0A0D24",
+              "bg": "#AFA3D8"
             }
           },
           "replace": {
             "a": {
-              "fg": "#000000",
-              "bg": "#026072"
+              "fg": "#0A0D24",
+              "bg": "#D06F9C"
             }
           },
           "command": {
             "a": {
-              "fg": "#000000",
-              "bg": "#81f8bf"
+              "fg": "#0A0D24",
+              "bg": "#DDB48D"
             }
           },
           "inactive": {
             "a": {
-              "fg": "#a5afc2",
-              "bg": "#000000"
+              "fg": "#6E6993",
+              "bg": "#0A0D24"
             },
             "b": {
-              "fg": "#a5afc2",
-              "bg": "#000000"
+              "fg": "#6E6993",
+              "bg": "#0A0D24"
             },
             "c": {
-              "fg": "#a5afc2",
-              "bg": "#000000"
+              "fg": "#6E6993",
+              "bg": "#0A0D24"
             }
           }
-        },
-        "render_markdown": {
-          "color1_bg": "#20925b",
-          "color2_bg": "#027d95",
-          "color3_bg": "#4d9472",
-          "color4_bg": "#2f8696",
-          "color5_bg": "#029494",
-          "color6_bg": "#1f645e",
-          "colorInline_bg": "#06743f",
-          "color_fg": "#0D1116"
         }
+      },
+      "dracula_base": {
+        "fg": "#EFE4F3",
+        "bglighter": "#464D7A",
+        "bglight": "#2A2E4C",
+        "bg": "#0A0D24",
+        "bgdark": "#1C2140",
+        "bgdarker": "#161A32",
+        "comment": "#6E6993",
+        "selection": "#2A2E4C",
+        "subtle": "#1C2140",
+        "cyan": "#77C4D3",
+        "green": "#74BE95",
+        "orange": "#DDB48D",
+        "pink": "#D8A1D1",
+        "purple": "#AFA3D8",
+        "red": "#D06F9C",
+        "yellow": "#E2C3A2"
+      },
+      "semantic": {
+        "accent": "#AFA3D8",
+        "error": "#D06F9C",
+        "warn": "#DDB48D",
+        "info": "#77C4D3",
+        "hint": "#74BE95"
       }
     },
-
-    "gotham-nu": {
-      "name": "Gotham Nu",
+    "matrix-vibe": {
+      "name": "Matrix Vibe",
       "terminal": {
-        "background": "#000000",
-        "foreground": "#ffffff",
-        "cursor": "#04d1f9",
-        "color0": "#000000",
-        "color1": "#ff7676",
-        "color2": "#939393",
-        "color3": "#4f5b66",
-        "color4": "#b2b2b2",
-        "color5": "#a88a1f",
-        "color6": "#d1d1d1",
-        "color7": "#ffffff",
-        "color8": "#ffffff",
-        "color9": "#ff7676",
-        "color10": "#939393",
-        "color11": "#4f5b66",
-        "color12": "#b2b2b2",
-        "color13": "#a88a1f",
-        "color14": "#d1d1d1",
-        "color15": "#ffffff"
+        "background": "#001600",
+        "foreground": "#28FE14",
+        "cursor": "#56FFC9",
+        "color0": "#071007",
+        "color1": "#14A44A",
+        "color2": "#00C95C",
+        "color3": "#2CEB76",
+        "color4": "#00B88F",
+        "color5": "#27F0A9",
+        "color6": "#4CFFE6",
+        "color7": "#D9FFE7",
+        "color8": "#3A7A4D",
+        "color9": "#22C35A",
+        "color10": "#1CE06E",
+        "color11": "#55F691",
+        "color12": "#16D4A5",
+        "color13": "#56FFC9",
+        "color14": "#7CFFF0",
+        "color15": "#F1FFF5"
       },
       "neovim": {
-        "theme": "gotham-nu",
-        "style": "gotham-nu"
+        "theme": "matrix-vibe",
+        "style": "matrix-vibe"
       },
       "yazi": {
-        "theme": "tokyodark"
+        "theme": "matrix-vibe"
       },
       "palette": {
+        "render_markdown": {
+          "color1_bg": "#00B88F",
+          "color2_bg": "#00C95C",
+          "color3_bg": "#4CFFE6",
+          "color4_bg": "#27F0A9",
+          "color5_bg": "#2CEB76",
+          "color6_bg": "#4A9A5F",
+          "colorInline_bg": "#1CE06E",
+          "color_fg": "#001600"
+        },
         "lualine": {
           "normal": {
             "a": {
-              "fg": "#000000",
-              "bg": "#b2b2b2"
+              "fg": "#001600",
+              "bg": "#1CE06E"
             },
             "b": {
-              "fg": "#ffffff",
-              "bg": "#0a0a0a"
+              "fg": "#28FE14",
+              "bg": "#0B2312"
             },
             "c": {
-              "fg": "#ffffff",
-              "bg": "#000000"
+              "fg": "#28FE14",
+              "bg": "#001600"
             }
           },
           "insert": {
             "a": {
-              "fg": "#000000",
-              "bg": "#939393"
+              "fg": "#001600",
+              "bg": "#00C95C"
             }
           },
           "visual": {
             "a": {
-              "fg": "#000000",
-              "bg": "#a88a1f"
+              "fg": "#001600",
+              "bg": "#1CE06E"
             }
           },
           "replace": {
             "a": {
-              "fg": "#000000",
-              "bg": "#ff7676"
+              "fg": "#001600",
+              "bg": "#14A44A"
             }
           },
           "command": {
             "a": {
-              "fg": "#000000",
-              "bg": "#d1d1d1"
+              "fg": "#001600",
+              "bg": "#2CEB76"
             }
           },
           "inactive": {
             "a": {
-              "fg": "#5f7f89",
-              "bg": "#000000"
+              "fg": "#4A9A5F",
+              "bg": "#001600"
             },
             "b": {
-              "fg": "#5f7f89",
-              "bg": "#000000"
+              "fg": "#4A9A5F",
+              "bg": "#001600"
             },
             "c": {
-              "fg": "#5f7f89",
-              "bg": "#000000"
+              "fg": "#4A9A5F",
+              "bg": "#001600"
             }
           }
-        },
-        "render_markdown": {
-          "color1_bg": "#494949",
-          "color2_bg": "#2a2a2a",
-          "color3_bg": "#1a1a1a",
-          "color4_bg": "#645313",
-          "color5_bg": "#2f363d",
-          "color6_bg": "#999999",
-          "colorInline_bg": "#04d1f9",
-          "color_fg": "#000000"
         }
+      },
+      "dracula_base": {
+        "fg": "#28FE14",
+        "bglighter": "#102314",
+        "bglight": "#10331A",
+        "bg": "#001600",
+        "bgdark": "#0B2312",
+        "bgdarker": "#071007",
+        "comment": "#4A9A5F",
+        "selection": "#10331A",
+        "subtle": "#0B2312",
+        "cyan": "#4CFFE6",
+        "green": "#00C95C",
+        "orange": "#2CEB76",
+        "pink": "#27F0A9",
+        "purple": "#00B88F",
+        "red": "#14A44A",
+        "yellow": "#55F691"
+      },
+      "semantic": {
+        "accent": "#1CE06E",
+        "error": "#14A44A",
+        "warn": "#2CEB76",
+        "info": "#4CFFE6",
+        "hint": "#00C95C"
       }
     },
-    "matrix": {
-      "name": "Matrix",
+    "matrix-lofi": {
+      "name": "Matrix Lofi",
       "terminal": {
         "background": "#000C00",
-        "foreground": "#00ac00",
-        "cursor": "#88ff88",
-        "color0": "#000000",
-        "color1": "#0f7a37",
-        "color2": "#026072",
-        "color3": "#00e65c",
-        "color4": "#03d1c9",
-        "color5": "#39ff88",
-        "color6": "#04F9F8",
-        "color7": "#d8ffd8",
-        "color8": "#98ff98",
-        "color9": "#0f7a37",
-        "color10": "#026072",
-        "color11": "#00e65c",
-        "color12": "#03d1c9",
-        "color13": "#39ff88",
-        "color14": "#04F9F8",
-        "color15": "#d8ffd8"
+        "foreground": "#DAEFDF",
+        "cursor": "#8ED3BA",
+        "color0": "#0A0D0A",
+        "color1": "#48915F",
+        "color2": "#5EB37E",
+        "color3": "#79C69B",
+        "color4": "#3F9A85",
+        "color5": "#77C6AB",
+        "color6": "#8CD4CF",
+        "color7": "#DAEFDF",
+        "color8": "#4A7D61",
+        "color9": "#5CAA71",
+        "color10": "#7AC392",
+        "color11": "#94D1AB",
+        "color12": "#55AD9A",
+        "color13": "#8ED3BA",
+        "color14": "#A9E0DD",
+        "color15": "#EEFAF0"
       },
       "neovim": {
-        "theme": "matrix",
-        "style": "matrix"
+        "theme": "matrix-lofi",
+        "style": "matrix-lofi"
       },
       "yazi": {
-        "theme": "material"
+        "theme": "matrix-lofi"
       },
       "palette": {
-        "lualine": {
-          "normal": {
-            "a": {
-              "fg": "#000000",
-              "bg": "#04d1f9"
-            },
-            "b": {
-              "fg": "#d8ffd8",
-              "bg": "#061006"
-            },
-            "c": {
-              "fg": "#d8ffd8",
-              "bg": "#000000"
-            }
-          },
-          "insert": {
-            "a": {
-              "fg": "#000000",
-              "bg": "#00e65c"
-            }
-          },
-          "visual": {
-            "a": {
-              "fg": "#000000",
-              "bg": "#39ff88"
-            }
-          },
-          "replace": {
-            "a": {
-              "fg": "#000000",
-              "bg": "#0f7a37"
-            }
-          },
-          "command": {
-            "a": {
-              "fg": "#000000",
-              "bg": "#04F9F8"
-            }
-          },
-          "inactive": {
-            "a": {
-              "fg": "#4e6f4e",
-              "bg": "#000000"
-            },
-            "b": {
-              "fg": "#4e6f4e",
-              "bg": "#000000"
-            },
-            "c": {
-              "fg": "#4e6f4e",
-              "bg": "#000000"
-            }
-          }
-        },
         "render_markdown": {
-          "color1_bg": "#0f7a37",
-          "color2_bg": "#026072",
-          "color3_bg": "#00e65c",
-          "color4_bg": "#04d1f9",
-          "color5_bg": "#39ff88",
-          "color6_bg": "#04F9F8",
-          "colorInline_bg": "#00cc4f",
-          "color_fg": "#000000"
-        }
-      }
-    },
-    "matrix-light": {
-      "name": "Matrix Light",
-      "terminal": {
-        "background": "#000C00",
-        "foreground": "#d8ffd8",
-        "cursor": "#00cc4f",
-        "color0": "#000C00",
-        "color1": "#0f7a37",
-        "color2": "#00e65c",
-        "color3": "#39ff88",
-        "color4": "#00ff66",
-        "color5": "#7dff7d",
-        "color6": "#66ff99",
-        "color7": "#d8ffd8",
-        "color8": "#98ff98",
-        "color9": "#148f45",
-        "color10": "#00ff66",
-        "color11": "#98ff98",
-        "color12": "#39ff88",
-        "color13": "#b8ffb8",
-        "color14": "#caffca",
-        "color15": "#efffef"
-      },
-      "neovim": {
-        "theme": "matrix-light",
-        "style": "matrix-light"
-      },
-      "yazi": {
-        "theme": "material"
-      },
-      "palette": {
-        "lualine": {
-          "normal": {
-            "a": {
-              "fg": "#000C00",
-              "bg": "#00ff66"
-            },
-            "b": {
-              "fg": "#d8ffd8",
-              "bg": "#0d2a0d"
-            },
-            "c": {
-              "fg": "#d8ffd8",
-              "bg": "#000C00"
-            }
-          },
-          "insert": {
-            "a": {
-              "fg": "#000C00",
-              "bg": "#39ff88"
-            }
-          },
-          "visual": {
-            "a": {
-              "fg": "#000C00",
-              "bg": "#7dff7d"
-            }
-          },
-          "replace": {
-            "a": {
-              "fg": "#000C00",
-              "bg": "#0f7a37"
-            }
-          },
-          "command": {
-            "a": {
-              "fg": "#000C00",
-              "bg": "#66ff99"
-            }
-          },
-          "inactive": {
-            "a": {
-              "fg": "#0d2a0d",
-              "bg": "#000C00"
-            },
-            "b": {
-              "fg": "#0d2a0d",
-              "bg": "#000C00"
-            },
-            "c": {
-              "fg": "#0d2a0d",
-              "bg": "#000C00"
-            }
-          }
-        },
-        "render_markdown": {
-          "color1_bg": "#0f3d21",
-          "color2_bg": "#164726",
-          "color3_bg": "#1a522d",
-          "color4_bg": "#205c33",
-          "color5_bg": "#266739",
-          "color6_bg": "#0a2615",
-          "colorInline_bg": "#00cc4f",
+          "color1_bg": "#3F9A85",
+          "color2_bg": "#5EB37E",
+          "color3_bg": "#8CD4CF",
+          "color4_bg": "#77C6AB",
+          "color5_bg": "#79C69B",
+          "color6_bg": "#5A9072",
+          "colorInline_bg": "#7AC392",
           "color_fg": "#000C00"
-        }
-      }
-    },
-
-    "gotham": {
-      "name": "Gotham",
-      "terminal": {
-        "background": "#0c1014",
-        "foreground": "#33aaaa",
-        "cursor": "#33859E",
-        "color0": "#0c1014",
-        "color1": "#c23127",
-        "color2": "#2aa889",
-        "color3": "#edb443",
-        "color4": "#195466",
-        "color5": "#888ca6",
-        "color6": "#33859E",
-        "color7": "#d3ebe9",
-        "color8": "#245361",
-        "color9": "#d26937",
-        "color10": "#2aa889",
-        "color11": "#edb443",
-        "color12": "#599cab",
-        "color13": "#4e5166",
-        "color14": "#99d1ce",
-        "color15": "#f0fffc"
-      },
-      "neovim": {
-        "theme": "gotham",
-        "style": "gotham"
-      },
-      "yazi": {
-        "theme": "tokyodark"
-      },
-      "palette": {
+        },
         "lualine": {
           "normal": {
             "a": {
-              "fg": "#0c1014",
-              "bg": "#33859E"
+              "fg": "#000C00",
+              "bg": "#7AC392"
             },
             "b": {
-              "fg": "#d3ebe9",
-              "bg": "#11151c"
+              "fg": "#DAEFDF",
+              "bg": "#0E1A12"
             },
             "c": {
-              "fg": "#d3ebe9",
-              "bg": "#0c1014"
+              "fg": "#DAEFDF",
+              "bg": "#000C00"
             }
           },
           "insert": {
             "a": {
-              "fg": "#0c1014",
-              "bg": "#2aa889"
+              "fg": "#000C00",
+              "bg": "#5EB37E"
             }
           },
           "visual": {
             "a": {
-              "fg": "#0c1014",
-              "bg": "#888ca6"
+              "fg": "#000C00",
+              "bg": "#7AC392"
             }
           },
           "replace": {
             "a": {
-              "fg": "#0c1014",
-              "bg": "#c23127"
+              "fg": "#000C00",
+              "bg": "#48915F"
             }
           },
           "command": {
             "a": {
-              "fg": "#0c1014",
-              "bg": "#edb443"
+              "fg": "#000C00",
+              "bg": "#79C69B"
             }
           },
           "inactive": {
             "a": {
-              "fg": "#11151c",
-              "bg": "#0c1014"
+              "fg": "#5A9072",
+              "bg": "#000C00"
             },
             "b": {
-              "fg": "#11151c",
-              "bg": "#0c1014"
+              "fg": "#5A9072",
+              "bg": "#000C00"
             },
             "c": {
-              "fg": "#11151c",
-              "bg": "#0c1014"
+              "fg": "#5A9072",
+              "bg": "#000C00"
             }
           }
-        },
-        "render_markdown": {
-          "color1_bg": "#0a3749",
-          "color2_bg": "#123b34",
-          "color3_bg": "#cfaf33",
-          "color4_bg": "#232940",
-          "color5_bg": "#092f42",
-          "color6_bg": "#3c1715",
-          "colorInline_bg": "#245361",
-          "color_fg": "#d3ebe9"
         }
+      },
+      "dracula_base": {
+        "fg": "#DAEFDF",
+        "bglighter": "#1B281D",
+        "bglight": "#122217",
+        "bg": "#000C00",
+        "bgdark": "#0E1A12",
+        "bgdarker": "#0A0D0A",
+        "comment": "#5A9072",
+        "selection": "#122217",
+        "subtle": "#0E1A12",
+        "cyan": "#8CD4CF",
+        "green": "#5EB37E",
+        "orange": "#79C69B",
+        "pink": "#77C6AB",
+        "purple": "#3F9A85",
+        "red": "#48915F",
+        "yellow": "#94D1AB"
+      },
+      "semantic": {
+        "accent": "#7AC392",
+        "error": "#48915F",
+        "warn": "#79C69B",
+        "info": "#8CD4CF",
+        "hint": "#5EB37E"
       }
     },
-
-    "joker-gotham": {
-      "name": "Joker Gotham",
+    "joker-vibe": {
+      "name": "Joker Vibe",
       "terminal": {
-        "background": "#0c1014",
-        "foreground": "#d32be9",
-        "cursor": "#94407a",
-        "color0": "#0c1014",
-        "color1": "#c23127",
-        "color2": "#2dcc82",
-        "color3": "#edb443",
-        "color4": "#195466",
-        "color5": "#8b75d9",
-        "color6": "#94407a",
-        "color7": "#d3ebe9",
-        "color8": "#245361",
-        "color9": "#d26937",
-        "color10": "#00cc68",
-        "color11": "#edb443",
-        "color12": "#599cab",
-        "color13": "#94407a",
-        "color14": "#2bafcc",
-        "color15": "#f0fffc"
+        "background": "#0C1014",
+        "foreground": "#ECFFFE",
+        "cursor": "#C07BFF",
+        "color0": "#14201E",
+        "color1": "#FF5A5F",
+        "color2": "#00D46A",
+        "color3": "#FFC14D",
+        "color4": "#4DB8FF",
+        "color5": "#C07BFF",
+        "color6": "#00F0FF",
+        "color7": "#ECFFFE",
+        "color8": "#2B4D48",
+        "color9": "#FF7B7F",
+        "color10": "#32F08A",
+        "color11": "#FFD177",
+        "color12": "#7CCFFF",
+        "color13": "#D39BFF",
+        "color14": "#68FFFF",
+        "color15": "#FFFFFF"
       },
       "neovim": {
-        "theme": "joker-gotham",
-        "style": "joker-gotham"
+        "theme": "joker-vibe",
+        "style": "joker-vibe"
       },
       "yazi": {
-        "theme": "tokyodark"
+        "theme": "joker-vibe"
       },
       "palette": {
+        "render_markdown": {
+          "color1_bg": "#4DB8FF",
+          "color2_bg": "#00D46A",
+          "color3_bg": "#00F0FF",
+          "color4_bg": "#C07BFF",
+          "color5_bg": "#FFC14D",
+          "color6_bg": "#416765",
+          "colorInline_bg": "#00F0FF",
+          "color_fg": "#0C1014"
+        },
         "lualine": {
           "normal": {
             "a": {
-              "fg": "#0c1014",
-              "bg": "#8b75d9"
+              "fg": "#0C1014",
+              "bg": "#00F0FF"
             },
             "b": {
-              "fg": "#d3ebe9",
-              "bg": "#11151c"
+              "fg": "#ECFFFE",
+              "bg": "#152028"
             },
             "c": {
-              "fg": "#d3ebe9",
-              "bg": "#0c1014"
+              "fg": "#ECFFFE",
+              "bg": "#0C1014"
             }
           },
           "insert": {
             "a": {
-              "fg": "#0c1014",
-              "bg": "#00cc68"
+              "fg": "#0C1014",
+              "bg": "#00D46A"
             }
           },
           "visual": {
             "a": {
-              "fg": "#0c1014",
-              "bg": "#94407a"
+              "fg": "#0C1014",
+              "bg": "#00F0FF"
             }
           },
           "replace": {
             "a": {
-              "fg": "#0c1014",
-              "bg": "#cc5860"
+              "fg": "#0C1014",
+              "bg": "#FF5A5F"
             }
           },
           "command": {
             "a": {
-              "fg": "#0c1014",
-              "bg": "#2bafcc"
+              "fg": "#0C1014",
+              "bg": "#FFC14D"
             }
           },
           "inactive": {
             "a": {
-              "fg": "#11151c",
-              "bg": "#0c1014"
+              "fg": "#416765",
+              "bg": "#0C1014"
             },
             "b": {
-              "fg": "#11151c",
-              "bg": "#0c1014"
+              "fg": "#416765",
+              "bg": "#0C1014"
             },
             "c": {
-              "fg": "#11151c",
-              "bg": "#0c1014"
+              "fg": "#416765",
+              "bg": "#0C1014"
             }
           }
-        },
-        "render_markdown": {
-          "color1_bg": "#6b5ab6",
-          "color2_bg": "#2a9b65",
-          "color3_bg": "#cfaf33",
-          "color4_bg": "#5b5f9c",
-          "color5_bg": "#158e81",
-          "color6_bg": "#3c1715",
-          "colorInline_bg": "#94407a",
-          "color_fg": "#d3ebe9"
         }
+      },
+      "dracula_base": {
+        "fg": "#ECFFFE",
+        "bglighter": "#2B4D48",
+        "bglight": "#1B2831",
+        "bg": "#0C1014",
+        "bgdark": "#152028",
+        "bgdarker": "#14201E",
+        "comment": "#416765",
+        "selection": "#1B2831",
+        "subtle": "#152028",
+        "cyan": "#00F0FF",
+        "green": "#00D46A",
+        "orange": "#FFC14D",
+        "pink": "#C07BFF",
+        "purple": "#4DB8FF",
+        "red": "#FF5A5F",
+        "yellow": "#FFD177"
+      },
+      "semantic": {
+        "accent": "#00F0FF",
+        "error": "#FF5A5F",
+        "warn": "#FFC14D",
+        "info": "#00F0FF",
+        "hint": "#00D46A"
       }
     },
-    "joker-nu": {
-      "name": "Joker Nu",
+    "gotham-lofi": {
+      "name": "Gotham Lofi",
       "terminal": {
-        "background": "#000000",
-        "foreground": "#33c6c6",
-        "cursor": "#94407a",
-        "color0": "#000000",
-        "color1": "#ff7676",
-        "color2": "#2dcc82",
-        "color3": "#4f5b66",
-        "color4": "#b2b2b2",
-        "color5": "#8b75d9",
-        "color6": "#94407a",
-        "color7": "#ffffff",
-        "color8": "#ffffff",
-        "color9": "#ff7676",
-        "color10": "#00cc68",
-        "color11": "#4f5b66",
-        "color12": "#b2b2b2",
-        "color13": "#94407a",
-        "color14": "#2bafcc",
-        "color15": "#ffffff" },
+        "background": "#0C1014",
+        "foreground": "#D6E9E6",
+        "cursor": "#5E9BAF",
+        "color0": "#1A2428",
+        "color1": "#B65D52",
+        "color2": "#4E9B86",
+        "color3": "#C39C5D",
+        "color4": "#4D7180",
+        "color5": "#8D90AA",
+        "color6": "#5E9BAF",
+        "color7": "#D6E9E6",
+        "color8": "#355864",
+        "color9": "#C27A56",
+        "color10": "#66AF9C",
+        "color11": "#D1AD71",
+        "color12": "#75A9B6",
+        "color13": "#6D7288",
+        "color14": "#A5D2CC",
+        "color15": "#F1FCFA"
+      },
       "neovim": {
-        "theme": "joker-nu",
-        "style": "joker-nu" },
+        "theme": "gotham-lofi",
+        "style": "gotham-lofi"
+      },
       "yazi": {
-        "theme": "tokyodark" },
+        "theme": "gotham-lofi"
+      },
       "palette": {
+        "render_markdown": {
+          "color1_bg": "#4D7180",
+          "color2_bg": "#4E9B86",
+          "color3_bg": "#5E9BAF",
+          "color4_bg": "#8D90AA",
+          "color5_bg": "#C39C5D",
+          "color6_bg": "#5C757F",
+          "colorInline_bg": "#8D90AA",
+          "color_fg": "#0C1014"
+        },
         "lualine": {
           "normal": {
             "a": {
-              "fg": "#000000",
-              "bg": "#8b75d9"
+              "fg": "#0C1014",
+              "bg": "#8D90AA"
             },
             "b": {
-              "fg": "#ffffff",
-              "bg": "#0a0a0a"
+              "fg": "#D6E9E6",
+              "bg": "#131A20"
             },
             "c": {
-              "fg": "#ffffff",
-              "bg": "#000000"
+              "fg": "#D6E9E6",
+              "bg": "#0C1014"
             }
           },
           "insert": {
             "a": {
-              "fg": "#000000",
-              "bg": "#00cc68"
+              "fg": "#0C1014",
+              "bg": "#4E9B86"
             }
           },
           "visual": {
             "a": {
-              "fg": "#000000",
-              "bg": "#94407a"
+              "fg": "#0C1014",
+              "bg": "#8D90AA"
             }
           },
           "replace": {
             "a": {
-              "fg": "#000000",
-              "bg": "#cc5860"
+              "fg": "#0C1014",
+              "bg": "#B65D52"
             }
           },
           "command": {
             "a": {
-              "fg": "#000000",
-              "bg": "#2bafcc"
+              "fg": "#0C1014",
+              "bg": "#C39C5D"
             }
           },
           "inactive": {
             "a": {
-              "fg": "#5f7f89",
-              "bg": "#000000"
+              "fg": "#5C757F",
+              "bg": "#0C1014"
             },
             "b": {
-              "fg": "#5f7f89",
-              "bg": "#000000"
+              "fg": "#5C757F",
+              "bg": "#0C1014"
             },
             "c": {
-              "fg": "#5f7f89",
-              "bg": "#000000"
+              "fg": "#5C757F",
+              "bg": "#0C1014"
             }
           }
-        },
-        "render_markdown": {
-          "color1_bg": "#6b5ab6",
-          "color2_bg": "#2a9b65",
-          "color3_bg": "#1a1a1a",
-          "color4_bg": "#5b5f9c",
-          "color5_bg": "#158e81",
-          "color6_bg": "#999999",
-          "colorInline_bg": "#94407a",
-          "color_fg": "#000000"
         }
+      },
+      "dracula_base": {
+        "fg": "#D6E9E6",
+        "bglighter": "#355864",
+        "bglight": "#1A242B",
+        "bg": "#0C1014",
+        "bgdark": "#131A20",
+        "bgdarker": "#1A2428",
+        "comment": "#5C757F",
+        "selection": "#1A242B",
+        "subtle": "#131A20",
+        "cyan": "#5E9BAF",
+        "green": "#4E9B86",
+        "orange": "#C39C5D",
+        "pink": "#8D90AA",
+        "purple": "#4D7180",
+        "red": "#B65D52",
+        "yellow": "#D1AD71"
+      },
+      "semantic": {
+        "accent": "#8D90AA",
+        "error": "#B65D52",
+        "warn": "#C39C5D",
+        "info": "#5E9BAF",
+        "hint": "#4E9B86"
+      }
+    },
+    "niteblossom": {
+      "name": "Tokyo Vibe",
+      "terminal": {
+        "background": "#00041F",
+        "foreground": "#FFEBF7",
+        "cursor": "#FFB3FF",
+        "color0": "#0D1130",
+        "color1": "#FF4D9D",
+        "color2": "#3BEE8A",
+        "color3": "#FFC07A",
+        "color4": "#B79CFF",
+        "color5": "#FF82E6",
+        "color6": "#57E6FF",
+        "color7": "#FFEBF7",
+        "color8": "#2C3F90",
+        "color9": "#FF75B5",
+        "color10": "#67F5A4",
+        "color11": "#FFD0A0",
+        "color12": "#C8B3FF",
+        "color13": "#FFB3FF",
+        "color14": "#84F0FF",
+        "color15": "#FFFFFF"
+      },
+      "neovim": {
+        "theme": "tokyo-vibe",
+        "style": "tokyo-vibe"
+      },
+      "yazi": {
+        "theme": "tokyo-vibe"
+      },
+      "palette": {
+        "render_markdown": {
+          "color1_bg": "#B79CFF",
+          "color2_bg": "#3BEE8A",
+          "color3_bg": "#57E6FF",
+          "color4_bg": "#FF82E6",
+          "color5_bg": "#FFC07A",
+          "color6_bg": "#635D97",
+          "colorInline_bg": "#B79CFF",
+          "color_fg": "#00041F"
+        },
+        "lualine": {
+          "normal": {
+            "a": {
+              "fg": "#00041F",
+              "bg": "#B79CFF"
+            },
+            "b": {
+              "fg": "#FFEBF7",
+              "bg": "#1A1F45"
+            },
+            "c": {
+              "fg": "#FFEBF7",
+              "bg": "#00041F"
+            }
+          },
+          "insert": {
+            "a": {
+              "fg": "#00041F",
+              "bg": "#3BEE8A"
+            }
+          },
+          "visual": {
+            "a": {
+              "fg": "#00041F",
+              "bg": "#B79CFF"
+            }
+          },
+          "replace": {
+            "a": {
+              "fg": "#00041F",
+              "bg": "#FF4D9D"
+            }
+          },
+          "command": {
+            "a": {
+              "fg": "#00041F",
+              "bg": "#FFC07A"
+            }
+          },
+          "inactive": {
+            "a": {
+              "fg": "#635D97",
+              "bg": "#00041F"
+            },
+            "b": {
+              "fg": "#635D97",
+              "bg": "#00041F"
+            },
+            "c": {
+              "fg": "#635D97",
+              "bg": "#00041F"
+            }
+          }
+        }
+      },
+      "dracula_base": {
+        "fg": "#FFEBF7",
+        "bglighter": "#2C3F90",
+        "bglight": "#2A2F58",
+        "bg": "#00041F",
+        "bgdark": "#1A1F45",
+        "bgdarker": "#0D1130",
+        "comment": "#635D97",
+        "selection": "#2A2F58",
+        "subtle": "#1A1F45",
+        "cyan": "#57E6FF",
+        "green": "#3BEE8A",
+        "orange": "#FFC07A",
+        "pink": "#FF82E6",
+        "purple": "#B79CFF",
+        "red": "#FF4D9D",
+        "yellow": "#FFD0A0"
+      },
+      "semantic": {
+        "accent": "#B79CFF",
+        "error": "#FF4D9D",
+        "warn": "#FFC07A",
+        "info": "#57E6FF",
+        "hint": "#3BEE8A"
       }
     }
   }
