@@ -49,7 +49,8 @@ for slug,t in themes.items():
       'color5_bg':db.get('orange',ansi[3]),
       'color6_bg':db.get('comment',ansi[8]),
       'colorInline_bg':sem.get('accent',ansi[13]),
-      'color_fg':db.get('bg',g['background'])
+      'color_fg':g['background'],
+      'marker_fg':ansi[8]
     }
     ll={
       'normal': {
@@ -76,9 +77,6 @@ for slug,t in themes.items():
       'dracula_base':db,
       'semantic':sem
     }
-for alias,target in {'niteblossom':'tokyo-vibe'}.items():
-    if target in out['themes']:
-        out['themes'][alias]=out['themes'][target]
 dst.write_text(json.dumps(out,indent=2)+'\n')
 PY
 }

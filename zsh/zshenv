@@ -66,5 +66,8 @@ export GOROOT="/opt/homebrew/opt/go/libexec"
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
+# Theme colors (written by ~/.config/rx/theme on every switch)
+[[ -f "$CF/colors/current-theme.zsh" ]] && source "$CF/colors/current-theme.zsh"
+
 # Source zprofile
 source "$DZ/zprofile"

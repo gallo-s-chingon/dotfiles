@@ -166,11 +166,12 @@ local function merge_lualine_statusline(def, palette)
   return def
 end
 
-local function merge_markdown_headers(def, palette)
+local function merge_markview_theme(def, palette)
   local md = palette.extras and palette.extras.render_markdown
   if not md then return def end
 
-  local fg = md.color_fg or palette.base.bg0
+  local fg = md.color_fg or palette.base.bg0 or palette.base.bg
+  local marker_fg = md.marker_fg or palette.base.gray
   local heads = {
     md.color1_bg or palette.base.blue,
     md.color2_bg or palette.base.green,
@@ -183,17 +184,21 @@ local function merge_markdown_headers(def, palette)
   def.markdown_groups = def.markdown_groups or {}
   for i, bg in ipairs(heads) do
     local spec = { fg = fg, bg = bg, bold = true }
-    def.markdown_groups["markdownH" .. i] = spec
-    def.markdown_groups["@markup.heading." .. i] = spec
-    def.markdown_groups["@markup.heading." .. i .. ".markdown"] = spec
     def.markdown_groups["MarkviewHeading" .. i] = spec
-    def.markdown_groups["RenderMarkdownH" .. i] = spec
+    def.markdown_groups["MarkviewPalette" .. i] = spec
+    def.markdown_groups["MarkviewPalette" .. i .. "Bg"] = { bg = bg }
+    def.markdown_groups["MarkviewPalette" .. i .. "Fg"] = { fg = bg, bold = true }
+    def.markdown_groups["MarkviewPalette" .. i .. "Sign"] = { fg = bg, bold = true }
   end
 
-  def.markdown_groups["@markup.heading"] = { fg = palette.base.fg, bold = true }
-  def.markdown_groups.markdownCode = def.markdown_groups.markdownCode or { fg = palette.base.green }
-  def.markdown_groups.markdownBlockquote = def.markdown_groups.markdownBlockquote or { fg = palette.base.gray, italic = true }
-  def.markdown_groups.markdownTableDelimiter = def.markdown_groups.markdownTableDelimiter or { fg = palette.base.gray }
+  def.markdown_groups.MarkviewListItemMinus = { fg = marker_fg, bold = true }
+  def.markdown_groups.MarkviewListItemPlus = { fg = marker_fg, bold = true }
+  def.markdown_groups.MarkviewListItemStar = { fg = marker_fg, bold = true }
+  def.markdown_groups.MarkviewCheckboxUnchecked = { fg = marker_fg, bold = true }
+  def.markdown_groups.MarkviewCheckboxChecked = { fg = marker_fg, bold = true }
+  def.markdown_groups.MarkviewCheckboxPending = { fg = marker_fg, bold = true }
+  def.markdown_groups.MarkviewCheckboxCancelled = { fg = marker_fg, bold = true }
+  def.markdown_groups.MarkviewCheckboxProgress = { fg = marker_fg, bold = true }
 
   return def
 end
@@ -206,7 +211,7 @@ local function apply_theme_module(module_name, palette)
   end
   local def = mod.build(palette)
   def = merge_lualine_statusline(def, palette)
-  def = merge_markdown_headers(def, palette)
+  def = merge_markview_theme(def, palette)
   def = resolve_placeholders(def, palette.base)
   local order = {
     "base_palette", "syntax_highlighting", "ui_elements",

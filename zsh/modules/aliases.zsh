@@ -27,6 +27,7 @@ alias tc='theme --current'                # Show current theme; source: theme --
 alias ytv='ytd video'                     # Download video format via ytd helper; source: ytd -- ~/.local/bin/ytd
 alias dots='dots-sync'                    # Run dotfiles sync helper; source: dots-sync() -- /Users/schingon/.config/zsh/modules/functions.zsh
 alias d4d='defaults delete com.charliemonroe.Downie-4'
+alias dl='dly -l'
 
 # ===== Git and Sync Aliases =====
 alias g='git'                             # Short alias for git; source: git -- CLI tool
@@ -78,6 +79,7 @@ alias rm='rm -rfv'                        # Remove recursively and verbosely; so
 alias srm='sudo rm -rfv'                  # Remove recursively with sudo; source: rm -- CLI tool
 alias mpx='move-pix'                      # Move image files to Pictures; source: move-pix() -- /Users/schingon/.config/zsh/modules/file_management.zsh
 alias rpx='rm-pix'                        # Remove image files from a directory; source: rm-pix() -- /Users/schingon/.config/zsh/modules/file_management.zsh
+alias rmst='rm *.srt'
 
 # ===== Blog / Notes / Transcript Aliases =====
 alias blog='$RX/blog.sh blog'             # Create or manage a blog post; source: blog.sh -- /Users/schingon/.config/rx/blog.sh
@@ -121,6 +123,9 @@ alias ssh4='ssh-4mini'                    # SSH into 4mini with TERM fix; source
 alias ls='eza --color=always --icons --git'      # List files with icons and git status; source: eza -- brew formula / CLI tool
 alias la='ls -a --git'                           # List all files with git status; source: ls alias above
 alias ldn='ls $HOME/Downloads'                   # List Downloads; source: ls alias above
+alias ldx='ls $HOME/Documents'                   # List Documents
+alias lrw='ls $RP/notes/raw'                     # List Raw notes dir/
+alias lnt='ls $RP/notes'                         # List notes dir/
 alias lsd='ls -D'                                # List directories only; source: ls alias above
 alias lsf='ls -f'                                # List files only; source: ls alias above
 alias lt='ls --tree --level=3'                   # Tree view to depth 3; source: ls alias above

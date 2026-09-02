@@ -31,6 +31,9 @@ the impetus to make dotfiles after customizing `.zshrc` ~eventually switching ov
 #### level 4
 ##### level 5
 ######  level 6
+* this is a asterisk bullet
+- this is a dash bullet
+
 
 ## everything else
 ~all~ most other configs in `dotfiles` are defaults, I only really use nvim

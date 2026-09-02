@@ -37,7 +37,7 @@ yellow = "#FFD0A0"
 background = "#00041F"
 foreground = "#FFEBF7"
 cursor = "#FFB3FF"
-ansi = ["#0D1130", "#FF4D9D", "#3BEE8A", "#FFC07A", "#B79CFF", "#FF82E6", "#57E6FF", "#FFEBF7", "#2C3F90", "#FF75B5", "#67F5A4", "#FFD0A0", "#C8B3FF", "#FFB3FF", "#84F0FF", "#FFFFFF"]
+ansi = ["#2C3F90", "#FF4D9D", "#3BEE8A", "#FFC07A", "#B79CFF", "#FF82E6", "#57E6FF", "#FFEBF7", "#2C3F90", "#FF75B5", "#67F5A4", "#FFD0A0", "#C8B3FF", "#FFB3FF", "#84F0FF", "#FFFFFF"]
 
 [themes.tokyo-vibe.semantic]
 accent = "#B79CFF"
@@ -72,7 +72,7 @@ yellow = "#E2C3A2"
 background = "#0A0D24"
 foreground = "#EFE4F3"
 cursor = "#D8A1D1"
-ansi = ["#161A32", "#D06F9C", "#74BE95", "#DDB48D", "#AFA3D8", "#D8A1D1", "#77C4D3", "#EFE4F3", "#464D7A", "#D98AAA", "#8DCCA8", "#E2C3A2", "#BBB1E3", "#E3BADC", "#92D1DE", "#FCFBFE"]
+ansi = ["#464D7A", "#D06F9C", "#74BE95", "#DDB48D", "#AFA3D8", "#D8A1D1", "#77C4D3", "#EFE4F3", "#464D7A", "#D98AAA", "#8DCCA8", "#E2C3A2", "#BBB1E3", "#E3BADC", "#92D1DE", "#FCFBFE"]
 
 [themes.tokyo-lofi.semantic]
 accent = "#AFA3D8"
@@ -107,7 +107,7 @@ yellow = "#55F691"
 background = "#001600"
 foreground = "#28FE14"
 cursor = "#56FFC9"
-ansi = ["#071007", "#14A44A", "#00C95C", "#2CEB76", "#00B88F", "#27F0A9", "#4CFFE6", "#D9FFE7", "#3A7A4D", "#22C35A", "#1CE06E", "#55F691", "#16D4A5", "#56FFC9", "#7CFFF0", "#F1FFF5"]
+ansi = ["#3A7A4D", "#14A44A", "#00C95C", "#2CEB76", "#00B88F", "#27F0A9", "#4CFFE6", "#D9FFE7", "#3A7A4D", "#22C35A", "#1CE06E", "#55F691", "#16D4A5", "#56FFC9", "#7CFFF0", "#F1FFF5"]
 
 [themes.matrix-vibe.semantic]
 accent = "#1CE06E"
@@ -142,7 +142,7 @@ yellow = "#94D1AB"
 background = "#000C00"
 foreground = "#DAEFDF"
 cursor = "#8ED3BA"
-ansi = ["#0A0D0A", "#48915F", "#5EB37E", "#79C69B", "#3F9A85", "#77C6AB", "#8CD4CF", "#DAEFDF", "#4A7D61", "#5CAA71", "#7AC392", "#94D1AB", "#55AD9A", "#8ED3BA", "#A9E0DD", "#EEFAF0"]
+ansi = ["#4A7D61", "#48915F", "#5EB37E", "#79C69B", "#3F9A85", "#77C6AB", "#8CD4CF", "#DAEFDF", "#4A7D61", "#5CAA71", "#7AC392", "#94D1AB", "#55AD9A", "#8ED3BA", "#A9E0DD", "#EEFAF0"]
 
 [themes.matrix-lofi.semantic]
 accent = "#7AC392"
@@ -177,7 +177,7 @@ yellow = "#FFD177"
 background = "#0C1014"
 foreground = "#ECFFFE"
 cursor = "#C07BFF"
-ansi = ["#14201E", "#FF5A5F", "#00D46A", "#FFC14D", "#4DB8FF", "#C07BFF", "#00F0FF", "#ECFFFE", "#2B4D48", "#FF7B7F", "#32F08A", "#FFD177", "#7CCFFF", "#D39BFF", "#68FFFF", "#FFFFFF"]
+ansi = ["#2B4D48", "#FF5A5F", "#00D46A", "#FFC14D", "#4DB8FF", "#C07BFF", "#00F0FF", "#ECFFFE", "#2B4D48", "#FF7B7F", "#32F08A", "#FFD177", "#7CCFFF", "#D39BFF", "#68FFFF", "#FFFFFF"]
 
 [themes.joker-vibe.semantic]
 accent = "#00F0FF"
@@ -212,7 +212,7 @@ yellow = "#D1AD71"
 background = "#0C1014"
 foreground = "#D6E9E6"
 cursor = "#5E9BAF"
-ansi = ["#1A2428", "#B65D52", "#4E9B86", "#C39C5D", "#4D7180", "#8D90AA", "#5E9BAF", "#D6E9E6", "#355864", "#C27A56", "#66AF9C", "#D1AD71", "#75A9B6", "#6D7288", "#A5D2CC", "#F1FCFA"]
+ansi = ["#355864", "#B65D52", "#4E9B86", "#C39C5D", "#4D7180", "#8D90AA", "#5E9BAF", "#D6E9E6", "#355864", "#C27A56", "#66AF9C", "#D1AD71", "#75A9B6", "#6D7288", "#A5D2CC", "#F1FCFA"]
 
 [themes.gotham-lofi.semantic]
 accent = "#8D90AA"

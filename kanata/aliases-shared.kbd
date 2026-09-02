@@ -57,7 +57,7 @@
   ;;   tap        → esc
   ;;   double-tap → one-shot emoji layer
   ;; -----------------------------
-  escem (tap-dance 300 (esc (one-shot 2000 (layer-while-held emoji))))
+  ;;escem (tap-dance 300 (esc (one-shot 2000 (layer-while-held emoji))))
 
   ;; -----------------------------
   ;; Layer entry aliases (sublayer holds)

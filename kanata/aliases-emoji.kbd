@@ -44,4 +44,12 @@
   em-lar (unicode U+2190)   ;; ← left arrow
   em-uar (unicode U+2191)   ;; ↑ up arrow
   em-dar (unicode U+2193)   ;; ↓ down arrow
+  em-eys (unicode U+1F440)  ;; 👀 eyes
+  em-chk (unicode U+2705)   ;; ✅ check
+  em-sal (macro (unicode U+1FAE1))   ;; 🫡 salute
+  em-xpr (unicode U+1F611)  ;; 😑 expressionless
+  em-grm (unicode U+1F62C)  ;; 😬 grimace
+  em-coo (unicode U+1F60E)  ;; 😎 cool/sunglasses
+  em-crs (unicode U+1F92C)  ;; 🤬 cursing
+  em-vlc (macro (unicode U+1F596) (unicode U+1F3FC))  ;; 🖖🏼 vulcan (med-light skin)
 )

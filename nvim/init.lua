@@ -39,6 +39,10 @@ end
 -- ────────────────────────────────────────────
 
 vim.cmd([[
+  function! s:build_fff() abort
+    lua require("fff.download").download_or_build_binary()
+  endfunction
+
   call plug#begin()
 
   " Framework & UI
@@ -74,6 +78,9 @@ vim.cmd([[
 
   " Claude Code
   Plug 'coder/claudecode.nvim'
+
+  " File search (fff)
+  Plug 'dmtrKovalenko/fff.nvim', { 'do': {-> s:build_fff()} }
 
   call plug#end()
 ]])
@@ -156,6 +163,22 @@ setup_plugin("fidget", function(p) p.setup() end)
 setup_plugin("gitsigns", function(p) p.setup() end)
 setup_plugin("fzf-lua", function(p) p.setup() end)
 setup_plugin("flash", function(p) p.setup() end)
+
+-- fff (file search)
+setup_plugin("fff", function(p)
+  p.setup({
+    debug = { enabled = true, show_scores = true },
+  })
+  vim.keymap.set("n", "ff", function() p.find_files() end, { desc = "FFF: find files" })
+  vim.keymap.set("n", "fg", function() p.live_grep() end, { desc = "FFF: live grep" })
+  vim.keymap.set("n", "fz", function()
+    p.live_grep({ grep = { modes = { "fuzzy", "plain" } } })
+  end, { desc = "FFF: fuzzy grep" })
+  vim.keymap.set("n", "fc", function()
+    p.live_grep({ query = vim.fn.expand("<cword>") })
+  end, { desc = "FFF: grep current word" })
+end)
+
 
 setup_plugin("lint", function(lint)
   lint.linters_by_ft = {

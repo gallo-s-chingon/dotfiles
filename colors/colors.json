@@ -6,7 +6,7 @@
         "background": "#00041F",
         "foreground": "#FFEBF7",
         "cursor": "#FFB3FF",
-        "color0": "#0D1130",
+        "color0": "#2C3F90",
         "color1": "#FF4D9D",
         "color2": "#3BEE8A",
         "color3": "#FFC07A",
@@ -39,7 +39,8 @@
           "color5_bg": "#FFC07A",
           "color6_bg": "#635D97",
           "colorInline_bg": "#B79CFF",
-          "color_fg": "#00041F"
+          "color_fg": "#00041F",
+          "marker_fg": "#2C3F90"
         },
         "lualine": {
           "normal": {
@@ -128,7 +129,7 @@
         "background": "#0A0D24",
         "foreground": "#EFE4F3",
         "cursor": "#D8A1D1",
-        "color0": "#161A32",
+        "color0": "#464D7A",
         "color1": "#D06F9C",
         "color2": "#74BE95",
         "color3": "#DDB48D",
@@ -161,7 +162,8 @@
           "color5_bg": "#DDB48D",
           "color6_bg": "#6E6993",
           "colorInline_bg": "#AFA3D8",
-          "color_fg": "#0A0D24"
+          "color_fg": "#0A0D24",
+          "marker_fg": "#464D7A"
         },
         "lualine": {
           "normal": {
@@ -250,7 +252,7 @@
         "background": "#001600",
         "foreground": "#28FE14",
         "cursor": "#56FFC9",
-        "color0": "#071007",
+        "color0": "#3A7A4D",
         "color1": "#14A44A",
         "color2": "#00C95C",
         "color3": "#2CEB76",
@@ -283,7 +285,8 @@
           "color5_bg": "#2CEB76",
           "color6_bg": "#4A9A5F",
           "colorInline_bg": "#1CE06E",
-          "color_fg": "#001600"
+          "color_fg": "#001600",
+          "marker_fg": "#3A7A4D"
         },
         "lualine": {
           "normal": {
@@ -372,7 +375,7 @@
         "background": "#000C00",
         "foreground": "#DAEFDF",
         "cursor": "#8ED3BA",
-        "color0": "#0A0D0A",
+        "color0": "#4A7D61",
         "color1": "#48915F",
         "color2": "#5EB37E",
         "color3": "#79C69B",
@@ -405,7 +408,8 @@
           "color5_bg": "#79C69B",
           "color6_bg": "#5A9072",
           "colorInline_bg": "#7AC392",
-          "color_fg": "#000C00"
+          "color_fg": "#000C00",
+          "marker_fg": "#4A7D61"
         },
         "lualine": {
           "normal": {
@@ -494,7 +498,7 @@
         "background": "#0C1014",
         "foreground": "#ECFFFE",
         "cursor": "#C07BFF",
-        "color0": "#14201E",
+        "color0": "#2B4D48",
         "color1": "#FF5A5F",
         "color2": "#00D46A",
         "color3": "#FFC14D",
@@ -527,7 +531,8 @@
           "color5_bg": "#FFC14D",
           "color6_bg": "#416765",
           "colorInline_bg": "#00F0FF",
-          "color_fg": "#0C1014"
+          "color_fg": "#0C1014",
+          "marker_fg": "#2B4D48"
         },
         "lualine": {
           "normal": {
@@ -616,7 +621,7 @@
         "background": "#0C1014",
         "foreground": "#D6E9E6",
         "cursor": "#5E9BAF",
-        "color0": "#1A2428",
+        "color0": "#355864",
         "color1": "#B65D52",
         "color2": "#4E9B86",
         "color3": "#C39C5D",
@@ -649,7 +654,8 @@
           "color5_bg": "#C39C5D",
           "color6_bg": "#5C757F",
           "colorInline_bg": "#8D90AA",
-          "color_fg": "#0C1014"
+          "color_fg": "#0C1014",
+          "marker_fg": "#355864"
         },
         "lualine": {
           "normal": {
@@ -730,128 +736,6 @@
         "warn": "#C39C5D",
         "info": "#5E9BAF",
         "hint": "#4E9B86"
-      }
-    },
-    "niteblossom": {
-      "name": "Tokyo Vibe",
-      "terminal": {
-        "background": "#00041F",
-        "foreground": "#FFEBF7",
-        "cursor": "#FFB3FF",
-        "color0": "#0D1130",
-        "color1": "#FF4D9D",
-        "color2": "#3BEE8A",
-        "color3": "#FFC07A",
-        "color4": "#B79CFF",
-        "color5": "#FF82E6",
-        "color6": "#57E6FF",
-        "color7": "#FFEBF7",
-        "color8": "#2C3F90",
-        "color9": "#FF75B5",
-        "color10": "#67F5A4",
-        "color11": "#FFD0A0",
-        "color12": "#C8B3FF",
-        "color13": "#FFB3FF",
-        "color14": "#84F0FF",
-        "color15": "#FFFFFF"
-      },
-      "neovim": {
-        "theme": "tokyo-vibe",
-        "style": "tokyo-vibe"
-      },
-      "yazi": {
-        "theme": "tokyo-vibe"
-      },
-      "palette": {
-        "render_markdown": {
-          "color1_bg": "#B79CFF",
-          "color2_bg": "#3BEE8A",
-          "color3_bg": "#57E6FF",
-          "color4_bg": "#FF82E6",
-          "color5_bg": "#FFC07A",
-          "color6_bg": "#635D97",
-          "colorInline_bg": "#B79CFF",
-          "color_fg": "#00041F"
-        },
-        "lualine": {
-          "normal": {
-            "a": {
-              "fg": "#00041F",
-              "bg": "#B79CFF"
-            },
-            "b": {
-              "fg": "#FFEBF7",
-              "bg": "#1A1F45"
-            },
-            "c": {
-              "fg": "#FFEBF7",
-              "bg": "#00041F"
-            }
-          },
-          "insert": {
-            "a": {
-              "fg": "#00041F",
-              "bg": "#3BEE8A"
-            }
-          },
-          "visual": {
-            "a": {
-              "fg": "#00041F",
-              "bg": "#B79CFF"
-            }
-          },
-          "replace": {
-            "a": {
-              "fg": "#00041F",
-              "bg": "#FF4D9D"
-            }
-          },
-          "command": {
-            "a": {
-              "fg": "#00041F",
-              "bg": "#FFC07A"
-            }
-          },
-          "inactive": {
-            "a": {
-              "fg": "#635D97",
-              "bg": "#00041F"
-            },
-            "b": {
-              "fg": "#635D97",
-              "bg": "#00041F"
-            },
-            "c": {
-              "fg": "#635D97",
-              "bg": "#00041F"
-            }
-          }
-        }
-      },
-      "dracula_base": {
-        "fg": "#FFEBF7",
-        "bglighter": "#2C3F90",
-        "bglight": "#2A2F58",
-        "bg": "#00041F",
-        "bgdark": "#1A1F45",
-        "bgdarker": "#0D1130",
-        "comment": "#635D97",
-        "selection": "#2A2F58",
-        "subtle": "#1A1F45",
-        "cyan": "#57E6FF",
-        "green": "#3BEE8A",
-        "orange": "#FFC07A",
-        "pink": "#FF82E6",
-        "purple": "#B79CFF",
-        "red": "#FF4D9D",
-        "yellow": "#FFD0A0"
-      },
-      "semantic": {
-        "accent": "#B79CFF",
-        "error": "#FF4D9D",
-        "warn": "#FFC07A",
-        "info": "#57E6FF",
-        "hint": "#3BEE8A"
       }
     }
   }

@@ -1,0 +1,8 @@
+{
+  "trustedtaps": [
+    "asmvik/formulae",
+    "felixkratz/formulae",
+    "gchingon/slugged",
+    "xykong/tap"
+  ]
+}

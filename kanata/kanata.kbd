@@ -44,7 +44,7 @@
 (include aliases-kitty.kbd)
 (include aliases-system.kbd)
 (include aliases-raycast.kbd)
-(include aliases-emoji.kbd)
+;; (include aliases-emoji.kbd)
 
 ;;────────────────────────────────────────────
 ;; Sublayer entry — chords activate layers
@@ -57,14 +57,6 @@
   (caps j) (one-shot 3000 (layer-while-held apps))    $kord-t all-released ()
   (caps u) (one-shot 3000 (layer-while-held raycast)) $kord-t all-released ()
   (caps m) (layer-while-held yabai)                   $kord-t first-release ()
-)
-
-;;────────────────────────────────────────────
-;; Return: tap = ret, double-tap = kitty
-;; (defined after includes so @a-term is available)
-;;────────────────────────────────────────────
-(defalias
-  retkt (tap-dance 200 (ret @a-term))
 )
 
 ;;────────────────────────────────────────────
@@ -92,10 +84,10 @@
 ;; Return = tap ret / double-tap → open kitty
 ;;────────────────────────────────────────────
 (deflayer main
-  @escem brdn    brup    f3      f4      f5      f6      prev    pp      next    mute    vold    volu          ;; Fn row
+  _      brdn    brup    f3      f4      f5      f6      prev    pp      next    mute    vold    volu          ;; Fn row
   @grasc 1       2       3       4       5       6       7       8       9       0       _       _       _     ;; NUM
   @tabSG _       _       @mhome  _       _       _       _       _       _       _       _       _       _     ;; QWERTY
-  @mehsc @Hlctl  _       @Hlalt  @Hlmet  _       _       @Hrmet  @Hralt  _       @Hrctl  _       @retkt        ;; HOME
+  @mehsc @Hlctl  _       @Hlalt  @Hlmet  _       _       @Hrmet  @Hralt  _       @Hrctl  _       _        ;; HOME
   lsft   _       _       _       _       _       _       _       _       _       _       _       @shdel        ;; BOTTOM
   fn     @caltb  @shalt  @suXMS            spc           @hyper  @trams  _       _       _                     ;; MOD
 )
@@ -114,7 +106,7 @@
   _      _       _       _       _       _       _       _       _       _       _       _       _             ;; Fn
   _      1       2       3       4       5       6       7       8       9       0       _       _       _     ;; NUM
   _      _       _       @a-pass @a-dict @a-prev @a-sset @a-afnt @a-cale @a-davr _       _       _       _     ;; QWERTY
-  _      _       _       @a-obsi @a-find @a-sfri @a-comt _       _       @a-note @a-spot _       _             ;; HOME
+  _      _       _       @a-obsi @a-find @a-sfri @a-comt _       _       @a-note @a-spot _       @a-term       ;; HOME
   _      _       _       _       @a-codx _       @a-clau @a-msgs @a-what _       _       _       _             ;; BOTTOM
   _      _       _       _                 _             _       _       _       _       _                     ;; MOD
 )
@@ -172,14 +164,14 @@
 ;;   z = 🫖  x = 🤷🏼‍♂️  c = 🎉  v = 🤨  n = 👎  m = 💰 , = 🤢 . = 😳
 ;;   rarrow = → larrow = ← uarrow = ↑ darrow = ↓
 ;;────────────────────────────────────────────
-(deflayer emoji
-  _      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX           ;; Fn
-  _      @em-100 @em-skl 3       4       5       6       7       8       9       0       _       _       _    ;; NUM
-  _      @em-blo @em-wsh @em-eye @em-rck @em-zip @em-flp XX      @em-unm @em-ok  XX      XX      XX      XX    ;; QWERTY
-  _      @em-hnd @em-dev @em-smr @em-pry XX      @em-hrt @em-cry @em-kis @em-lov XX      XX      XX            ;; HOME
-  _      @em-tea @em-shr @em-cel @em-sus XX      @em-no  @em-mny @em-sck @em-flu @em-uar XX      XX            ;; BOTTOM
-  _      _       _       _              _               _       _       @em-lar @em-dar @em-rar              ;; MOD
-)
+;; (deflayer emoji
+;;   _      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX           ;; Fn
+;;   _      @em-100 @em-skl 3       4       5       6       7       8       9       0       _       _       _    ;; NUM
+;;   _      @em-blo @em-wsh @em-eye @em-rck @em-zip @em-flp XX      @em-unm @em-ok  XX      XX      XX      XX    ;; QWERTY
+;;   _      @em-hnd @em-dev @em-smr @em-pry XX      @em-hrt @em-cry @em-kis @em-lov XX      XX      XX            ;; HOME
+;;   _      @em-tea @em-shr @em-cel @em-sus XX      @em-no  @em-mny @em-sck @em-flu @em-uar XX      XX            ;; BOTTOM
+;;   _      _       _       _              _               _       _       @em-lar @em-dar @em-rar              ;; MOD
+;; )
 
 ;;────────────────────────────────────────────
 ;; TEMPLATE — copy this to add new layers
